@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe Mind Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Core Setup & Background --- */
+        :root {
+            --primary-glow: 0 0 20px rgba(0, 195, 255, 0.7);
+            --secondary-glow: 0 0 20px rgba(255, 187, 0, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --text-color: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; /* Prevents scrolling, keeps the universe contained */
+            background-color: #000;
+        }
+
+        /* The cosmic background image */
+        #universe-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Replace 'background.jpg' with your actual image filename */
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -1;
+            filter: brightness(0.8) contrast(1.1); /* Slight adjustments to make foreground pop */
+        }
+
+        /* --- Main Container & Layout --- */
+        #mindmap-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- The Central Hub --- */
+        .core-hub {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle at center, rgba(0, 195, 255, 0.8), rgba(0,0,0,0));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            box-shadow: 0 0 60px rgba(0, 195, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+            animation: pulseCore 4s ease-in-out infinite alternate;
+        }
+
+        /* --- Floating Tool Nodes (The Planets) --- */
+        .tool-node {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px); /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--primary-glow);
+            padding: 10px;
+        }
+
+        .tool-node i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #7df9ff; /* Cyan icon color */
+        }
+
+        .tool-node span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Hover effects for nodes */
+        .tool-node:hover {
+            transform: scale(1.15) !important; /* Override float animation on hover */
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(125, 249, 255, 0.9);
+            z-index: 100;
+        }
+
+        /* Coloring specific nodes for visual variety */
+        .node-gold { box-shadow: var(--secondary-glow); }
+        .node-gold i { color: #ffd700; }
+
+        /* --- Positioning the Nodes in Orbit --- */
+        /* We use absolute positioning relative to the center */
+        
+        /* Inner Orbit */
+        #perp-ai { top: 20%; left: 35%; animation: float 5s ease-in
