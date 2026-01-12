@@ -10,7 +10,6 @@
         :root {
             --primary-glow: 0 0 20px rgba(0, 195, 255, 0.7);
             --secondary-glow: 0 0 20px rgba(255, 187, 0, 0.7);
-            /* Vrnili smo spremenljivke za steklen videz */
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: 1px solid rgba(255, 255, 255, 0.2);
             --text-color: #ffffff;
@@ -22,25 +21,24 @@
             height: 100%;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
-            background-color: #050010; /* Temno modra varnostna barva, če slike ni */
+            background-color: #050010;
         }
 
-        /* OZADJE */
+        /* BACKGROUND */
         #universe-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* ZELO POMEMBNO: Preverite, da je ime datoteke točno 'background.jpg' */
+            /* Ensure your file is named background.jpg */
             background: url('background.jpg') no-repeat center center fixed;
             background-size: cover;
             z-index: -1;
-            /* Filtre sem malo zmanjšal, da slika ne bo pretemna */
             filter: brightness(0.85) contrast(1.1);
         }
 
-        /* --- Language Selector --- */
+        /* --- Language Selector (Top Right) --- */
         .lang-container {
             position: absolute;
             top: 20px;
@@ -73,6 +71,69 @@
             color: #fff;
         }
 
+        /* --- NEW: Visitor Counter Widget (Bottom Left) --- */
+        #visitor-widget {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            background: rgba(10, 5, 30, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        #visitor-widget:hover {
+            transform: scale(1.05);
+            background: rgba(10, 5, 30, 0.8);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* The Growing Star Indicator */
+        #visitor-star {
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            border-radius: 50%;
+            margin-right: 15px;
+            /* Core glow */
+            box-shadow: 0 0 10px #fff, 0 0 20px #00c3ff, 0 0 30px #00c3ff;
+            transition: all 1s ease-in-out;
+            position: relative;
+        }
+
+        /* Animation for the star pulsing */
+        @keyframes starPulse {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        #visitor-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        #visitor-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+
+        #visitor-count {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace; /* Digital look */
+            color: #00c3ff;
+            text-shadow: 0 0 5px rgba(0, 195, 255, 0.5);
+        }
+
+
         /* --- Main Container --- */
         #mindmap-container {
             position: relative;
@@ -83,12 +144,11 @@
             align-items: center;
         }
 
-        /* --- THE CENTRAL SUN HUB (Ohranili smo ognjeno središče) --- */
+        /* --- THE CENTRAL SUN HUB --- */
         .sun-hub {
             position: absolute;
             width: 180px;
             height: 180px;
-            /* Fiery gradient */
             background: radial-gradient(circle at center, rgba(255, 255, 200, 1) 10%, rgba(255, 200, 0, 0.9) 40%, rgba(255, 100, 0, 0.8) 70%);
             border-radius: 50%;
             display: flex;
@@ -106,12 +166,11 @@
             padding: 10px;
         }
 
-        /* --- VRNJEN STARI STIL VOZLIŠČ (Glassmorphism) --- */
+        /* --- PLANET NODES (Restored Glass Style) --- */
         .tool-node {
             position: absolute;
             width: 110px;
             height: 110px;
-            /* Nazaj na prosojno ozadje */
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -125,17 +184,14 @@
             color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
-            /* Preprost sijaj namesto 3D senčenja */
             box-shadow: var(--primary-glow);
             padding: 10px;
-            text-shadow: none; /* Odstranimo senco na besedilu */
         }
 
         .tool-node i {
             font-size: 24px;
             margin-bottom: 8px;
             color: #7df9ff;
-            filter: none; /* Odstranimo filter na ikonah */
         }
 
         .tool-node span {
@@ -147,17 +203,13 @@
         .tool-node:hover {
             transform: scale(1.15) !important;
             background: rgba(255, 255, 255, 0.2);
-            /* Preprost močnejši sijaj ob preletu */
             box-shadow: 0 0 30px rgba(125, 249, 255, 0.9);
             z-index: 100;
         }
 
-        /* Stari stil za zlata vozlišča */
         .node-gold { box-shadow: var(--secondary-glow); }
         .node-gold i { color: #ffd700; }
-        .node-gold:hover {
-             box-shadow: 0 0 30px rgba(255, 187, 0, 0.9);
-        }
+        .node-gold:hover { box-shadow: 0 0 30px rgba(255, 187, 0, 0.9); }
 
 
         /* --- Orbits --- */
@@ -165,13 +217,12 @@
         #chatgpt { top: 20%; right: 35%; animation: float 5.5s ease-in-out infinite reverse; }
         #gemini { bottom: 20%; left: 35%; animation: float 4.8s ease-in-out infinite 1s; }
         #copilot { bottom: 20%; right: 35%; animation: float 5.2s ease-in-out infinite reverse 0.5s; }
-        
         #perp-comet { top: 8%; left: 15%; animation: float 6s ease-in-out infinite 2s; }
         #notebook { top: 40%; right: 10%; animation: float 6.5s ease-in-out infinite reverse 1.5s; }
         #grok { bottom: 10%; left: 20%; animation: float 5.8s ease-in-out infinite 2.5s; }
         #suno { bottom: 45%; left: 8%; animation: float 6.2s ease-in-out infinite reverse 1s; }
 
-        /* --- Info Panel (Temnejši dizajn) --- */
+        /* --- Info Panel --- */
         #info-panel {
             position: fixed;
             top: 50%;
@@ -204,15 +255,13 @@
             font-size: 2rem;
             margin-top: 0;
             margin-bottom: 20px;
-            color: #ffdd00; /* Vrnemo na enostavno zlato barvo za boljšo berljivost */
+            color: #ffdd00;
             display: flex;
             align-items: center;
             text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
         
-        #panel-title i { 
-            margin-right: 15px; 
-        }
+        #panel-title i { margin-right: 15px; }
         #panel-desc { line-height: 1.7; font-size: 1.15rem; color: #e0d0ff; }
 
         .close-btn {
@@ -241,7 +290,6 @@
             .tool-node { width: 80px; height: 80px; padding: 10px;}
             .tool-node i { font-size: 18px; }
             .tool-node span { font-size: 0.7rem; }
-            /* Mobile positions adjustment */
             #perp-ai { top: 18%; left: 8%; }
             #chatgpt { top: 18%; right: 8%; }
             #gemini { bottom: 18%; left: 8%; }
@@ -251,6 +299,11 @@
             #grok { top: 5%; left: 50%; transform: translateX(-50%); }
             #suno { bottom: 5%; left: 50%; transform: translateX(-50%); }
             .sun-hub { width: 120px; height: 120px; font-size: 1rem;}
+            
+            /* Mobile adjustment for Visitor Widget */
+            #visitor-widget { bottom: 10px; left: 10px; padding: 8px 15px; }
+            #visitor-star { width: 10px; height: 10px; }
+            #visitor-count { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -268,6 +321,14 @@
             <option value="it">Italiano</option>
             <option value="no">Norsk</option>
         </select>
+    </div>
+
+    <div id="visitor-widget">
+        <div id="visitor-star"></div>
+        <div id="visitor-text">
+            <span id="visitor-label">Visitors</span>
+            <span id="visitor-count">0</span>
+        </div>
     </div>
 
     <div id="mindmap-container">
@@ -315,184 +376,3 @@
             <i class="fa-solid fa-music"></i>
             <span class="node-title">Suno AI</span>
         </div>
-    </div>
-
-    <div id="info-panel">
-        <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-        <h2 id="panel-title"><i class="fa-solid fa-circle-info"></i> <span>Tool Name</span></h2>
-        <p id="panel-desc">Description goes here...</p>
-    </div>
-
-    <script>
-        // --- Multilingual Data ---
-        const contentData = {
-            en: {
-                core: "AI Universe",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "Real-time AI search engine that cites sources to reduce hallucinations. Ideal for fact-checking and deep research." },
-                    comet: { title: "Perplexity Comet", desc: "Automation agent that simulates browser interactions. Used for filling forms and booking complex tasks automatically." },
-                    gemini: { title: "Google Gemini", desc: "Multimodal AI capable of analyzing images, coding, and generating creative content." },
-                    notebook: { title: "NotebookLM", desc: "Document processing tool. Upload PDFs to generate quizzes, podcasts, and study guides." },
-                    grok: { title: "Grok AI", desc: "A 'fun' AI by xAI specialized in prompt engineering, creative ideas, and less formal interactions." },
-                    chatgpt: { title: "ChatGPT", desc: "The classic text AI for drafting emails, summarizing articles, and coding assistance." },
-                    copilot: { title: "Microsoft Copilot", desc: "Productivity assistant integrated into Office. Great for Excel analysis and PowerPoint creation." },
-                    suno: { title: "Suno AI", desc: "Music generation AI. Creates full songs with vocals and lyrics from a simple text description." }
-                }
-            },
-            sl: {
-                core: "AI Vesolje",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "Iskalnik AI v realnem času, ki navaja vire. Idealen za preverjanje dejstev in poglobljene raziskave." },
-                    comet: { title: "Perplexity Comet", desc: "Agent za avtomatizacijo brskalnika. Uporablja se za izpolnjevanje obrazcev in avtomatske rezervacije." },
-                    gemini: { title: "Google Gemini", desc: "Multimodalna umetna inteligenca, sposobna analizirati slike, pisati kodo in ustvarjati vsebino." },
-                    notebook: { title: "NotebookLM", desc: "Orodje za obdelavo dokumentov. Naložite PDF-je za ustvarjanje kvizov, podkastov in učnih gradiv." },
-                    grok: { title: "Grok AI", desc: "Zabavna umetna inteligenca podjetja xAI, specializirana za ustvarjalne ideje in manj formalne pogovore." },
-                    chatgpt: { title: "ChatGPT", desc: "Klasična besedilna umetna inteligenca za pisanje e-pošte, povzemanje člankov in pomoč pri kodiranju." },
-                    copilot: { title: "Microsoft Copilot", desc: "Pomočnik za produktivnost v Officeu. Odličen za analizo v Excelu in ustvarjanje v PowerPointu." },
-                    suno: { title: "Suno AI", desc: "AI za ustvarjanje glasbe. Ustvari celotne pesmi z vokali in besedilom iz preprostega opisa." }
-                }
-            },
-            hr: {
-                core: "AI Svemir",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "AI tražilica u stvarnom vremenu koja navodi izvore. Idealno za provjeru činjenica i istraživanje." },
-                    comet: { title: "Perplexity Comet", desc: "Agent za automatizaciju preglednika. Koristi se za ispunjavanje obrazaca i složene zadatke." },
-                    gemini: { title: "Google Gemini", desc: "Multimodalni AI sposoban za analizu slika, kodiranje i generiranje kreativnog sadržaja." },
-                    notebook: { title: "NotebookLM", desc: "Alat za obradu dokumenata. Učitajte PDF-ove za izradu kvizova, podcasta i vodiča za učenje." },
-                    grok: { title: "Grok AI", desc: "'Zabavni' AI specijaliziran za kreativne ideje, inženjering upita i neformalne razgovore." },
-                    chatgpt: { title: "ChatGPT", desc: "Klasični tekstualni AI za pisanje e-mailova, sažimanje članaka i programiranje." },
-                    copilot: { title: "Microsoft Copilot", desc: "Asistent za produktivnost integriran u Office. Odličan za Excel analize i PowerPoint." },
-                    suno: { title: "Suno AI", desc: "AI za generiranje glazbe. Stvara pjesme s vokalom i tekstom iz jednostavnog opisa." }
-                }
-            },
-            sr: {
-                core: "AI Univerzum",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "AI pretraživač u realnom vremenu koji navodi izvore. Idealan za proveru činjenica i istraživanje." },
-                    comet: { title: "Perplexity Comet", desc: "Agent za automatizaciju pretraživača. Koristi se za popunjavanje formulara i složene zadatke." },
-                    gemini: { title: "Google Gemini", desc: "Multimodalni AI sposoban za analizu slika, kodiranje i generisanje sadržaja." },
-                    notebook: { title: "NotebookLM", desc: "Alat za obradu dokumenata. Otpremite PDF-ove za pravljenje kvizova, podkasta i vodiča za učenje." },
-                    grok: { title: "Grok AI", desc: "'Zabavni' AI specijalizovan za kreativne ideje i neformalne razgovore." },
-                    chatgpt: { title: "ChatGPT", desc: "Klasični tekstualni AI za pisanje mejlova, sumiranje članaka i programiranje." },
-                    copilot: { title: "Microsoft Copilot", desc: "Asistent za produktivnost integrisan u Office. Odličan za Excel analize i PowerPoint." },
-                    suno: { title: "Suno AI", desc: "AI za generisanje muzike. Stvara pesme sa vokalima i tekstom iz jednostavnog opisa." }
-                }
-            },
-            de: {
-                core: "AI Universum",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "Echtzeit-KI-Suchmaschine, die Quellen zitiert. Ideal für Faktenprüfung und Recherche." },
-                    comet: { title: "Perplexity Comet", desc: "Automatisierungs-Agent für Browser-Interaktionen. Füllt Formulare aus und erledigt Buchungen." },
-                    gemini: { title: "Google Gemini", desc: "Multimodale KI, die Bilder analysieren, codieren und kreative Inhalte erstellen kann." },
-                    notebook: { title: "NotebookLM", desc: "Dokumentenverarbeitung. Laden Sie PDFs hoch, um Quizze, Podcasts und Lernhilfen zu erstellen." },
-                    grok: { title: "Grok AI", desc: "Eine 'unterhaltsame' KI von xAI, spezialisiert auf Prompt Engineering und kreative Ideen." },
-                    chatgpt: { title: "ChatGPT", desc: "Die klassische Text-KI zum Entwerfen von E-Mails, Zusammenfassen von Artikeln und Codieren." },
-                    copilot: { title: "Microsoft Copilot", desc: "Produktivitätsassistent in Office. Großartig für Excel-Analysen und PowerPoint-Präsentationen." },
-                    suno: { title: "Suno AI", desc: "Musik-Generierungs-KI. Erstellt vollständige Songs mit Gesang aus einer Textbeschreibung." }
-                }
-            },
-            it: {
-                core: "Universo AI",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "Motore di ricerca AI in tempo reale che cita le fonti. Ideale per il fact-checking." },
-                    comet: { title: "Perplexity Comet", desc: "Agente di automazione per browser. Utilizzato per compilare moduli e prenotazioni automatiche." },
-                    gemini: { title: "Google Gemini", desc: "AI multimodale capace di analizzare immagini, scrivere codice e creare contenuti." },
-                    notebook: { title: "NotebookLM", desc: "Strumento per documenti. Carica PDF per creare quiz, podcast e guide allo studio." },
-                    grok: { title: "Grok AI", desc: "Un'AI 'divertente' specializzata in idee creative e interazioni meno formali." },
-                    chatgpt: { title: "ChatGPT", desc: "La classica AI testuale per email, riassunti di articoli e assistenza alla programmazione." },
-                    copilot: { title: "Microsoft Copilot", desc: "Assistente di produttività integrato in Office. Ottimo per analisi Excel e PowerPoint." },
-                    suno: { title: "Suno AI", desc: "AI per la generazione di musica. Crea canzoni complete con voce da una descrizione testuale." }
-                }
-            },
-            no: {
-                core: "AI Univers",
-                tools: {
-                    perplexity: { title: "Perplexity AI", desc: "Sanntids AI-søkemotor som siterer kilder. Ideell for faktasjekk og dyp forskning." },
-                    comet: { title: "Perplexity Comet", desc: "Automatiseringsagent for nettlesere. Brukes til å fylle ut skjemaer og komplekse oppgaver." },
-                    gemini: { title: "Google Gemini", desc: "Multimodal AI som kan analysere bilder, kode og generere kreativt innhold." },
-                    notebook: { title: "NotebookLM", desc: "Dokumentbehandling. Last opp PDF-er for å lage quizer, podcaster og studieguider." },
-                    grok: { title: "Grok AI", desc: "En 'morsom' AI spesialisert på kreative ideer og mindre formelle interaksjoner." },
-                    chatgpt: { title: "ChatGPT", desc: "Klassisk tekst-AI for e-poster, artikkelsammendrag og kodehjelp." },
-                    copilot: { title: "Microsoft Copilot", desc: "Produktivitetsassistent integrert i Office. Flott for Excel-analyse og PowerPoint." },
-                    suno: { title: "Suno AI", desc: "Musikkgenerering AI. Lager fulle sanger med vokal og tekst fra en enkel beskrivelse." }
-                }
-            }
-        };
-
-        // --- State ---
-        let currentLang = 'en';
-
-        // --- Selectors ---
-        const nodes = document.querySelectorAll('.tool-node');
-        const panel = document.getElementById('info-panel');
-        const panelTitle = panel.querySelector('#panel-title span');
-        const panelIcon = panel.querySelector('#panel-title i');
-        const panelDesc = document.getElementById('panel-desc');
-        const closeBtn = document.querySelector('.close-btn');
-        const langSelect = document.getElementById('language-select');
-        const coreText = document.getElementById('core-hub-text');
-
-        // --- Functions ---
-        
-        function updateInterfaceLanguage(lang) {
-            currentLang = lang;
-            const data = contentData[lang];
-
-            // Update Core Sun Text
-            coreText.innerHTML = data.core;
-
-            // Update visible node titles on the map
-            nodes.forEach(node => {
-                const toolKey = node.getAttribute('data-tool');
-                const titleSpan = node.querySelector('.node-title');
-                if (data.tools[toolKey]) {
-                    titleSpan.textContent = data.tools[toolKey].title;
-                }
-            });
-
-            if (panel.classList.contains('active')) {
-                panel.classList.remove('active');
-            }
-        }
-
-        // --- Event Listeners ---
-
-        // Language Change
-        langSelect.addEventListener('change', (e) => {
-            updateInterfaceLanguage(e.target.value);
-        });
-
-        // Planet Click
-        nodes.forEach(node => {
-            node.addEventListener('click', function() {
-                const toolKey = this.getAttribute('data-tool');
-                const toolInfo = contentData[currentLang].tools[toolKey];
-
-                if (toolInfo) {
-                    panelTitle.textContent = toolInfo.title;
-                    panelDesc.textContent = toolInfo.desc;
-                    
-                    // Icon logic
-                    const iconClass = this.querySelector('i').className;
-                    panelIcon.className = iconClass;
-                    
-                    panel.classList.add('active');
-                }
-            });
-        });
-
-        // Close Panel
-        closeBtn.addEventListener('click', () => {
-            panel.classList.remove('active');
-        });
-
-        // Close on background click
-        document.getElementById('mindmap-container').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('mindmap-container')) {
-                 panel.classList.remove('active');
-            }
-        });
-
-    </script>
-</body>
-</html>
