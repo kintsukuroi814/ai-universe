@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Universe Portal</title>
+    <title>AI Vesolje - Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- 1. The Living Neon Background (CSS Generated) --- */
+        /* --- 1. ŽIVO VESOLJSKO OZADJE --- */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
-            background-color: #000; /* Deep black base */
+            background-color: #000;
         }
 
         .universe-bg {
@@ -27,6 +27,7 @@
             overflow: hidden;
         }
 
+        /* Meglica, ki se premika in spreminja barve */
         .nebula {
             position: absolute;
             top: -50%;
@@ -51,6 +52,7 @@
             100% { filter: blur(80px) hue-rotate(90deg); } 
         }
 
+        /* Zvezde */
         .stars {
             width: 100%;
             height: 100%;
@@ -68,7 +70,38 @@
             0% { opacity: 0.5; } 100% { opacity: 1; }
         }
 
-        /* --- 2. Language Selector --- */
+        /* Zvezdni utrinek */
+        .shooting-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+            animation: shoot 7s linear infinite;
+            opacity: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 1px;
+            background: linear-gradient(90deg, #fff, transparent);
+        }
+
+        @keyframes shoot {
+            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
+            10% { opacity: 1; }
+            20% { transform: rotate(315deg) translateX(-1500px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* --- 2. Izbirnik Jezika --- */
         .lang-container {
             position: absolute;
             top: 20px;
@@ -93,13 +126,9 @@
             box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
             background: rgba(0, 195, 255, 0.2);
         }
+        select#language-select option { background-color: #000; color: #fff; }
 
-        select#language-select option {
-            background-color: #000;
-            color: #fff;
-        }
-
-        /* --- 3. Planetary System Layout --- */
+        /* --- 3. Osrednji sistem --- */
         #mindmap-container {
             position: relative;
             width: 100vw;
@@ -109,7 +138,7 @@
             align-items: center;
         }
 
-        /* The Central Sun */
+        /* SONCE */
         .sun-hub {
             position: absolute;
             width: 180px;
@@ -129,10 +158,10 @@
             z-index: 10;
             animation: pulseSun 4s ease-in-out infinite alternate;
             user-select: none;
-            pointer-events: none; /* User shouldn't click the sun, just planets */
+            pointer-events: none; 
         }
 
-        /* Planets (Now <a> tags) */
+        /* PLANETI (Povezave) */
         .tool-node {
             position: absolute;
             width: 110px;
@@ -149,7 +178,7 @@
             text-align: center;
             color: #fff;
             cursor: pointer;
-            text-decoration: none; /* Remove underline */
+            text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
             padding: 10px;
@@ -170,17 +199,16 @@
 
         .tool-node:hover {
             transform: scale(1.15) !important;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             box-shadow: 0 0 40px rgba(125, 249, 255, 0.9);
             z-index: 100;
         }
 
-        /* Gold Variant */
         .node-gold { box-shadow: 0 0 20px rgba(255, 187, 0, 0.5); }
         .node-gold i { color: #ffd700; }
         .node-gold:hover { box-shadow: 0 0 40px rgba(255, 187, 0, 0.9); }
 
-        /* --- 4. Orbit Positions & Animations --- */
+        /* Orbite in animacije lebdenja */
         #perp-ai { top: 20%; left: 35%; animation: float 5s ease-in-out infinite; }
         #chatgpt { top: 20%; right: 35%; animation: float 5.5s ease-in-out infinite reverse; }
         #gemini { bottom: 20%; left: 35%; animation: float 4.8s ease-in-out infinite 1s; }
@@ -202,7 +230,47 @@
             100% { transform: scale(1.05); box-shadow: 0 0 120px rgba(255, 160, 0, 0.9), inset 0 0 40px rgba(255, 255, 150, 0.8); }
         }
 
-        /* --- 5. Global Counter UI --- */
+        /* --- 4. HUD STATUS BAR (Opis ob hoverju) --- */
+        .hud-display {
+            position: fixed;
+            bottom: 80px; /* Malo nad števcem */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 15px 30px;
+            min-width: 300px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 195, 255, 0.15);
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0; /* Skrito, dokler ni hoverja */
+            pointer-events: none;
+        }
+
+        .hud-display.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .hud-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .hud-text {
+            color: #e0f2fe;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* --- 5. Števec --- */
         .counter-wrapper {
             position: fixed;
             bottom: 20px;
@@ -242,11 +310,12 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
-        /* Mobile Responsiveness */
+        /* Mobilne prilagoditve */
         @media (max-width: 768px) {
             .tool-node { width: 80px; height: 80px; padding: 5px;}
             .tool-node i { font-size: 18px; }
             .tool-node span { font-size: 0.7rem; }
+            .hud-display { width: 80%; bottom: 60px; font-size: 0.9rem; }
             
             #perp-ai { top: 18%; left: 8%; }
             #chatgpt { top: 18%; right: 8%; }
@@ -258,10 +327,7 @@
             #suno { bottom: 5%; left: 50%; transform: translateX(-50%); }
             
             .sun-hub { width: 120px; height: 120px; font-size: 1rem;}
-            
-            .counter-wrapper {
-                bottom: 10px; right: 10px; padding: 5px 15px;
-            }
+            .counter-wrapper { bottom: 10px; right: 10px; padding: 5px 15px; }
         }
     </style>
 </head>
@@ -270,12 +336,13 @@
     <div class="universe-bg">
         <div class="nebula"></div>
         <div class="stars"></div>
+        <div class="shooting-star"></div>
     </div>
 
     <div class="lang-container">
         <select id="language-select">
+            <option value="sl" selected>Slovenščina</option>
             <option value="en">English</option>
-            <option value="sl">Slovenščina</option>
             <option value="hr">Hrvatski</option>
             <option value="sr">Srpski</option>
             <option value="de">Deutsch</option>
@@ -287,7 +354,7 @@
     <div id="mindmap-container">
         
         <div class="sun-hub" id="core-hub-text">
-            AI Universe
+            AI Vesolje
         </div>
 
         <a href="https://www.perplexity.ai/" target="_blank" class="tool-node" id="perp-ai" data-tool="perplexity">
@@ -331,50 +398,122 @@
         </a>
     </div>
 
+    <div class="hud-display" id="hud-box">
+        <span class="hud-title" id="hud-title">Sistem Pripravljen</span>
+        <span class="hud-text" id="hud-text">Skeniranje vesolja v teku...</span>
+    </div>
+
     <div class="counter-wrapper">
         <div class="pulse-dot"></div>
         <div class="counter-text">
-            VISITS: <span id="global-counter">...</span>
+            OBISKI: <span id="global-counter">...</span>
         </div>
     </div>
 
     <script>
-        // --- 1. LANGUAGE LOGIC ---
-        // Simplified to just update the labels, since the 'info panel' is removed in favor of direct links.
+        // --- 1. PODATKI (Jeziki + Šaljivi opisi) ---
         const contentData = {
-            en: { core: "AI Universe", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            sl: { core: "AI Vesolje", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            hr: { core: "AI Svemir", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            sr: { core: "AI Univerzum", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            de: { core: "AI Universum", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            it: { core: "Universo AI", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } },
-            no: { core: "AI Univers", tools: { perplexity: "Perplexity AI", comet: "Perplexity Comet", gemini: "Google Gemini", notebook: "NotebookLM", grok: "Grok AI", chatgpt: "ChatGPT", copilot: "Microsoft Copilot", suno: "Suno AI" } }
+            sl: { 
+                core: "AI Vesolje", 
+                tools: { 
+                    perplexity: { title: "Perplexity AI", desc: "Sherlock Holmes interneta. Najde vire, da tebi ni treba lagati profesorju." },
+                    comet: { title: "Perplexity Comet", desc: "Hitri bratec. Odgovori preden sploh končaš vprašanje." },
+                    gemini: { title: "Google Gemini", desc: "Googlov genij. Včasih pameten, včasih halucinira, vedno se pa trudi." },
+                    notebook: { title: "NotebookLM", desc: "Tvoj osebni piflar. Prebere 100 strani PDF-ja in ti pove bistvo." },
+                    grok: { title: "Grok AI", desc: "Muskov upornik. Pove resnico, pa čeprav boli. In rad se šali." },
+                    chatgpt: { title: "ChatGPT", desc: "Oče vseh botov. Napiše ti seminarsko in pesem, pa še kavo bi skuhal, če bi imel roke." },
+                    copilot: { title: "Microsoft Copilot", desc: "Živi v Wordu in Excelu, da tebi ni treba znati tistih zapletenih formul." },
+                    suno: { title: "Suno AI", desc: "Mozart v škatli. Naredi hit komad iz tvojega jamranja o ponedeljkih." }
+                } 
+            },
+            en: { 
+                core: "AI Universe", 
+                tools: { 
+                    perplexity: { title: "Perplexity AI", desc: "Internet's Sherlock. Finds sources so you don't have to lie." },
+                    comet: { title: "Perplexity Comet", desc: "The fast sibling. Answers before you finish typing." },
+                    gemini: { title: "Google Gemini", desc: "Google's brain. Smart, connects everything, tries its best." },
+                    notebook: { title: "NotebookLM", desc: "Your personal nerd. Reads 100 pages of PDF instantly." },
+                    grok: { title: "Grok AI", desc: "Musk's rebel. Brutally honest and likes memes." },
+                    chatgpt: { title: "ChatGPT", desc: " The OG. Writes code, essays, and poems like a pro." },
+                    copilot: { title: "Microsoft Copilot", desc: "Lives in Excel so you don't have to learn formulas." },
+                    suno: { title: "Suno AI", desc: "Instant Mozart. Turns your Monday rant into a hit song." }
+                } 
+            },
+            hr: { 
+                core: "AI Svemir", 
+                tools: { 
+                    perplexity: { title: "Perplexity AI", desc: "Sherlock interneta. Nalazi izvore da ti ne moraš lagati." },
+                    comet: { title: "Perplexity Comet", desc: "Brzi brat. Odgovara prije nego završiš pitanje." },
+                    gemini: { title: "Google Gemini", desc: "Googleov genij. Ponekad pametan, ponekad halucinira, ali trudi se." },
+                    notebook: { title: "NotebookLM", desc: "Tvoj osobni štreber. Pročita 100 stranica PDF-a u sekundi." },
+                    grok: { title: "Grok AI", desc: "Muskov buntovnik. Kaže istinu pa makar boljela. Voli šale." },
+                    chatgpt: { title: "ChatGPT", desc: "Otac svih botova. Piše eseje i kod, skuhao bi i kavu da ima ruke." },
+                    copilot: { title: "Microsoft Copilot", desc: "Živi u Excelu da ti ne moraš znati formule." },
+                    suno: { title: "Suno AI", desc: "Mozart u kutiji. Napravi hit pjesmu od tvoje kuknjave." }
+                } 
+            },
+            // Ostali jeziki imajo standardne opise (zaradi prostora)
+            sr: { core: "AI Univerzum", tools: { perplexity: {title: "Perplexity AI", desc: "Pretražuje internet pametno."}, comet: {title: "Perplexity Comet", desc: "Super brzi odgovori."}, gemini: {title: "Google Gemini", desc: "Google AI mozak."}, notebook: {title: "NotebookLM", desc: "Analiza dokumenata."}, grok: {title: "Grok AI", desc: "Zabavni AI."}, chatgpt: {title: "ChatGPT", desc: "Originalni chatbot."}, copilot: {title: "Microsoft Copilot", desc: "Pomoćnik za Office."}, suno: {title: "Suno AI", desc: "Pravi muziku."} } },
+            de: { core: "AI Universum", tools: { perplexity: {title: "Perplexity AI", desc: "Sucht intelligent."}, comet: {title: "Perplexity Comet", desc: "Schnelle Antworten."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Dokumentenanalyse."}, grok: {title: "Grok AI", desc: "Lustige KI."}, chatgpt: {title: "ChatGPT", desc: "Der Klassiker."}, copilot: {title: "Microsoft Copilot", desc: "Office Assistent."}, suno: {title: "Suno AI", desc: "Macht Musik."} } },
+            it: { core: "Universo AI", tools: { perplexity: {title: "Perplexity AI", desc: "Ricerca intelligente."}, comet: {title: "Perplexity Comet", desc: "Risposte veloci."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Analisi documenti."}, grok: {title: "Grok AI", desc: "AI Divertente."}, chatgpt: {title: "ChatGPT", desc: "Il classico."}, copilot: {title: "Microsoft Copilot", desc: "Assistente Office."}, suno: {title: "Suno AI", desc: "Crea musica."} } },
+            no: { core: "AI Univers", tools: { perplexity: {title: "Perplexity AI", desc: "Smart søk."}, comet: {title: "Perplexity Comet", desc: "Raske svar."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Dokumentanalyse."}, grok: {title: "Grok AI", desc: "Morsom AI."}, chatgpt: {title: "ChatGPT", desc: "Klassikeren."}, copilot: {title: "Microsoft Copilot", desc: "Office assistent."}, suno: {title: "Suno AI", desc: "Lager musikk."} } }
         };
 
+        // --- 2. LOGIKA ---
+        let currentLang = 'sl'; // Začetni jezik
         const langSelect = document.getElementById('language-select');
         const coreText = document.getElementById('core-hub-text');
         const nodes = document.querySelectorAll('.tool-node');
+        
+        // HUD elementi
+        const hudBox = document.getElementById('hud-box');
+        const hudTitle = document.getElementById('hud-title');
+        const hudText = document.getElementById('hud-text');
 
-        langSelect.addEventListener('change', (e) => {
-            const lang = e.target.value;
+        // Funkcija za posodobitev vseh napisov
+        function updateLanguage(lang) {
+            currentLang = lang;
             const data = contentData[lang];
             
-            // Update Sun
+            // Posodobi Sonce
             coreText.innerHTML = data.core;
 
-            // Update Planets
+            // Posodobi imena planetov
             nodes.forEach(node => {
                 const toolKey = node.getAttribute('data-tool');
                 const titleSpan = node.querySelector('.node-title');
                 if (data.tools[toolKey]) {
-                    titleSpan.textContent = data.tools[toolKey];
+                    titleSpan.textContent = data.tools[toolKey].title;
                 }
+            });
+        }
+
+        // Event: Sprememba jezika
+        langSelect.addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Event: Hover nad planeti (HUD logika)
+        nodes.forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                const toolKey = node.getAttribute('data-tool');
+                const toolInfo = contentData[currentLang].tools[toolKey];
+                
+                if (toolInfo) {
+                    hudTitle.textContent = toolInfo.title;
+                    hudText.textContent = toolInfo.desc; // Šaljiv opis
+                    hudBox.classList.add('visible');
+                }
+            });
+
+            node.addEventListener('mouseleave', () => {
+                hudBox.classList.remove('visible');
             });
         });
 
-        // --- 2. GLOBAL COUNTER LOGIC ---
+        // --- 3. GLOBALNI ŠTEVEC ---
         const counterElement = document.getElementById('global-counter');
-        const namespace = 'ai-universe.live-counter-v2'; // Unique ID
+        const namespace = 'ai-universe.live-counter-v2';
         const key = 'visits';
 
         async function updateCounter() {
@@ -385,13 +524,13 @@
                 counterElement.innerText = data.value.toLocaleString();
                 localStorage.setItem('last_known_count', data.value);
             } catch (error) {
-                // Fallback if API fails
                 let fallbackCount = localStorage.getItem('last_known_count') || 5000;
                 fallbackCount = parseInt(fallbackCount) + 1;
                 counterElement.innerText = fallbackCount.toLocaleString();
             }
         }
         updateCounter();
+
     </script>
 </body>
 </html>
