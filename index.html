@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="sl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Vesolje - Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AI Universe - Models & Pricing Index</title>
     <style>
-        /* --- 1. ŽIVO VESOLJSKO OZADJE --- */
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
             background-color: #000;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .universe-bg {
@@ -23,11 +22,10 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             overflow: hidden;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         }
 
-        /* Meglica, ki se premika in spreminja barve */
         .nebula {
             position: absolute;
             top: -50%;
@@ -49,14 +47,12 @@
 
         @keyframes colorShift {
             0% { filter: blur(80px) hue-rotate(0deg); }
-            100% { filter: blur(80px) hue-rotate(90deg); } 
+            100% { filter: blur(80px) hue-rotate(90deg); }
         }
 
-        /* Zvezde */
         .stars {
             width: 100%;
             height: 100%;
-            position: absolute;
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
@@ -67,10 +63,10 @@
         }
 
         @keyframes twinkle {
-            0% { opacity: 0.5; } 100% { opacity: 1; }
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
-        /* Zvezdni utrinek */
         .shooting-star {
             position: absolute;
             top: 50%;
@@ -80,7 +76,7 @@
             background: #fff;
             border-radius: 50%;
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
-            animation: shoot 7s linear infinite;
+            animation: shoot 5s linear infinite;
             opacity: 0;
         }
 
@@ -96,25 +92,199 @@
 
         @keyframes shoot {
             0% { transform: rotate(315deg) translateX(0); opacity: 1; }
-            10% { opacity: 1; }
-            20% { transform: rotate(315deg) translateX(-1500px); opacity: 0; }
-            100% { opacity: 0; }
+            70% { opacity: 1; }
+            100% { transform: rotate(315deg) translateX(-1500px); opacity: 0; }
         }
 
-        /* --- 2. Izbirnik Jezika --- */
-        .lang-container {
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.6));
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #a5b4fc;
+            margin-top: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .category-section {
+            margin: 3rem 0;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            border-left: 4px solid #ff00cc;
+            padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(255, 0, 204, 0.2);
+            color: #ff00cc;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
             position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .model-card:hover::before {
+            left: 100%;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .model-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .model-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .model-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .model-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .feature-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            border-radius: 6px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .model-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .model-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .language-selector {
+            position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 2000;
-        }
-
-        select#language-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
-            color: #00c3ff;
-            border: 1px solid rgba(0, 195, 255, 0.3);
-            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 16px;
+            border-radius: 50px;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .lang-icon {
+            font-size: 1.2rem;
+        }
+
+        #language-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.9rem;
             cursor: pointer;
@@ -122,212 +292,24 @@
             transition: all 0.3s ease;
         }
 
-        select#language-select:hover {
-            box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
-            background: rgba(0, 195, 255, 0.2);
-        }
-        select#language-select option { background-color: #000; color: #fff; }
-
-        /* --- 3. Osrednji sistem --- */
-        #mindmap-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #language-select:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ff88;
         }
 
-        /* SONCE */
-        .sun-hub {
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle at center, rgba(255, 255, 200, 1) 10%, rgba(255, 200, 0, 0.9) 40%, rgba(255, 100, 0, 0.8) 70%);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        #language-select option {
+            background: #1a1a1a;
             color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
-            font-weight: 800;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            box-shadow: 0 0 80px rgba(255, 120, 0, 0.7), inset 0 0 30px rgba(255, 255, 100, 0.8);
-            z-index: 10;
-            animation: pulseSun 4s ease-in-out infinite alternate;
-            user-select: none;
-            pointer-events: none; 
         }
 
-        /* PLANETI (Povezave) */
-        .tool-node {
-            position: absolute;
-            width: 110px;
-            height: 110px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #fff;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
-            padding: 10px;
-            z-index: 20;
-        }
-
-        .tool-node i {
-            font-size: 24px;
-            margin-bottom: 8px;
-            color: #7df9ff;
-        }
-
-        .tool-node span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .tool-node:hover {
-            transform: scale(1.15) !important;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 0 40px rgba(125, 249, 255, 0.9);
-            z-index: 100;
-        }
-
-        .node-gold { box-shadow: 0 0 20px rgba(255, 187, 0, 0.5); }
-        .node-gold i { color: #ffd700; }
-        .node-gold:hover { box-shadow: 0 0 40px rgba(255, 187, 0, 0.9); }
-
-        /* Orbite in animacije lebdenja */
-        #perp-ai { top: 20%; left: 35%; animation: float 5s ease-in-out infinite; }
-        #chatgpt { top: 20%; right: 35%; animation: float 5.5s ease-in-out infinite reverse; }
-        #gemini { bottom: 20%; left: 35%; animation: float 4.8s ease-in-out infinite 1s; }
-        #copilot { bottom: 20%; right: 35%; animation: float 5.2s ease-in-out infinite reverse 0.5s; }
-        
-        #perp-comet { top: 8%; left: 15%; animation: float 6s ease-in-out infinite 2s; }
-        #notebook { top: 40%; right: 10%; animation: float 6.5s ease-in-out infinite reverse 1.5s; }
-        #grok { bottom: 10%; left: 20%; animation: float 5.8s ease-in-out infinite 2.5s; }
-        #suno { bottom: 45%; left: 8%; animation: float 6.2s ease-in-out infinite reverse 1s; }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulseSun {
-            0% { transform: scale(1); box-shadow: 0 0 80px rgba(255, 120, 0, 0.7); }
-            100% { transform: scale(1.05); box-shadow: 0 0 120px rgba(255, 160, 0, 0.9), inset 0 0 40px rgba(255, 255, 150, 0.8); }
-        }
-
-        /* --- 4. HUD STATUS BAR (Opis ob hoverju) --- */
-        .hud-display {
-            position: fixed;
-            bottom: 80px; /* Malo nad števcem */
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 15px 30px;
-            min-width: 300px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 0 20px rgba(0, 195, 255, 0.15);
-            transition: opacity 0.3s, transform 0.3s;
-            opacity: 0; /* Skrito, dokler ni hoverja */
-            pointer-events: none;
-        }
-
-        .hud-display.visible {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-5px);
-        }
-
-        .hud-title {
-            color: #ffd700;
-            font-size: 1.1rem;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .hud-text {
-            color: #e0f2fe;
-            font-size: 1rem;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* --- 5. Števec --- */
-        .counter-wrapper {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            border: 1px solid #333;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 2000;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00ff88;
-            animation: pulse 2s infinite;
-        }
-
-        .counter-text {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: #00ff88;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
-        }
-
-        /* Mobilne prilagoditve */
         @media (max-width: 768px) {
-            .tool-node { width: 80px; height: 80px; padding: 5px;}
-            .tool-node i { font-size: 18px; }
-            .tool-node span { font-size: 0.7rem; }
-            .hud-display { width: 80%; bottom: 60px; font-size: 0.9rem; }
-            
-            #perp-ai { top: 18%; left: 8%; }
-            #chatgpt { top: 18%; right: 8%; }
-            #gemini { bottom: 18%; left: 8%; }
-            #copilot { bottom: 18%; right: 8%; }
-            #perp-comet { top: 42%; left: 2%; }
-            #notebook { top: 42%; right: 2%; }
-            #grok { top: 5%; left: 50%; transform: translateX(-50%); }
-            #suno { bottom: 5%; left: 50%; transform: translateX(-50%); }
-            
-            .sun-hub { width: 120px; height: 120px; font-size: 1rem;}
-            .counter-wrapper { bottom: 10px; right: 10px; padding: 5px 15px; }
+            h1 { font-size: 2.5rem; }
+            .models-grid { grid-template-columns: 1fr; }
+            .language-selector { 
+                top: 10px; 
+                right: 10px;
+                padding: 8px 12px;
+            }
         }
     </style>
 </head>
@@ -339,198 +321,451 @@
         <div class="shooting-star"></div>
     </div>
 
-    <div class="lang-container">
-        <select id="language-select">
-            <option value="sl" selected>Slovenščina</option>
-            <option value="en">English</option>
+    <div class="language-selector">
+        <div class="lang-icon">🌐</div>
+        <select id="language-select" onchange="changeLanguage()">
+            <option value="sl">Slovenščina</option>
             <option value="hr">Hrvatski</option>
             <option value="sr">Srpski</option>
-            <option value="de">Deutsch</option>
-            <option value="it">Italiano</option>
+            <option value="en">English</option>
+            <option value="de">German</option>
             <option value="no">Norsk</option>
+            <option value="it">Italian</option>
+            <option value="es">Spanish</option>
         </select>
     </div>
 
-    <div id="mindmap-container">
-        
-        <div class="sun-hub" id="core-hub-text">
-            AI Vesolje
-        </div>
+    <div class="container">
+        <header>
+            <h1>AI UNIVERSE</h1>
+            <p class="subtitle">Complete AI Models Index & Pricing Guide</p>
+        </header>
 
-        <a href="https://www.perplexity.ai/" target="_blank" class="tool-node" id="perp-ai" data-tool="perplexity">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span class="node-title">Perplexity AI</span>
-        </a>
+        <section class="category-section">
+            <h2 class="category-title">
+                Personal Picks
+                <span class="badge">Curated</span>
+            </h2>
+            <div class="models-grid">
+                
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Perplexity</h3>
+                        <span class="model-price">Free</span>
+                    </div>
+                    <p class="model-description">AI-powered answer engine that searches the web in real-time and provides cited, conversational responses to your questions.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Search</span>
+                        <span class="feature-tag">Citations</span>
+                        <span class="feature-tag">Real-time</span>
+                    </div>
+                    <a href="https://www.perplexity.ai/" target="_blank" class="model-link">Try Perplexity →</a>
+                </div>
 
-        <a href="https://labs.perplexity.ai/" target="_blank" class="tool-node node-gold" id="perp-comet" data-tool="comet">
-            <i class="fa-solid fa-robot"></i>
-            <span class="node-title">Perplexity Comet</span>
-        </a>
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Perplexity Comet</h3>
+                        <span class="model-price">Pro Only</span>
+                    </div>
+                    <p class="model-description">Advanced reasoning model that tackles complex problems step-by-step, perfect for deep research and technical questions.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Deep Reasoning</span>
+                        <span class="feature-tag">Research</span>
+                        <span class="feature-tag">Step-by-step</span>
+                    </div>
+                    <a href="https://www.perplexity.ai/" target="_blank" class="model-link">Try Comet →</a>
+                </div>
 
-        <a href="https://gemini.google.com/" target="_blank" class="tool-node" id="gemini" data-tool="gemini">
-            <i class="fa-brands fa-google"></i>
-            <span class="node-title">Google Gemini</span>
-        </a>
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">NotebookLM</h3>
+                        <span class="model-price">Free</span>
+                    </div>
+                    <p class="model-description">Google's AI notebook that turns your documents into interactive conversations, summaries, and even podcast-style audio discussions.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Documents</span>
+                        <span class="feature-tag">Audio Pods</span>
+                        <span class="feature-tag">Research</span>
+                    </div>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="model-link">Try NotebookLM →</a>
+                </div>
 
-         <a href="https://chat.openai.com/" target="_blank" class="tool-node" id="chatgpt" data-tool="chatgpt">
-            <i class="fa-solid fa-brain"></i>
-            <span class="node-title">ChatGPT</span>
-        </a>
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Gemini</h3>
+                        <span class="model-price">Free</span>
+                    </div>
+                    <p class="model-description">Google's multimodal AI that understands text, images, video, and code to help with creative and analytical tasks.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Multimodal</span>
+                        <span class="feature-tag">Google Integration</span>
+                        <span class="feature-tag">Vision</span>
+                    </div>
+                    <a href="https://gemini.google.com/" target="_blank" class="model-link">Try Gemini →</a>
+                </div>
 
-         <a href="https://grok.x.ai/" target="_blank" class="tool-node node-gold" id="grok" data-tool="grok">
-            <i class="fa-solid fa-rocket"></i>
-            <span class="node-title">Grok AI</span>
-        </a>
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Grok</h3>
+                        <span class="model-price">$8/mo</span>
+                    </div>
+                    <p class="model-description">xAI's conversational AI with real-time access to X (Twitter) data and a witty, rebellious personality.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">X Integration</span>
+                        <span class="feature-tag">Real-time</span>
+                        <span class="feature-tag">Humor</span>
+                    </div>
+                    <a href="https://grok.x.ai/" target="_blank" class="model-link">Try Grok →</a>
+                </div>
 
-        <a href="https://notebooklm.google.com/" target="_blank" class="tool-node" id="notebook" data-tool="notebook">
-            <i class="fa-solid fa-book-open"></i>
-            <span class="node-title">NotebookLM</span>
-        </a>
+            </div>
+        </section>
 
-        <a href="https://copilot.microsoft.com/" target="_blank" class="tool-node" id="copilot" data-tool="copilot">
-            <i class="fa-brands fa-microsoft"></i>
-            <span class="node-title">Microsoft Copilot</span>
-        </a>
+        <section class="category-section">
+            <h2 class="category-title">Conversational AI</h2>
+            <div class="models-grid">
+                
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">ChatGPT</h3>
+                        <span class="model-price">Free/$20</span>
+                    </div>
+                    <p class="model-description">OpenAI's flagship chatbot for creative writing, coding, analysis, and general assistance with GPT-4 in Plus tier.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">GPT-4</span>
+                        <span class="feature-tag">Plugins</span>
+                        <span class="feature-tag">Vision</span>
+                    </div>
+                    <a href="https://chat.openai.com/" target="_blank" class="model-link">Try ChatGPT →</a>
+                </div>
 
-        <a href="https://suno.com/" target="_blank" class="tool-node node-gold" id="suno" data-tool="suno">
-            <i class="fa-solid fa-music"></i>
-            <span class="node-title">Suno AI</span>
-        </a>
-    </div>
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Claude</h3>
+                        <span class="model-price">Free/$20</span>
+                    </div>
+                    <p class="model-description">Anthropic's helpful, honest AI assistant excelling at analysis, coding, and long-form writing with strong safety features.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Long Context</span>
+                        <span class="feature-tag">Safety</span>
+                        <span class="feature-tag">Analysis</span>
+                    </div>
+                    <a href="https://claude.ai/" target="_blank" class="model-link">Try Claude →</a>
+                </div>
 
-    <div class="hud-display" id="hud-box">
-        <span class="hud-title" id="hud-title">Sistem Pripravljen</span>
-        <span class="hud-text" id="hud-text">Skeniranje vesolja v teku...</span>
-    </div>
+            </div>
+        </section>
 
-    <div class="counter-wrapper">
-        <div class="pulse-dot"></div>
-        <div class="counter-text">
-            OBISKI: <span id="global-counter">...</span>
-        </div>
+        <section class="category-section">
+            <h2 class="category-title">Creative AI</h2>
+            <div class="models-grid">
+                
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Midjourney</h3>
+                        <span class="model-price">$10/mo</span>
+                    </div>
+                    <p class="model-description">Leading AI art generator creating stunning, artistic images from text prompts with incredible detail and style.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Image Gen</span>
+                        <span class="feature-tag">Artistic</span>
+                        <span class="feature-tag">High Quality</span>
+                    </div>
+                    <a href="https://www.midjourney.com/" target="_blank" class="model-link">Try Midjourney →</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Suno</h3>
+                        <span class="model-price">Free/$10</span>
+                    </div>
+                    <p class="model-description">Generate complete songs with vocals and instruments in any style from simple text descriptions.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Music</span>
+                        <span class="feature-tag">Vocals</span>
+                        <span class="feature-tag">Full Songs</span>
+                    </div>
+                    <a href="https://suno.com/" target="_blank" class="model-link">Try Suno →</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Runway</h3>
+                        <span class="model-price">$12/mo</span>
+                    </div>
+                    <p class="model-description">Professional AI video tools for generation, editing, and effects including text-to-video and motion tracking.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Video Gen</span>
+                        <span class="feature-tag">Editing</span>
+                        <span class="feature-tag">Effects</span>
+                    </div>
+                    <a href="https://runwayml.com/" target="_blank" class="model-link">Try Runway →</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">Developer & Open Source</h2>
+            <div class="models-grid">
+                
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3 class="model-name">Hugging Face</h3>
+                        <span class="model-price">Free</span>
+                    </div>
+                    <p class="model-description">Open-source platform hosting thousands of AI models, datasets, and collaborative ML tools for developers.</p>
+                    <div class="model-features">
+                        <span class="feature-tag">Open Source</span>
+                        <span class="feature-tag">Models Hub</span>
+                        <span class="feature-tag">Community</span>
+                    </div>
+                    <a href="https://huggingface.co/" target="_blank" class="model-link">Explore HF →</a>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
     <script>
-        // --- 1. PODATKI (Jeziki + Šaljivi opisi) ---
-        const contentData = {
-            sl: { 
-                core: "AI Vesolje", 
-                tools: { 
-                    perplexity: { title: "Perplexity AI", desc: "Sherlock Holmes interneta. Najde vire, da tebi ni treba lagati profesorju." },
-                    comet: { title: "Perplexity Comet", desc: "Hitri bratec. Odgovori preden sploh končaš vprašanje." },
-                    gemini: { title: "Google Gemini", desc: "Googlov genij. Včasih pameten, včasih halucinira, vedno se pa trudi." },
-                    notebook: { title: "NotebookLM", desc: "Tvoj osebni piflar. Prebere 100 strani PDF-ja in ti pove bistvo." },
-                    grok: { title: "Grok AI", desc: "Muskov upornik. Pove resnico, pa čeprav boli. In rad se šali." },
-                    chatgpt: { title: "ChatGPT", desc: "Oče vseh botov. Napiše ti seminarsko in pesem, pa še kavo bi skuhal, če bi imel roke." },
-                    copilot: { title: "Microsoft Copilot", desc: "Živi v Wordu in Excelu, da tebi ni treba znati tistih zapletenih formul." },
-                    suno: { title: "Suno AI", desc: "Mozart v škatli. Naredi hit komad iz tvojega jamranja o ponedeljkih." }
-                } 
+        const translations = {
+            sl: {
+                title: "AI VESOLJE",
+                subtitle: "Popoln indeks AI modelov in vodnik po cenah",
+                personalPicks: "Osebni izbor",
+                conversational: "Pogovorni AI",
+                creative: "Ustvarjalni AI",
+                developer: "Razvijalska orodja in odprtokodnost",
+                badge: "Izbrano",
+                free: "Brezplačno",
+                proOnly: "Samo Pro",
+                perMonth: "/mesec",
+                perplexity: "AI-pogonjen iskalnik odgovorov, ki išče po spletu v realnem času in zagotavlja citirane, pogovorne odgovore na vaša vprašanja.",
+                perplexityComet: "Napreden model sklepanja, ki se loteva kompleksnih problemov korak za korakom, popoln za poglobljene raziskave in tehnična vprašanja.",
+                notebooklm: "Googlov AI beležnik, ki vaše dokumente spremeni v interaktivne pogovore, povzetke in celo razprave v slogu podcastov.",
+                gemini: "Googlov multimodalni AI, ki razume besedilo, slike, video in kodo ter pomaga pri ustvarjalnih in analitičnih nalogah.",
+                grok: "Pogovorni AI podjetja xAI z dostopom v realnem času do podatkov X (Twitter) in duhovito, uporniško osebnostjo.",
+                chatgpt: "OpenAI-jev vodilni chatbot za ustvarjalno pisanje, kodiranje, analizo in splošno pomoč z GPT-4 v Plus paketu.",
+                claude: "Anthropicov prijazen, iskren AI asistent, ki odlično obvlada analizo, kodiranje in pisanje daljših besedil z močnimi varnostnimi funkcijami.",
+                midjourney: "Vodilni generator AI umetnosti, ki ustvarja osupljive, umetniške slike iz besedilnih opisov z neverjetnimi podrobnostmi in slogom.",
+                suno: "Ustvarite celotne pesmi z vokali in inštrumenti v katerem koli slogu iz preprostih besedilnih opisov.",
+                runway: "Profesionalna AI video orodja za generiranje, urejanje in efekte, vključno z besedilom-v-video in sledenjem gibanja.",
+                huggingface: "Odprtokodna platforma, ki gosti tisoče AI modelov, naborov podatkov in orodij za skupinsko strojno učenje za razvijalce."
             },
-            en: { 
-                core: "AI Universe", 
-                tools: { 
-                    perplexity: { title: "Perplexity AI", desc: "Internet's Sherlock. Finds sources so you don't have to lie." },
-                    comet: { title: "Perplexity Comet", desc: "The fast sibling. Answers before you finish typing." },
-                    gemini: { title: "Google Gemini", desc: "Google's brain. Smart, connects everything, tries its best." },
-                    notebook: { title: "NotebookLM", desc: "Your personal nerd. Reads 100 pages of PDF instantly." },
-                    grok: { title: "Grok AI", desc: "Musk's rebel. Brutally honest and likes memes." },
-                    chatgpt: { title: "ChatGPT", desc: " The OG. Writes code, essays, and poems like a pro." },
-                    copilot: { title: "Microsoft Copilot", desc: "Lives in Excel so you don't have to learn formulas." },
-                    suno: { title: "Suno AI", desc: "Instant Mozart. Turns your Monday rant into a hit song." }
-                } 
+            hr: {
+                title: "AI SVEMIR",
+                subtitle: "Potpuni indeks AI modela i vodič za cijene",
+                personalPicks: "Osobni izbor",
+                conversational: "Konverzacijski AI",
+                creative: "Kreativni AI",
+                developer: "Alati za programere i otvoreni kod",
+                badge: "Odabrano",
+                free: "Besplatno",
+                proOnly: "Samo Pro",
+                perMonth: "/mjesec",
+                perplexity: "AI tražilica odgovora koja pretražuje web u stvarnom vremenu i pruža citirane, konverzacijske odgovore na vaša pitanja.",
+                perplexityComet: "Napredni model rasuđivanja koji rješava složene probleme korak po korak, savršen za dubinsko istraživanje i tehnička pitanja.",
+                notebooklm: "Google-ov AI bilježnik koji pretvara vaše dokumente u interaktivne razgovore, sažetke, pa čak i audio rasprave u stilu podcasta.",
+                gemini: "Google-ov multimodalni AI koji razumije tekst, slike, video i kod te pomaže u kreativnim i analitičkim zadacima.",
+                grok: "Konverzacijski AI tvrtke xAI s pristupom u stvarnom vremenu podacima X (Twitter) i duhovitom, buntovnom osobnošću.",
+                chatgpt: "OpenAI-jev vodeći chatbot za kreativno pisanje, kodiranje, analizu i opću pomoć s GPT-4 u Plus paketu.",
+                claude: "Anthropic-ov koristan, iskren AI asistent koji izvrsno vlada analizom, kodiranjem i pisanjem dugih tekstova s jakim sigurnosnim značajkama.",
+                midjourney: "Vodeći AI generator umjetnosti koji stvara zadivljujuće, umjetničke slike iz tekstualnih opisa s nevjerojatnim detaljima i stilom.",
+                suno: "Generirajte cijele pjesme s vokalima i instrumentima u bilo kojem stilu iz jednostavnih tekstualnih opisa.",
+                runway: "Profesionalni AI video alati za generiranje, uređivanje i efekte, uključujući tekst-u-video i praćenje pokreta.",
+                huggingface: "Platforma otvorenog koda koja hostira tisuće AI modela, skupova podataka i alata za kolaborativno strojno učenje za programere."
             },
-            hr: { 
-                core: "AI Svemir", 
-                tools: { 
-                    perplexity: { title: "Perplexity AI", desc: "Sherlock interneta. Nalazi izvore da ti ne moraš lagati." },
-                    comet: { title: "Perplexity Comet", desc: "Brzi brat. Odgovara prije nego završiš pitanje." },
-                    gemini: { title: "Google Gemini", desc: "Googleov genij. Ponekad pametan, ponekad halucinira, ali trudi se." },
-                    notebook: { title: "NotebookLM", desc: "Tvoj osobni štreber. Pročita 100 stranica PDF-a u sekundi." },
-                    grok: { title: "Grok AI", desc: "Muskov buntovnik. Kaže istinu pa makar boljela. Voli šale." },
-                    chatgpt: { title: "ChatGPT", desc: "Otac svih botova. Piše eseje i kod, skuhao bi i kavu da ima ruke." },
-                    copilot: { title: "Microsoft Copilot", desc: "Živi u Excelu da ti ne moraš znati formule." },
-                    suno: { title: "Suno AI", desc: "Mozart u kutiji. Napravi hit pjesmu od tvoje kuknjave." }
-                } 
+            sr: {
+                title: "AI УНИВЕРЗУМ",
+                subtitle: "Потпуни индекс AI модела и водич за цене",
+                personalPicks: "Лични избор",
+                conversational: "Конверзацијски AI",
+                creative: "Креативни AI",
+                developer: "Алати за програмере и отворени код",
+                badge: "Одабрано",
+                free: "Бесплатно",
+                proOnly: "Само Pro",
+                perMonth: "/месец",
+                perplexity: "AI претраживач одговора који претражује веб у реалном времену и пружа цитиране, конверзацијске одговоре на ваша питања.",
+                perplexityComet: "Напредни модел резоновања који решава сложене проблеме корак по корак, савршен за дубинска истраживања и техничка питања.",
+                notebooklm: "Google-ов AI бележник који претвара ваше документе у интерактивне разговоре, резимеe и чак аудио дискусије у стилу подкаста.",
+                gemini: "Google-ов мултимодални AI који разуме текст, слике, видео и код и помаже у креативним и аналитичким задацима.",
+                grok: "Конверзацијски AI компаније xAI са приступом у реалном времену X (Twitter) подацима и духовитом, бунтовном личношћу.",
+                chatgpt: "OpenAI-јев водећи chatbot за креативно писање, кодирање, анализу и општу помоћ са GPT-4 у Plus пакету.",
+                claude: "Anthropic-ов користан, искрен AI асистент који одлично влада анализом, кодирањем и писањем дугих текстова са јаким безбедносним функцијама.",
+                midjourney: "Водећи AI генератор уметности који ствара задивљујуће, уметничке слике из текстуалних описа са невероватним детаљима и стилом.",
+                suno: "Генеришите целе песме са вокалима и инструментима у било ком стилу из једноставних текстуалних описа.",
+                runway: "Професионални AI видео алати за генерисање, уређивање и ефекте, укључујући текст-у-видео и праћење покрета.",
+                huggingface: "Платформа отвореног кода која хостује хиљаде AI модела, скупова података и алата за колаборативно машинско учење за програмере."
             },
-            // Ostali jeziki imajo standardne opise (zaradi prostora)
-            sr: { core: "AI Univerzum", tools: { perplexity: {title: "Perplexity AI", desc: "Pretražuje internet pametno."}, comet: {title: "Perplexity Comet", desc: "Super brzi odgovori."}, gemini: {title: "Google Gemini", desc: "Google AI mozak."}, notebook: {title: "NotebookLM", desc: "Analiza dokumenata."}, grok: {title: "Grok AI", desc: "Zabavni AI."}, chatgpt: {title: "ChatGPT", desc: "Originalni chatbot."}, copilot: {title: "Microsoft Copilot", desc: "Pomoćnik za Office."}, suno: {title: "Suno AI", desc: "Pravi muziku."} } },
-            de: { core: "AI Universum", tools: { perplexity: {title: "Perplexity AI", desc: "Sucht intelligent."}, comet: {title: "Perplexity Comet", desc: "Schnelle Antworten."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Dokumentenanalyse."}, grok: {title: "Grok AI", desc: "Lustige KI."}, chatgpt: {title: "ChatGPT", desc: "Der Klassiker."}, copilot: {title: "Microsoft Copilot", desc: "Office Assistent."}, suno: {title: "Suno AI", desc: "Macht Musik."} } },
-            it: { core: "Universo AI", tools: { perplexity: {title: "Perplexity AI", desc: "Ricerca intelligente."}, comet: {title: "Perplexity Comet", desc: "Risposte veloci."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Analisi documenti."}, grok: {title: "Grok AI", desc: "AI Divertente."}, chatgpt: {title: "ChatGPT", desc: "Il classico."}, copilot: {title: "Microsoft Copilot", desc: "Assistente Office."}, suno: {title: "Suno AI", desc: "Crea musica."} } },
-            no: { core: "AI Univers", tools: { perplexity: {title: "Perplexity AI", desc: "Smart søk."}, comet: {title: "Perplexity Comet", desc: "Raske svar."}, gemini: {title: "Google Gemini", desc: "Google AI."}, notebook: {title: "NotebookLM", desc: "Dokumentanalyse."}, grok: {title: "Grok AI", desc: "Morsom AI."}, chatgpt: {title: "ChatGPT", desc: "Klassikeren."}, copilot: {title: "Microsoft Copilot", desc: "Office assistent."}, suno: {title: "Suno AI", desc: "Lager musikk."} } }
+            en: {
+                title: "AI UNIVERSE",
+                subtitle: "Complete AI Models Index & Pricing Guide",
+                personalPicks: "Personal Picks",
+                conversational: "Conversational AI",
+                creative: "Creative AI",
+                developer: "Developer & Open Source",
+                badge: "Curated",
+                free: "Free",
+                proOnly: "Pro Only",
+                perMonth: "/mo",
+                perplexity: "AI-powered answer engine that searches the web in real-time and provides cited, conversational responses to your questions.",
+                perplexityComet: "Advanced reasoning model that tackles complex problems step-by-step, perfect for deep research and technical questions.",
+                notebooklm: "Google's AI notebook that turns your documents into interactive conversations, summaries, and even podcast-style audio discussions.",
+                gemini: "Google's multimodal AI that understands text, images, video, and code to help with creative and analytical tasks.",
+                grok: "xAI's conversational AI with real-time access to X (Twitter) data and a witty, rebellious personality.",
+                chatgpt: "OpenAI's flagship chatbot for creative writing, coding, analysis, and general assistance with GPT-4 in Plus tier.",
+                claude: "Anthropic's helpful, honest AI assistant excelling at analysis, coding, and long-form writing with strong safety features.",
+                midjourney: "Leading AI art generator creating stunning, artistic images from text prompts with incredible detail and style.",
+                suno: "Generate complete songs with vocals and instruments in any style from simple text descriptions.",
+                runway: "Professional AI video tools for generation, editing, and effects including text-to-video and motion tracking.",
+                huggingface: "Open-source platform hosting thousands of AI models, datasets, and collaborative ML tools for developers."
+            },
+            de: {
+                title: "AI UNIVERSUM",
+                subtitle: "Vollständiger AI-Modell-Index und Preisführer",
+                personalPicks: "Persönliche Auswahl",
+                conversational: "Konversations-KI",
+                creative: "Kreative KI",
+                developer: "Entwickler und Open Source",
+                badge: "Kuratiert",
+                free: "Kostenlos",
+                proOnly: "Nur Pro",
+                perMonth: "/Monat",
+                perplexity: "KI-gestützte Antwortmaschine, die das Web in Echtzeit durchsucht und zitierte, gesprächige Antworten auf Ihre Fragen liefert.",
+                perplexityComet: "Fortschrittliches Reasoning-Modell, das komplexe Probleme Schritt für Schritt angeht, perfekt für tiefgehende Forschung und technische Fragen.",
+                notebooklm: "Googles KI-Notizbuch, das Ihre Dokumente in interaktive Gespräche, Zusammenfassungen und sogar Podcast-artige Audio-Diskussionen verwandelt.",
+                gemini: "Googles multimodale KI, die Text, Bilder, Videos und Code versteht und bei kreativen und analytischen Aufgaben hilft.",
+                grok: "xAIs Konversations-KI mit Echtzeitzugriff auf X (Twitter) Daten und einer witzigen, rebellischen Persönlichkeit.",
+                chatgpt: "OpenAIs Flaggschiff-Chatbot für kreatives Schreiben, Programmieren, Analysen und allgemeine Unterstützung mit GPT-4 im Plus-Tarif.",
+                claude: "Anthropics hilfreicher, ehrlicher KI-Assistent, der sich durch Analysen, Programmierung und langformatiges Schreiben mit starken Sicherheitsfunktionen auszeichnet.",
+                midjourney: "Führender KI-Kunstgenerator, der atemberaubende, künstlerische Bilder aus Textaufforderungen mit unglaublichen Details und Stil erstellt.",
+                suno: "Generieren Sie vollständige Songs mit Gesang und Instrumenten in jedem Stil aus einfachen Textbeschreibungen.",
+                runway: "Professionelle KI-Video-Tools für Generierung, Bearbeitung und Effekte, einschließlich Text-zu-Video und Motion-Tracking.",
+                huggingface: "Open-Source-Plattform, die Tausende von KI-Modellen, Datensätzen und kollaborativen ML-Tools für Entwickler hostet."
+            },
+            no: {
+                title: "AI UNIVERS",
+                subtitle: "Komplett AI-modell indeks og prisguide",
+                personalPicks: "Personlige valg",
+                conversational: "Samtale-AI",
+                creative: "Kreativ AI",
+                developer: "Utvikler og åpen kildekode",
+                badge: "Kuratert",
+                free: "Gratis",
+                proOnly: "Kun Pro",
+                perMonth: "/md",
+                perplexity: "AI-drevet svarmotor som søker på nettet i sanntid og gir siterte, samtalepregede svar på spørsmålene dine.",
+                perplexityComet: "Avansert resonneringsmodell som takler komplekse problemer steg-for-steg, perfekt for dyp forskning og tekniske spørsmål.",
+                notebooklm: "Googles AI-notatbok som gjør dokumentene dine om til interaktive samtaler, sammendrag og til og med podcast-lignende lyddiskusjoner.",
+                gemini: "Googles multimodale AI som forstår tekst, bilder, video og kode for å hjelpe med kreative og analytiske oppgaver.",
+                grok: "xAIs samtale-AI med sanntidstilgang til X (Twitter) data og en vittig, opprørsk personlighet.",
+                chatgpt: "OpenAIs flaggskip chatbot for kreativ skriving, koding, analyse og generell assistanse med GPT-4 i Plus-nivået.",
+                claude: "Anthropics hjelpsomme, ærlige AI-assistent som utmerker seg i analyse, koding og langform skriving med sterke sikkerhetsfunksjoner.",
+                midjourney: "Ledende AI-kunstgenerator som skaper fantastiske, kunstneriske bilder fra tekstbeskrivelser med utrolige detaljer og stil.",
+                suno: "Generer komplette sanger med vokal og instrumenter i hvilken som helst stil fra enkle tekstbeskrivelser.",
+                runway: "Profesjonelle AI-videoverktøy for generering, redigering og effekter inkludert tekst-til-video og bevegelsesporing.",
+                huggingface: "Åpen kildekode-plattform som hoster tusenvis av AI-modeller, datasett og samarbeidende ML-verktøy for utviklere."
+            },
+            it: {
+                title: "AI UNIVERSO",
+                subtitle: "Indice completo dei modelli AI e guida ai prezzi",
+                personalPicks: "Scelte personali",
+                conversational: "AI conversazionale",
+                creative: "AI creativo",
+                developer: "Sviluppatori e open source",
+                badge: "Curato",
+                free: "Gratuito",
+                proOnly: "Solo Pro",
+                perMonth: "/mese",
+                perplexity: "Motore di risposta alimentato da AI che cerca sul web in tempo reale e fornisce risposte citate e conversazionali alle tue domande.",
+                perplexityComet: "Modello di ragionamento avanzato che affronta problemi complessi passo dopo passo, perfetto per ricerche approfondite e domande tecniche.",
+                notebooklm: "Il taccuino AI di Google che trasforma i tuoi documenti in conversazioni interattive, riassunti e persino discussioni audio in stile podcast.",
+                gemini: "L'AI multimodale di Google che comprende testo, immagini, video e codice per aiutare con compiti creativi e analitici.",
+                grok: "L'AI conversazionale di xAI con accesso in tempo reale ai dati di X (Twitter) e una personalità spiritosa e ribelle.",
+                chatgpt: "Il chatbot di punta di OpenAI per scrittura creativa, codifica, analisi e assistenza generale con GPT-4 nel livello Plus.",
+                claude: "L'assistente AI utile e onesto di Anthropic che eccelle nell'analisi, nella codifica e nella scrittura di testi lunghi con forti funzionalità di sicurezza.",
+                midjourney: "Generatore di arte AI leader che crea immagini artistiche straordinarie da prompt di testo con dettagli e stile incredibili.",
+                suno: "Genera canzoni complete con voce e strumenti in qualsiasi stile da semplici descrizioni testuali.",
+                runway: "Strumenti video AI professionali per generazione, editing ed effetti, inclusi testo-a-video e motion tracking.",
+                huggingface: "Piattaforma open-source che ospita migliaia di modelli AI, dataset e strumenti ML collaborativi per sviluppatori."
+            },
+            es: {
+                title: "AI UNIVERSO",
+                subtitle: "Índice completo de modelos de IA y guía de precios",
+                personalPicks: "Selecciones personales",
+                conversational: "IA conversacional",
+                creative: "IA creativo",
+                developer: "Desarrolladores y código abierto",
+                badge: "Seleccionado",
+                free: "Gratis",
+                proOnly: "Solo Pro",
+                perMonth: "/mes",
+                perplexity: "Motor de respuestas impulsado por IA que busca en la web en tiempo real y proporciona respuestas citadas y conversacionales a tus preguntas.",
+                perplexityComet: "Modelo de razonamiento avanzado que aborda problemas complejos paso a paso, perfecto para investigación profunda y preguntas técnicas.",
+                notebooklm: "El cuaderno de IA de Google que convierte tus documentos en conversaciones interactivas, resúmenes e incluso discusiones de audio estilo podcast.",
+                gemini: "La IA multimodal de Google que entiende texto, imágenes, video y código para ayudar con tareas creativas y analíticas.",
+                grok: "La IA conversacional de xAI con acceso en tiempo real a datos de X (Twitter) y una personalidad ingeniosa y rebelde.",
+                chatgpt: "El chatbot insignia de OpenAI para escritura creativa, codificación, análisis y asistencia general con GPT-4 en el nivel Plus.",
+                claude: "El asistente de IA útil y honesto de Anthropic que sobresale en análisis, codificación y escritura de formato largo con fuertes características de seguridad.",
+                midjourney: "Generador de arte de IA líder que crea impresionantes imágenes artísticas a partir de indicaciones de texto con increíbles detalles y estilo.",
+                suno: "Genera canciones completas con voces e instrumentos en cualquier estilo a partir de simples descripciones de texto.",
+                runway: "Herramientas de video de IA profesionales para generación, edición y efectos, incluyendo texto-a-video y seguimiento de movimiento.",
+                huggingface: "Plataforma de código abierto que aloja miles de modelos de IA, conjuntos de datos y herramientas de ML colaborativas para desarrolladores."
+            }
         };
 
-        // --- 2. LOGIKA ---
-        let currentLang = 'sl'; // Začetni jezik
-        const langSelect = document.getElementById('language-select');
-        const coreText = document.getElementById('core-hub-text');
-        const nodes = document.querySelectorAll('.tool-node');
-        
-        // HUD elementi
-        const hudBox = document.getElementById('hud-box');
-        const hudTitle = document.getElementById('hud-title');
-        const hudText = document.getElementById('hud-text');
+        let currentLang = localStorage.getItem('selectedLanguage') || 'sl';
+        document.getElementById('language-select').value = currentLang;
 
-        // Funkcija za posodobitev vseh napisov
-        function updateLanguage(lang) {
-            currentLang = lang;
-            const data = contentData[lang];
+        function changeLanguage() {
+            const select = document.getElementById('language-select');
+            currentLang = select.value;
+            localStorage.setItem('selectedLanguage', currentLang);
             
-            // Posodobi Sonce
-            coreText.innerHTML = data.core;
-
-            // Posodobi imena planetov
-            nodes.forEach(node => {
-                const toolKey = node.getAttribute('data-tool');
-                const titleSpan = node.querySelector('.node-title');
-                if (data.tools[toolKey]) {
-                    titleSpan.textContent = data.tools[toolKey].title;
-                }
-            });
+            const t = translations[currentLang];
+            
+            document.querySelector('h1').textContent = t.title;
+            document.querySelector('.subtitle').textContent = t.subtitle;
+            
+            const sections = document.querySelectorAll('.category-title');
+            sections[0].childNodes[0].textContent = t.personalPicks + ' ';
+            sections[1].textContent = t.conversational;
+            sections[2].textContent = t.creative;
+            sections[3].textContent = t.developer;
+            
+            document.querySelector('.badge').textContent = t.badge;
+            
+            const descriptions = document.querySelectorAll('.model-description');
+            descriptions[0].textContent = t.perplexity;
+            descriptions[1].textContent = t.perplexityComet;
+            descriptions[2].textContent = t.notebooklm;
+            descriptions[3].textContent = t.gemini;
+            descriptions[4].textContent = t.grok;
+            descriptions[5].textContent = t.chatgpt;
+            descriptions[6].textContent = t.claude;
+            descriptions[7].textContent = t.midjourney;
+            descriptions[8].textContent = t.suno;
+            descriptions[9].textContent = t.runway;
+            descriptions[10].textContent = t.huggingface;
+            
+            const prices = document.querySelectorAll('.model-price');
+            prices[0].textContent = t.free;
+            prices[1].textContent = t.proOnly;
+            prices[2].textContent = t.free;
+            prices[3].textContent = t.free;
+            prices[4].textContent = '$8' + t.perMonth;
+            prices[5].textContent = t.free + '/$20';
+            prices[6].textContent = t.free + '/$20';
+            prices[7].textContent = '$10' + t.perMonth;
+            prices[8].textContent = t.free + '/$10';
+            prices[9].textContent = '$12' + t.perMonth;
+            prices[10].textContent = t.free;
         }
 
-        // Event: Sprememba jezika
-        langSelect.addEventListener('change', (e) => {
-            updateLanguage(e.target.value);
-        });
-
-        // Event: Hover nad planeti (HUD logika)
-        nodes.forEach(node => {
-            node.addEventListener('mouseenter', () => {
-                const toolKey = node.getAttribute('data-tool');
-                const toolInfo = contentData[currentLang].tools[toolKey];
-                
-                if (toolInfo) {
-                    hudTitle.textContent = toolInfo.title;
-                    hudText.textContent = toolInfo.desc; // Šaljiv opis
-                    hudBox.classList.add('visible');
-                }
-            });
-
-            node.addEventListener('mouseleave', () => {
-                hudBox.classList.remove('visible');
-            });
-        });
-
-        // --- 3. GLOBALNI ŠTEVEC ---
-        const counterElement = document.getElementById('global-counter');
-        const namespace = 'ai-universe.live-counter-v2';
-        const key = 'visits';
-
-        async function updateCounter() {
-            try {
-                const response = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-                if (!response.ok) throw new Error("API Limit");
-                const data = await response.json();
-                counterElement.innerText = data.value.toLocaleString();
-                localStorage.setItem('last_known_count', data.value);
-            } catch (error) {
-                let fallbackCount = localStorage.getItem('last_known_count') || 5000;
-                fallbackCount = parseInt(fallbackCount) + 1;
-                counterElement.innerText = fallbackCount.toLocaleString();
-            }
-        }
-        updateCounter();
-
+        window.addEventListener('load', changeLanguage);
     </script>
+
 </body>
 </html>
