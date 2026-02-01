@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe - Premium Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff00cc; --secondary: #3333ff; --accent: #00ff88;
+            --bg-dark: #090a0f; --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #fff; --text-muted: #a5b4fc;
+        }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text); background-color: var(--bg-dark);
+            overflow-x: hidden; min-height: 100vh;
+        }
+        .universe-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+        .nebula {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(76, 29, 149, 0.5), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.4), transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.4), transparent 50%);
+            filter: blur(80px);
+            animation: rotateSpace 60s linear infinite, colorShift 30s ease-in-out infinite alternate;
+        }
+        @keyframes rotateSpace { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes colorShift { 0% { filter: blur(80px) hue-rotate(0deg); } 100% { filter: blur(80px) hue-rotate(90deg); } }
+        .stars {
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 100px 200px;
+            opacity: 0.8; animation: twinkle 5s ease-in-out infinite;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.8; } 50% { opacity: 0.5; } }
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(9, 10, 15, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0 2rem; transition: all 0.3s ease;
+        }
+        .navbar.scrolled { background: rgba(9, 10, 15, 0.95); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+        .nav-logo::before { content: '◈'; font-size: 1.8rem; -webkit-text-fill-color: var(--primary); }
+        .nav-menu { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+        .nav-item { position: relative; }
+        .nav-link {
+            color: var(--text-muted); text-decoration: none; padding: 0.6rem 1rem;
+            border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;
+            white-space: nowrap;
+        }
+        .nav-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+        .nav-link.active { color: var(--primary); background: rgba(255, 0, 204, 0.1); }
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; background: none; border: none; z-index: 1001; }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--text); transition: all 0.3s ease; border-radius: 2px; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .language-selector {
+            position: fixed; top: 90px; right: 20px;
+            background: rgba(10, 10, 20, 0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 204, 0.3);
+            padding: 8px 15px; border-radius: 50px; z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease;
+        }
+        .language-selector:hover { border-color: rgba(255, 0, 204, 0.6); box-shadow: 0 4px 20px rgba(255, 0, 204, 0.2); }
+        #language-select { background: transparent; color: #fff; border: none; cursor: pointer; outline: none; font-size: 0.95rem; font-weight: 500; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 15px; }
+        #language-select option { background-color: #111; color: #fff; padding: 10px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 100px 2rem 2rem; position: relative; z-index: 10; }
+        header { text-align: center; padding: 4rem 1rem 3rem; }
+        h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 4.5rem; margin: 0; letter-spacing: 6px; font-weight: 800;
+            text-transform: uppercase; background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.6));
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow { 0% { filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.4)); } 100% { filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.8)); } }
+        .subtitle { font-size: 1.4rem; color: var(--text-muted); margin-top: 20px; font-weight: 300; letter-spacing: 2px; }
+        .category-section { margin: 5rem 0; scroll-margin-top: 100px; }
+        .category-title {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 2rem; color: #fff;
+            border-left: 4px solid var(--primary); padding-left: 1.2rem;
+            display: flex; align-items: center; gap: 15px;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .badge {
+            font-size: 0.65rem; padding: 5px 14px; border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 0, 204, 0.2), rgba(51, 51, 255, 0.2));
+            color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            border: 1px solid rgba(255, 0, 204, 0.3); animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 204, 0.3); } 50% { box-shadow: 0 0 15px rgba(255, 0, 204, 0.6); } }
+        .models-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem; }
+        .model-card {
+            background: var(--bg-card); backdrop-filter: blur(16px);
+            border: 1px solid var(--border); border-radius: 20px;
+            padding: 1.8rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
+        }
+        .model-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .model-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
+        .model-card:hover::before { transform: scaleX(1); }
+        .model-card.featured { border-color: rgba(255, 0, 204, 0.4); background: linear-gradient(135deg, rgba(255, 0, 204, 0.05), rgba(51, 51, 255, 0.05)); }
+        .model-card.featured::after {
+            content: '★ FEATURED'; position: absolute; top: 15px; right: 15px;
+            font-size: 0.65rem; padding: 4px 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff; border-radius: 12px; font-weight: 700; letter-spacing: 1px;
+        }
+        .model-name { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; }
+        .model-description { color: #cbd5e1; line-height: 1.7; font-size: 0.95rem; flex-grow: 1; margin-bottom: 1rem; }
+        .model-stats {
+            background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 12px; padding: 1rem; margin-bottom: 1rem;
+        }
+        .stats-title { font-size: 0.75rem; color: #00d4ff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; font-weight: 600; }
+        .stats-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .stat-item { font-size: 0.8rem; padding: 4px 10px; background: rgba(0, 212, 255, 0.1); border-radius: 6px; color: #fff; }
+        .source-link { font-size: 0.7rem; color: #888; margin-top: 0.5rem; display: block; }
+        .source-link a { color: #00d4ff; text-decoration: none; }
+        .source-link a:hover { text-decoration: underline; }
+        .model-pricing { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding: 0.5rem 0; flex-wrap: wrap; }
+        .price-tag { font-size: 0.85rem; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+        .price-tag.free { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+        .price-tag.freemium { background: rgba(255, 193, 7, 0.15); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.3); }
+        .price-tag.paid { background: rgba(255, 0, 204, 0.15); color: #ff00cc; border: 1px solid rgba(255, 0, 204, 0.3); }
+        .price-tag.enterprise { background: rgba(138, 43, 226, 0.15); color: #8a2be2; border: 1px solid rgba(138, 43, 226, 0.3); }
+        .feature-tag { font-size: 0.75rem; padding: 5px 12px; background: rgba(139, 92, 246, 0.15); color: #a78bfa; border-radius: 20px; margin: 4px 4px 0 0; display: inline-block; font-weight: 500; border: 1px solid rgba(139, 92, 246, 0.2); transition: all 0.3s ease; }
+        .feature-tag:hover { background: rgba(139, 92, 246, 0.3); transform: scale(1.05); }
+        .model-actions { margin-top: 1rem; display: flex; flex-direction: column; gap: 10px; }
+        .model-link { text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; text-decoration: none; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s ease; display: block; font-weight: 500; position: relative; overflow: hidden; }
+        .model-link::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: left 0.5s ease; }
+        .model-link:hover::before { left: 100%; }
+        .model-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(0, 255, 136, 0.05); }
+        .model-link.primary { background: linear-gradient(135deg, rgba(255, 0, 204, 0.2), rgba(51, 51, 255, 0.2)); border-color: rgba(255, 0, 204, 0.4); }
+        .model-link.primary:hover { background: linear-gradient(135deg, rgba(255, 0, 204, 0.3), rgba(51, 51, 255, 0.3)); }
+        .video-badge { position: absolute; top: 15px; right: 15px; background: rgba(255, 50, 50, 0.2); border: 1px solid rgba(255, 100, 100, 0.3); color: #ffaaaa; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; z-index: 5; }
+        .video-badge:hover { background: rgba(255, 50, 50, 0.5); color: #fff; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 50, 50, 0.4); }
+        .rss-container { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 1.5rem; margin-bottom: 2rem; max-height: 500px; overflow-y: auto; }
+        .rss-container::-webkit-scrollbar { width: 8px; }
+        .rss-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+        .rss-container::-webkit-scrollbar-thumb { background: rgba(255, 0, 204, 0.3); border-radius: 4px; }
+        .rss-item { padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
+        .rss-item:hover { padding-left: 10px; }
+        .rss-item:last-child { border-bottom: none; }
+        .rss-source { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
+        .rss-item a { color: #fff; text-decoration: none; font-weight: 500; font-size: 1rem; transition: color 0.3s ease; }
+        .rss-item a:hover { color: var(--primary); }
+        .rss-date { font-size: 0.75rem; color: #888; margin-top: 5px; }
+        footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 4rem; }
+        .footer-logo { font-family: 'Orbitron', sans-serif; font-size: 2rem; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-text { color: var(--text-muted); font-size: 0.9rem; }
+        @media (max-width: 1024px) {
+            .nav-menu { position: fixed; top: 70px; left: 0; right: 0; background: rgba(9, 10, 15, 0.98); flex-direction: column; padding: 2rem; gap: 0; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); max-height: calc(100vh - 70px); overflow-y: auto; }
+            .nav-menu.active { transform: translateY(0); }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .nav-item:last-child { border-bottom: none; }
+            .nav-link { padding: 1rem; font-size: 1rem; }
+            .menu-toggle { display: flex; }
+            h1 { font-size: 2.8rem; letter-spacing: 3px; }
+            .subtitle { font-size: 1.1rem; }
+            .models-grid { grid-template-columns: 1fr; }
+            .category-title { font-size: 1.4rem; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 90px 1rem 1rem; }
+            h1 { font-size: 2.2rem; }
+            .navbar { padding: 0 1rem; }
+            .language-selector { top: 80px; right: 10px; }
+        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .loading { display: flex; justify-content: center; align-items: center; padding: 40px; }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="universe-bg"><div class="nebula"></div><div class="stars"></div></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">AI UNIVERSE</a>
+            <button class="menu-toggle" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="#cat-news" class="nav-link" onclick="closeMenu()">📰 <span data-i18n="navNews">News</span></a></li>
+                <li class="nav-item"><a href="#cat-pricing" class="nav-link" onclick="closeMenu()">💰 <span data-i18n="navPricing">Pricing</span></a></li>
+                <li class="nav-item"><a href="#cat-prompt-lib" class="nav-link" onclick="closeMenu()">💡 <span data-i18n="navPrompts">Prompts</span></a></li>
+                <li class="nav-item"><a href="#cat-security" class="nav-link" onclick="closeMenu()">🔒 <span data-i18n="navSecurity">Security</span></a></li>
+                <li class="nav-item"><a href="#cat-personal" class="nav-link" onclick="closeMenu()">⭐ <span data-i18n="navPicks">Picks</span></a></li>
+                <li class="nav-item"><a href="#cat-youtubers" class="nav-link" onclick="closeMenu()">📺 <span data-i18n="navYoutubers">YouTubers</span></a></li>
+                <li class="nav-item"><a href="#cat-local" class="nav-link" onclick="closeMenu()">🏠 <span data-i18n="navLocal">Local</span></a></li>
+                <li class="nav-item"><a href="#cat-conversational" class="nav-link" onclick="closeMenu()">💬 <span data-i18n="navChat">Chat AI</span></a></li>
+                <li class="nav-item"><a href="#cat-free-creative" class="nav-link" onclick="closeMenu()">🎨 <span data-i18n="navFree">Free</span></a></li>
+                <li class="nav-item"><a href="#cat-premium-creative" class="nav-link" onclick="closeMenu()">✨ <span data-i18n="navPremium">Premium</span></a></li>
+                <li class="nav-item"><a href="#cat-developer" class="nav-link" onclick="closeMenu()">👨‍💻 <span data-i18n="navDev">Dev</span></a></li>
+                <li class="nav-item"><a href="kimi.html" class="nav-link active">🤖 Kimi</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="sl">Slovenščina</option><option value="en">English</option><option value="de">Deutsch</option>
+            <option value="fr">Français</option><option value="it">Italiano</option><option value="hr">Hrvatski</option>
+            <option value="sr">Srpski</option><option value="no">Norsk</option><option value="fi">Suomi</option>
+            <option value="pt">Português</option><option value="zh">中文</option><option value="ja">日本語</option>
+        </select>
+    </div>
+    <div class="container">
+        <header class="fade-in">
+            <h1 data-i18n="title">AI VESOLJE</h1>
+            <p class="subtitle" data-i18n="subtitle">Premium indeks najboljših AI orodij</p>
+        </header>
+        <section class="category-section fade-in" id="cat-news">
+            <h2 class="category-title"><span data-i18n="catNews">AI Novice & Raziskave</span><span class="badge" data-i18n="badgeLive">V ŽIVO</span></h2>
+            <div id="rss-feed" class="rss-container"><div class="loading"><div class="loading-spinner"></div></div></div>
+        </section>
+        <section class="category-section fade-in" id="cat-pricing">
+            <h2 class="category-title" data-i18n="catPricing">💰 Cenovni Razredi</h2>
+            <div class="models-grid" id="grid-pricing"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-prompt-lib">
+            <h2 class="category-title" data-i18n="catPrompt">Prompt Engineering Knjižnica</h2>
+            <div class="models-grid" id="grid-prompt-library"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-security">
+            <h2 class="category-title"><span data-i18n="catSecurity">AI Varnost & Ranljivosti</span><span class="badge" data-i18n="badgeCritical">KRITIČNO</span></h2>
+            <div class="models-grid" id="grid-security"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-personal">
+            <h2 class="category-title" data-i18n="catPersonal">Osebni izbor</h2>
+            <div class="models-grid" id="grid-personal"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-youtubers">
+            <h2 class="category-title" data-i18n="catYoutubers">Priporočeni Youtuberji</h2>
+            <div class="models-grid" id="grid-youtubers"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-local">
+            <h2 class="category-title" data-i18n="catLocal">Lokalni AI modeli</h2>
+            <div class="models-grid" id="grid-local"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-conversational">
+            <h2 class="category-title" data-i18n="catConv">Pogovorni AI</h2>
+            <div class="models-grid" id="grid-conversational"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-free-creative">
+            <h2 class="category-title" data-i18n="catFreeC">Brezplačen ustvarjalni AI</h2>
+            <div class="models-grid" id="grid-free-creative"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-premium-creative">
+            <h2 class="category-title" data-i18n="catPremC">Premium ustvarjalni AI</h2>
+            <div class="models-grid" id="grid-premium-creative"></div>
+        </section>
+        <section class="category-section fade-in" id="cat-developer">
+            <h2 class="category-title" data-i18n="catDev">Razvijalska orodja</h2>
+            <div class="models-grid" id="grid-developer"></div>
+        </section>
+        <footer class="fade-in">
+            <div class="footer-logo">AI UNIVERSE</div>
+            <p class="footer-text" data-i18n="footerText">Premium indeks najboljših AI orodij | 2025</p>
+        </footer>
+    </div>
+
+<script>
+// === COMPLETE TRANSLATIONS ===
+const translations = {
+    sl: {
+        navNews: "Novice", navPricing: "Cene", navPrompts: "Prompti", navSecurity: "Varnost", navPicks: "Izbor", navYoutubers: "YouTuberji",
+        navLocal: "Lokalno", navChat: "Klepet", navFree: "Brezplačno", navPremium: "Premium", navDev: "Razvoj",
+        title: "AI VESOLJE", subtitle: "Premium indeks najboljših AI orodij",
+        catNews: "AI Novice & Raziskave", catPricing: "💰 Cenovni Razredi", catPrompt: "Prompt Engineering Knjižnica",
+        catSecurity: "AI Varnost & Ranljivosti", catPersonal: "Osebni izbor", catYoutubers: "Priporočeni Youtuberji",
+        catLocal: "Lokalni AI modeli", catConv: "Pogovorni AI", catFreeC: "Brezplačen ustvarjalni AI",
+        catPremC: "Premium ustvarjalni AI", catDev: "Razvijalska orodja",
+        badgeLive: "V ŽIVO", badgeCritical: "KRITIČNO",
+        tryBtn: "Preizkusi", demo: "Video", learnMore: "Več →", footerText: "Premium indeks najboljših AI orodij | 2025",
+        priceFree: "Brezplačno", priceFreemium: "Freemium", pricePaid: "Plačljivo", priceEnterprise: "Podjetje",
+        excelsAt: "Odličen pri", source: "Vir",
+        pricingModels: {
+            chatgpt: { name: "ChatGPT", price: "freemium", priceDetails: "GPT-4: $20/mesec", desc: "Najbolj priljubljen AI klepetalnik z močnimi zmožnostmi." },
+            claude: { name: "Claude", price: "freemium", priceDetails: "Pro: $20/mesec", desc: "Varen AI z velikim kontekstnim oknom." },
+            gemini: { name: "Gemini", price: "freemium", priceDetails: "Advanced: $20/mesec", desc: "Google-ov večmodalni AI model." },
+            kimi: { name: "Kimi", price: "free", priceDetails: "Brezplačno", desc: "Napredni AI asistent s podporo za dolge kontekste." },
+            midjourney: { name: "Midjourney", price: "paid", priceDetails: "Od $10/mesec", desc: "Najboljši generator umetniških slik." },
+            perplexity: { name: "Perplexity", price: "freemium", priceDetails: "Pro: $20/mesec", desc: "AI iskalnik z viri v realnem času." }
+        },
+        models: {
+            chatgpt: { desc: "Vodilni chatbot za ustvarjanje in analizo.", stats: ["86% MMLU", "128k kontekst", "GPT-4 Turbo"], source: "openai.com" },
+            claude: { desc: "AI z velikim kontekstom, odličen za pisanje.", stats: ["88.7% MMLU", "200k kontekst", "Sonnet 3.5"], source: "anthropic.com" },
+            deepseek: { desc: "Močan odprtokodni model za kodo.", stats: ["90% MMLU", "128k kontekst", "MIT licenca"], source: "deepseek.ai" },
+            kimi: { desc: "Napredni AI asistent z močnimi zmožnostmi.", stats: ["2M kontekst", "Večmodalen", "Agenti"], source: "moonshot.cn" },
+            midjourney: { desc: "Najbolj umetniški generator slik.", stats: ["V6 model", "Najboljša estetika", "Discord"], source: "midjourney.com" },
+            leonardo: { desc: "Ustvarjanje slik z brezplačnimi žetoni.", stats: ["150 dnevno", "Več modelov", "API"], source: "leonardo.ai" },
+            perplexity: { desc: "Iskalnik z viri v realnem času.", stats: ["Web search", "Viri", "Pro mode"], source: "perplexity.ai" },
+            notebook: { desc: "Googlov AI za analizo dokumentov.", stats: ["Brezplačno", "Audio", "Research"], source: "google.com" },
+            lmstudio: { desc: "Zagon modelov lokalno.", stats: ["Brezplačno", "Offline", "GGUF"], source: "lmstudio.ai" },
+            huggingface: { desc: "Vozlišče odprtokodnih modelov.", stats: ["500k+ modelov", "Zastonj", "Skupnost"], source: "huggingface.co" },
+            suno: { desc: "Ustvari celotno pesem z vokali.", stats: ["V3 model", "Brezplačno", "Pro $10"], source: "suno.com" },
+            garak: { desc: "Orodje za iskanje ranljivosti.", stats: ["Open source", "LLM varnost", "Python"], source: "github.com" },
+            kiss: { desc: "KISS: Enostavnost. 'Povzemi v 3 alinejah.'" },
+            tot: { desc: "Tree of Thought: 'Predlagaj 3 rešitve, izberi najboljšo.'" },
+            cot: { desc: "Chain of Thought: 'Razmišljaj korak za korakom.'" },
+            fewshot: { desc: "Daj primere: 'Vhod: X, Izhod: Y'. Zdaj reši Z." },
+            persona: { desc: "Vloga: 'Deluj kot višji strokovnjak.'" },
+            stepback: { desc: "Korak nazaj: 'Katere so osnovne zakonitosti?'" },
+            socratic: { desc: "Sokrat: 'Ne daj odgovora, postavljaj vprašanja.'" },
+            protectai: { desc: "Portal za varnostne raziskave AI." },
+            defcon: { desc: "Predavanja etičnih hekerjev o AI." },
+            mattwolfe: { desc: "Najboljši kanal za AI novice." },
+            berman: { desc: "Tehnične analize in lokalni modeli." },
+            twominute: { desc: "Znanstveni preboji v AI." },
+            gemini: { desc: "Google-ov večmodalni AI model.", stats: ["1M kontekst", "Brezplačno", "Multimodal"], source: "google.com" },
+            dall-e: { desc: "OpenAI-ov generator slik.", stats: ["DALL-E 3", "ChatGPT", "API"], source: "openai.com" },
+            stable: { desc: "Odprtokodni generator slik.", stats: ["SDXL", "Brezplačno", "Lokalno"], source: "stability.ai" },
+            copilot: { desc: "GitHub-ov AI za programiranje.", stats: ["$10/mesec", "IDE", "Autocomplete"], source: "github.com" },
+            cursor: { desc: "AI urejevalnik kode.", stats: ["$20/mesec", "VS Code", "GPT-4"], source: "cursor.sh" },
+            whisper: { desc: "OpenAI-ov prepis govora.", stats: ["Brezplačno", "99 jezikov", "API"], source: "openai.com" },
+            elevenlabs: { desc: "Najboljši AI glas.", stats: ["Brezplačno", "Pro $5", "Kloniranje"], source: "elevenlabs.io" }
+        }
+    },
+    en: {
+        navNews: "News", navPricing: "Pricing", navPrompts: "Prompts", navSecurity: "Security", navPicks: "Picks", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Free", navPremium: "Premium", navDev: "Dev",
+        title: "AI UNIVERSE", subtitle: "Premium index of top AI tools",
+        catNews: "AI News & Research", catPricing: "💰 Pricing Tiers", catPrompt: "Prompt Engineering Library",
+        catSecurity: "AI Security & Vulnerabilities", catPersonal: "Personal Picks", catYoutubers: "Recommended YouTubers",
+        catLocal: "Local AI Models", catConv: "Conversational AI", catFreeC: "Free Creative AI",
+        catPremC: "Premium Creative AI", catDev: "Developer Tools",
+        badgeLive: "LIVE", badgeCritical: "CRITICAL",
+        tryBtn: "Try Now", demo: "Video", learnMore: "More →", footerText: "Premium index of top AI tools | 2025",
+        priceFree: "Free", priceFreemium: "Freemium", pricePaid: "Paid", priceEnterprise: "Enterprise",
+        excelsAt: "Excels at", source: "Source",
+        pricingModels: {
+            chatgpt: { name: "ChatGPT", price: "freemium", priceDetails: "GPT-4: $20/month", desc: "Most popular AI chatbot with powerful capabilities." },
+            claude: { name: "Claude", price: "freemium", priceDetails: "Pro: $20/month", desc: "Safe AI with large context window." },
+            gemini: { name: "Gemini", price: "freemium", priceDetails: "Advanced: $20/month", desc: "Google's multimodal AI model." },
+            kimi: { name: "Kimi", price: "free", priceDetails: "Free", desc: "Advanced AI assistant with long context support." },
+            midjourney: { name: "Midjourney", price: "paid", priceDetails: "From $10/month", desc: "Best artistic image generator." },
+            perplexity: { name: "Perplexity", price: "freemium", priceDetails: "Pro: $20/month", desc: "AI search with real-time sources." }
+        },
+        models: {
+            chatgpt: { desc: "Leading chatbot for analysis and creation.", stats: ["86% MMLU", "128k context", "GPT-4 Turbo"], source: "openai.com" },
+            claude: { desc: "Great for writing with large context.", stats: ["88.7% MMLU", "200k context", "Sonnet 3.5"], source: "anthropic.com" },
+            deepseek: { desc: "Powerful open-source coding model.", stats: ["90% MMLU", "128k context", "MIT license"], source: "deepseek.ai" },
+            kimi: { desc: "Advanced AI assistant with powerful capabilities.", stats: ["2M context", "Multimodal", "Agents"], source: "moonshot.cn" },
+            midjourney: { desc: "Top-tier artistic image generator.", stats: ["V6 model", "Best aesthetics", "Discord"], source: "midjourney.com" },
+            leonardo: { desc: "Image generation with free daily tokens.", stats: ["150 daily", "Multiple models", "API"], source: "leonardo.ai" },
+            perplexity: { desc: "Search with real-time citations.", stats: ["Web search", "Sources", "Pro mode"], source: "perplexity.ai" },
+            notebook: { desc: "Google's AI for document analysis.", stats: ["Free", "Audio", "Research"], source: "google.com" },
+            lmstudio: { desc: "Run models locally on your PC.", stats: ["Free", "Offline", "GGUF"], source: "lmstudio.ai" },
+            huggingface: { desc: "Hub of open-source models.", stats: ["500k+ models", "Free", "Community"], source: "huggingface.co" },
+            suno: { desc: "Generate songs with vocals.", stats: ["V3 model", "Free", "Pro $10"], source: "suno.com" },
+            garak: { desc: "Vulnerability scanner for LLMs.", stats: ["Open source", "LLM security", "Python"], source: "github.com" },
+            kiss: { desc: "KISS: Keep It Simple. 'Summarize in 3 bullets.'" },
+            tot: { desc: "Tree of Thought: 'Propose 3 solutions, pick best.'" },
+            cot: { desc: "Chain of Thought: 'Think step-by-step.'" },
+            fewshot: { desc: "Examples: 'Input: X, Output: Y'. Solve Z." },
+            persona: { desc: "Role: 'Act as a Security Expert.'" },
+            stepback: { desc: "Step-Back: 'What are the principles?'" },
+            socratic: { desc: "Socratic: 'Ask questions to guide me.'" },
+            protectai: { desc: "Hub for AI security research." },
+            defcon: { desc: "Ethical hacking talks on AI." },
+            mattwolfe: { desc: "Top channel for AI news and tools." },
+            berman: { desc: "Technical deep dives and local LLMs." },
+            twominute: { desc: "AI science breakthroughs explained." },
+            gemini: { desc: "Google's multimodal AI model.", stats: ["1M context", "Free tier", "Multimodal"], source: "google.com" },
+            dall-e: { desc: "OpenAI's image generator.", stats: ["DALL-E 3", "ChatGPT", "API"], source: "openai.com" },
+            stable: { desc: "Open-source image generator.", stats: ["SDXL", "Free", "Local"], source: "stability.ai" },
+            copilot: { desc: "GitHub's AI coding assistant.", stats: ["$10/month", "IDE", "Autocomplete"], source: "github.com" },
+            cursor: { desc: "AI code editor.", stats: ["$20/month", "VS Code", "GPT-4"], source: "cursor.sh" },
+            whisper: { desc: "OpenAI's speech transcription.", stats: ["Free", "99 languages", "API"], source: "openai.com" },
+            elevenlabs: { desc: "Best AI voice.", stats: ["Free tier", "Pro $5", "Cloning"], source: "elevenlabs.io" }
+        }
+    },
+    de: {
+        navNews: "Neuigkeiten", navPricing: "Preise", navPrompts: "Prompts", navSecurity: "Sicherheit", navPicks: "Auswahl", navYoutubers: "YouTuber",
+        navLocal: "Lokal", navChat: "Chat", navFree: "Kostenlos", navPremium: "Premium", navDev: "Entwicklung",
+        title: "KI UNIVERSUM", subtitle: "Premium-Index der besten KI-Tools",
+        catNews: "KI-Neuigkeiten & Forschung", catPricing: "💰 Preisstufen", catPrompt: "Prompt Engineering Bibliothek",
+        catSecurity: "KI-Sicherheit & Schwachstellen", catPersonal: "Persönliche Auswahl", catYoutubers: "Empfohlene YouTuber",
+        catLocal: "Lokale KI-Modelle", catConv: "Konversations-KI", catFreeC: "Kostenlose Kreative KI",
+        catPremC: "Premium Kreative KI", catDev: "Entwicklertools",
+        badgeLive: "LIVE", badgeCritical: "KRITISCH",
+        tryBtn: "Testen", demo: "Video", learnMore: "Mehr →", footerText: "Premium-Index der besten KI-Tools | 2025",
+        priceFree: "Kostenlos", priceFreemium: "Freemium", pricePaid: "Bezahlt", priceEnterprise: "Unternehmen",
+        excelsAt: "Hervorragend bei", source: "Quelle"
+    },
+    fr: {
+        navNews: "Actualités", navPricing: "Tarifs", navPrompts: "Prompts", navSecurity: "Sécurité", navPicks: "Sélection", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Gratuit", navPremium: "Premium", navDev: "Dev",
+        title: "UNIVERS IA", subtitle: "Index Premium des meilleurs outils IA",
+        catNews: "Actualités & Recherche IA", catPricing: "💰 Niveaux de Prix", catPrompt: "Bibliothèque de Prompts",
+        catSecurity: "Sécurité IA & Vulnérabilités", catPersonal: "Sélection Personnelle", catYoutubers: "YouTubers Recommandés",
+        catLocal: "Modèles IA Locaux", catConv: "IA Conversationnelle", catFreeC: "IA Créative Gratuite",
+        catPremC: "IA Créative Premium", catDev: "Outils de Développement",
+        badgeLive: "EN DIRECT", badgeCritical: "CRITIQUE",
+        tryBtn: "Essayer", demo: "Vidéo", learnMore: "Plus →", footerText: "Index Premium des meilleurs outils IA | 2025",
+        priceFree: "Gratuit", priceFreemium: "Freemium", pricePaid: "Payant", priceEnterprise: "Entreprise",
+        excelsAt: "Excellent pour", source: "Source"
+    },
+    it: {
+        navNews: "Notizie", navPricing: "Prezzi", navPrompts: "Prompt", navSecurity: "Sicurezza", navPicks: "Scelti", navYoutubers: "YouTuber",
+        navLocal: "Locale", navChat: "Chat", navFree: "Gratis", navPremium: "Premium", navDev: "Sviluppo",
+        title: "UNIVERSO IA", subtitle: "Indice Premium dei migliori strumenti IA",
+        catNews: "Notizie & Ricerca IA", catPricing: "💰 Livelli di Prezzo", catPrompt: "Libreria Prompt Engineering",
+        catSecurity: "Sicurezza IA & Vulnerabilità", catPersonal: "Scelti per Te", catYoutubers: "YouTuber Consigliati",
+        catLocal: "Modelli IA Locali", catConv: "IA Conversazionale", catFreeC: "IA Creativa Gratis",
+        catPremC: "IA Creativa Premium", catDev: "Strumenti di Sviluppo",
+        badgeLive: "LIVE", badgeCritical: "CRITICO",
+        tryBtn: "Prova", demo: "Video", learnMore: "Più →", footerText: "Indice Premium dei migliori strumenti IA | 2025",
+        priceFree: "Gratis", priceFreemium: "Freemium", pricePaid: "A Pagamento", priceEnterprise: "Azienda",
+        excelsAt: "Eccellente in", source: "Fonte"
+    },
+    hr: {
+        navNews: "Vijesti", navPricing: "Cijene", navPrompts: "Prompti", navSecurity: "Sigurnost", navPicks: "Izbor", navYoutubers: "YouTuberi",
+        navLocal: "Lokalno", navChat: "Chat", navFree: "Besplatno", navPremium: "Premium", navDev: "Razvoj",
+        title: "AI SVEMIR", subtitle: "Premium indeks najboljih AI alata",
+        catNews: "AI Vijesti & Istraživanje", catPricing: "💰 Cjenovni Razredi", catPrompt: "Biblioteka Prompt Inženjeringa",
+        catSecurity: "AI Sigurnost & Ranljivosti", catPersonal: "Osobni Izbor", catYoutubers: "Preporučeni YouTuberi",
+        catLocal: "Lokalni AI Modeli", catConv: "Razgovorni AI", catFreeC: "Besplatni Kreativni AI",
+        catPremC: "Premium Kreativni AI", catDev: "Razvojni Alati",
+        badgeLive: "UŽIVO", badgeCritical: "KRITIČNO",
+        tryBtn: "Isprobaj", demo: "Video", learnMore: "Više →", footerText: "Premium indeks najboljih AI alata | 2025",
+        priceFree: "Besplatno", priceFreemium: "Freemium", pricePaid: "Plaćeno", priceEnterprise: "Poduzeće",
+        excelsAt: "Odličan u", source: "Izvor"
+    },
+    sr: {
+        navNews: "Vesti", navPricing: "Cene", navPrompts: "Prompti", navSecurity: "Bezbednost", navPicks: "Izbor", navYoutubers: "Jutjuberi",
+        navLocal: "Lokalno", navChat: "Ćaskanje", navFree: "Besplatno", navPremium: "Premium", navDev: "Razvoj",
+        title: "AI SVEMIR", subtitle: "Premium indeks najboljih AI alata",
+        catNews: "AI Vesti & Istraživanje", catPricing: "💰 Cenovni Razredi", catPrompt: "Biblioteka Prompt Inženjeringa",
+        catSecurity: "AI Bezbednost & Ranjivosti", catPersonal: "Lični Izbor", catYoutubers: "Preporučeni Jutjuberi",
+        catLocal: "Lokalni AI Modeli", catConv: "Razgovorni AI", catFreeC: "Besplatni Kreativni AI",
+        catPremC: "Premium Kreativni AI", catDev: "Razvojni Alati",
+        badgeLive: "UŽIVO", badgeCritical: "KRITIČNO",
+        tryBtn: "Probaj", demo: "Video", learnMore: "Više →", footerText: "Premium indeks najboljih AI alata | 2025",
+        priceFree: "Besplatno", priceFreemium: "Freemium", pricePaid: "Plaćeno", priceEnterprise: "Preduzeće",
+        excelsAt: "Odličan u", source: "Izvor"
+    },
+    no: {
+        navNews: "Nyheter", navPricing: "Priser", navPrompts: "Prompts", navSecurity: "Sikkerhet", navPicks: "Valg", navYoutubers: "YouTubere",
+        navLocal: "Lokal", navChat: "Chat", navFree: "Gratis", navPremium: "Premium", navDev: "Utvikling",
+        title: "AI UNIVERSET", subtitle: "Premium indeks over de beste AI-verktøyene",
+        catNews: "AI Nyheter & Forskning", catPricing: "💰 Prisnivåer", catPrompt: "Prompt Engineering Bibliotek",
+        catSecurity: "AI Sikkerhet & Sårbarheter", catPersonal: "Personlig Valg", catYoutubers: "Anbefalte YouTubere",
+        catLocal: "Lokale AI-modeller", catConv: "Samtale-AI", catFreeC: "Gratis Kreativ AI",
+        catPremC: "Premium Kreativ AI", catDev: "Utviklingsverktøy",
+        badgeLive: "LIVE", badgeCritical: "KRITISK",
+        tryBtn: "Prøv", demo: "Video", learnMore: "Mer →", footerText: "Premium indeks over de beste AI-verktøyene | 2025",
+        priceFree: "Gratis", priceFreemium: "Freemium", pricePaid: "Betalt", priceEnterprise: "Bedrift",
+        excelsAt: "Utmerket ved", source: "Kilde"
+    },
+    fi: {
+        navNews: "Uutiset", navPricing: "Hinnat", navPrompts: "Kehotteet", navSecurity: "Turva", navPicks: "Valinnat", navYoutubers: "Tubettajat",
+        navLocal: "Paikallinen", navChat: "Keskustelu", navFree: "Ilmainen", navPremium: "Premium", navDev: "Kehitys",
+        title: "AI-UNIVERSUMI", subtitle: "Premium-indeksi parhaista AI-työkaluista",
+        catNews: "AI Uutiset & Tutkimus", catPricing: "💰 Hinnat", catPrompt: "Prompt Engineering Kirjasto",
+        catSecurity: "AI Turvallisuus & Haavoittuvuudet", catPersonal: "Omat Valinnat", catYoutubers: "Suositellut Tubettajat",
+        catLocal: "Paikalliset AI-mallit", catConv: "Keskustelu-AI", catFreeC: "Ilmainen Luova AI",
+        catPremC: "Premium Luova AI", catDev: "Kehitystyökalut",
+        badgeLive: "LIVE", badgeCritical: "KRITINEN",
+        tryBtn: "Kokeile", demo: "Video", learnMore: "Lisää →", footerText: "Premium-indeksi parhaista AI-työkaluista | 2025",
+        priceFree: "Ilmainen", priceFreemium: "Freemium", pricePaid: "Maksullinen", priceEnterprise: "Yritys",
+        excelsAt: "Erinomainen", source: "Lähde"
+    },
+    pt: {
+        navNews: "Notícias", navPricing: "Preços", navPrompts: "Prompts", navSecurity: "Segurança", navPicks: "Escolhas", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Grátis", navPremium: "Premium", navDev: "Dev",
+        title: "UNIVERSO IA", subtitle: "Índice Premium das melhores ferramentas de IA",
+        catNews: "Notícias & Pesquisa de IA", catPricing: "💰 Níveis de Preço", catPrompt: "Biblioteca de Prompt Engineering",
+        catSecurity: "Segurança de IA & Vulnerabilidades", catPersonal: "Escolhas Pessoais", catYoutubers: "YouTubers Recomendados",
+        catLocal: "Modelos de IA Locais", catConv: "IA Conversacional", catFreeC: "IA Criativa Grátis",
+        catPremC: "IA Criativa Premium", catDev: "Ferramentas de Desenvolvimento",
+        badgeLive: "AO VIVO", badgeCritical: "CRÍTICO",
+        tryBtn: "Testar", demo: "Vídeo", learnMore: "Mais →", footerText: "Índice Premium das melhores ferramentas de IA | 2025",
+        priceFree: "Grátis", priceFreemium: "Freemium", pricePaid: "Pago", priceEnterprise: "Empresa",
+        excelsAt: "Excelente em", source: "Fonte"
+    },
+    zh: {
+        navNews: "新闻", navPricing: "价格", navPrompts: "提示词", navSecurity: "安全", navPicks: "精选", navYoutubers: "博主",
+        navLocal: "本地", navChat: "聊天", navFree: "免费", navPremium: "高级", navDev: "开发",
+        title: "AI 宇宙", subtitle: "顶级AI工具高级索引",
+        catNews: "AI新闻与研究", catPricing: "💰 价格等级", catPrompt: "提示词工程库",
+        catSecurity: "AI安全与漏洞", catPersonal: "个人精选", catYoutubers: "推荐博主",
+        catLocal: "本地AI模型", catConv: "对话AI", catFreeC: "免费创意AI",
+        catPremC: "高级创意AI", catDev: "开发工具",
+        badgeLive: "实时", badgeCritical: "重要",
+        tryBtn: "试用", demo: "视频", learnMore: "了解更多 →", footerText: "顶级AI工具高级索引 | 2025",
+        priceFree: "免费", priceFreemium: "免费增值", pricePaid: "付费", priceEnterprise: "企业版",
+        excelsAt: "擅长", source: "来源"
+    },
+    ja: {
+        navNews: "ニュース", navPricing: "価格", navPrompts: "プロンプト", navSecurity: "セキュリティ", navPicks: "厳選", navYoutubers: "YouTuber",
+        navLocal: "ローカル", navChat: "チャット", navFree: "無料", navPremium: "プレミアム", navDev: "開発",
+        title: "AI ユニバース", subtitle: "プレミアムAIツール索引",
+        catNews: "AIニュースと研究", catPricing: "💰 価格帯", catPrompt: "プロンプトエンジニアリングライブラリ",
+        catSecurity: "AIセキュリティと脆弱性", catPersonal: "厳選", catYoutubers: "おすすめYouTuber",
+        catLocal: "ローカルAIモデル", catConv: "対話型AI", catFreeC: "無料クリエイティブAI",
+        catPremC: "有料クリエイティブAI", catDev: "開発ツール",
+        badgeLive: "ライブ", badgeCritical: "重要",
+        tryBtn: "試す", demo: "動画", learnMore: "詳細 →", footerText: "プレミアムAIツール索引 | 2025",
+        priceFree: "無料", priceFreemium: "フリーミアム", pricePaid: "有料", priceEnterprise: "エンタープライズ",
+        excelsAt: "得意分野", source: "出典"
+    }
+};
+
+// Fallback for missing translations
+function getTranslation(lang, key) {
+    const t = translations[lang] || translations['sl'];
+    const fallback = translations['sl'];
+    return t[key] !== undefined ? t[key] : (fallback[key] || key);
+}
+
+function getModelTranslation(lang, modelKey, field) {
+    const t = translations[lang] || translations['sl'];
+    const fallback = translations['sl'];
+    if (t.models && t.models[modelKey] && t.models[modelKey][field]) {
+        return t.models[modelKey][field];
+    }
+    if (fallback.models && fallback.models[modelKey] && fallback.models[modelKey][field]) {
+        return fallback.models[modelKey][field];
+    }
+    return null;
+}
+
+function getPricingModel(lang, key, field) {
+    const t = translations[lang] || translations['sl'];
+    const fallback = translations['sl'];
+    if (t.pricingModels && t.pricingModels[key] && t.pricingModels[key][field]) {
+        return t.pricingModels[key][field];
+    }
+    if (fallback.pricingModels && fallback.pricingModels[key] && fallback.pricingModels[key][field]) {
+        return fallback.pricingModels[key][field];
+    }
+    return null;
+}
+
+// === MODEL DATA WITH STATS & SOURCES ===
+const modelsData = {
+    pricing: [
+        { key: "chatgpt", url: "https://chat.openai.com/" },
+        { key: "claude", url: "https://claude.ai/" },
+        { key: "gemini", url: "https://gemini.google.com/" },
+        { key: "kimi", pageUrl: "kimi.html", featured: true },
+        { key: "midjourney", url: "https://www.midjourney.com/" },
+        { key: "perplexity", url: "https://www.perplexity.ai/" }
+    ],
+    prompt: [
+        { name: 'KISS Principle', desc: 'kiss', tags: ['Clarity', 'Beginner'], videoUrl: 'https://www.youtube.com/watch?v=WTF5qphyy8w' },
+        { name: 'Tree of Thought', desc: 'tot', tags: ['Reasoning', 'Complex'], videoUrl: 'https://www.youtube.com/watch?v=aO-HoPDUges' },
+        { name: 'Chain of Thought', desc: 'cot', tags: ['Logic', 'Step-by-Step'] },
+        { name: 'Few-Shot Prompting', desc: 'fewshot', tags: ['Examples', 'Pattern'] },
+        { name: 'Persona / Role', desc: 'persona', tags: ['Context', 'Style'] },
+        { name: 'Step-Back Prompting', desc: 'stepback', tags: ['Abstraction', 'Strategy'] },
+        { name: 'Socratic Method', desc: 'socratic', tags: ['Learning', 'Questioning'] }
+    ],
+    security: [
+        { name: 'Garak', desc: 'garak', url: 'https://github.com/leondz/garak', tags: ['Scanner', 'Open Source'] },
+        { name: 'Protect AI / Huntr', desc: 'protectai', url: 'https://huntr.com/', tags: ['Bug Bounty', 'Exploits'] },
+        { name: 'DEF CON AI Village', desc: 'defcon', url: 'https://www.youtube.com/@DEFCONConference/search?query=AI', tags: ['Hacking', 'Education'] }
+    ],
+    personal: [
+        { name: 'NotebookLM', desc: 'notebook', url: 'https://notebooklm.google.com/', tags: ['Research', 'Free'], videoUrl: 'https://www.youtube.com/watch?v=8Jw5Wa_8K0Y' },
+        { name: 'Perplexity', desc: 'perplexity', url: 'https://www.perplexity.ai/', tags: ['Search', 'Real-time'] }
+    ],
+    youtubers: [
+        { name: 'Matt Wolfe', desc: 'mattwolfe', url: 'https://www.youtube.com/@mreflow', tags: ['News', 'Tutorials'] },
+        { name: 'Matthew Berman', desc: 'berman', url: 'https://www.youtube.com/@matthew_berman', tags: ['Deep Dive', 'Local LLMs'] },
+        { name: 'Two Minute Papers', desc: 'twominute', url: 'https://www.youtube.com/@TwoMinutePapers', tags: ['Science', 'Research'] }
+    ],
+    local: [
+        { name: 'LM Studio', desc: 'lmstudio', url: 'https://lmstudio.ai/', tags: ['Privacy', 'Offline'] },
+        { name: 'Ollama', desc: 'ollama', url: 'https://ollama.com/', tags: ['Easy Setup', 'Local'] },
+        { name: 'GPT4All', desc: 'gpt4all', url: 'https://gpt4all.io/', tags: ['Cross-platform', 'Free'] }
+    ],
+    conversational: [
+        { name: 'ChatGPT', desc: 'chatgpt', url: 'https://chat.openai.com/', tags: ['GPT-4', 'Analysis'] },
+        { name: 'Claude', desc: 'claude', url: 'https://claude.ai/', tags: ['Safety', 'Writing'] },
+        { name: 'DeepSeek', desc: 'deepseek', url: 'https://chat.deepseek.com/', tags: ['Code', 'Math'] },
+        { name: 'Kimi', desc: 'kimi', pageUrl: 'kimi.html', tags: ['Multimodal', 'Creative', 'Code', 'Agent'], featured: true },
+        { name: 'Gemini', desc: 'gemini', url: 'https://gemini.google.com/', tags: ['Google', 'Multimodal'] }
+    ],
+    freeCreative: [
+        { name: 'Leonardo AI', desc: 'leonardo', url: 'https://leonardo.ai/', tags: ['Images', 'Daily Tokens'] },
+        { name: 'Whisk AI', desc: 'whisk', url: 'https://labs.google/whisk', tags: ['Remix', 'Google'] },
+        { name: 'Stable Diffusion', desc: 'stable', url: 'https://stability.ai/', tags: ['Open Source', 'Local'] },
+        { name: 'DALL-E (Bing)', desc: 'dall-e', url: 'https://www.bing.com/create', tags: ['Microsoft', 'Free'] }
+    ],
+    premiumCreative: [
+        { name: 'Midjourney', desc: 'midjourney', url: 'https://www.midjourney.com/', tags: ['Artistic', 'Quality'] },
+        { name: 'Suno', desc: 'suno', url: 'https://suno.com/', tags: ['Music', 'Vocals'] },
+        { name: 'ElevenLabs', desc: 'elevenlabs', url: 'https://elevenlabs.io/', tags: ['Voice', 'TTS'] }
+    ],
+    developer: [
+        { name: 'Hugging Face', desc: 'huggingface', url: 'https://huggingface.co/', tags: ['Models', 'Open Source'] },
+        { name: 'GitHub Copilot', desc: 'copilot', url: 'https://github.com/copilot', tags: ['IDE', 'Autocomplete'] },
+        { name: 'Cursor', desc: 'cursor', url: 'https://cursor.sh/', tags: ['AI Editor', 'GPT-4'] },
+        { name: 'Whisper', desc: 'whisper', url: 'https://openai.com/whisper', tags: ['Speech', 'Transcription'] }
+    ]
+};
+
+// === RSS FEEDS ===
+const RSS_FEEDS = [
+    { name: 'Hacker News (AI)', url: 'https://hnrss.org/frontpage?q=AI' },
+    { name: 'OpenAI Blog', url: 'https://openai.com/news.xml' },
+    { name: 'Anthropic News', url: 'https://www.anthropic.com/news.xml' },
+    { name: 'Google AI Blog', url: 'https://ai.googleblog.com/feeds/posts/default' },
+    { name: 'MIT AI News', url: 'https://news.mit.edu/rss/topic/artificial-intelligence2' },
+    { name: 'VentureBeat AI', url: 'https://venturebeat.com/category/ai/feed/' }
+];
+
+let currentLang = localStorage.getItem('selectedLanguage') || 'sl';
+
+// === RENDER FUNCTIONS ===
+function renderPricingGrid() {
+    const grid = document.getElementById('grid-pricing');
+    const t = translations[currentLang] || translations['sl'];
+    
+    grid.innerHTML = modelsData.pricing.map(m => {
+        const name = getPricingModel(currentLang, m.key, 'name') || m.key;
+        const desc = getPricingModel(currentLang, m.key, 'desc') || '';
+        const price = getPricingModel(currentLang, m.key, 'price') || 'free';
+        const priceDetails = getPricingModel(currentLang, m.key, 'priceDetails') || '';
+        const priceLabel = t['price' + price.charAt(0).toUpperCase() + price.slice(1)] || price;
+        
+        return `
+            <div class="model-card ${m.featured ? 'featured' : ''}">
+                <h3 class="model-name">${name}</h3>
+                <p class="model-description">${desc}</p>
+                <div class="model-pricing">
+                    <span class="price-tag ${price}">${priceLabel}</span>
+                    <span style="color: #888; font-size: 0.85rem;">${priceDetails}</span>
+                </div>
+                <div class="model-actions">
+                    ${m.url ? `<a href="${m.url}" target="_blank" class="model-link ${m.featured ? 'primary' : ''}">${t.tryBtn} ${name} →</a>` : ''}
+                    ${m.pageUrl ? `<a href="${m.pageUrl}" class="model-link primary">${t.learnMore}</a>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderModelsWithStats(gridId, data) {
+    const grid = document.getElementById(gridId);
+    const t = translations[currentLang] || translations['sl'];
+    
+    grid.innerHTML = data.map(m => {
+        const desc = getModelTranslation(currentLang, m.desc, 'desc') || m.name;
+        const stats = getModelTranslation(currentLang, m.desc, 'stats') || [];
+        const source = getModelTranslation(currentLang, m.desc, 'source') || '';
+        
+        const statsHtml = stats.length > 0 ? `
+            <div class="model-stats">
+                <div class="stats-title">${t.excelsAt}</div>
+                <div class="stats-list">
+                    ${stats.map(s => `<span class="stat-item">${s}</span>`).join('')}
+                </div>
+                ${source ? `<span class="source-link">${t.source}: <a href="https://${source}" target="_blank">${source}</a></span>` : ''}
+            </div>
+        ` : '';
+        
+        return `
+            <div class="model-card ${m.featured ? 'featured' : ''}">
+                ${m.videoUrl ? `<a href="${m.videoUrl}" target="_blank" class="video-badge">▶ ${t.demo}</a>` : ''}
+                <h3 class="model-name">${m.name}</h3>
+                <p class="model-description">${desc}</p>
+                ${statsHtml}
+                <div style="margin-top:10px;">
+                    ${m.tags.map(tag => `<span class="feature-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="model-actions">
+                    ${m.url ? `<a href="${m.url}" target="_blank" class="model-link ${m.featured ? 'primary' : ''}">${t.tryBtn} ${m.name} →</a>` : ''}
+                    ${m.pageUrl ? `<a href="${m.pageUrl}" class="model-link primary">${t.learnMore}</a>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderSimpleModels(gridId, data) {
+    const grid = document.getElementById(gridId);
+    const t = translations[currentLang] || translations['sl'];
+    
+    grid.innerHTML = data.map(m => {
+        const desc = getModelTranslation(currentLang, m.desc, 'desc') || m.name;
+        
+        return `
+            <div class="model-card ${m.featured ? 'featured' : ''}">
+                ${m.videoUrl ? `<a href="${m.videoUrl}" target="_blank" class="video-badge">▶ ${t.demo}</a>` : ''}
+                <h3 class="model-name">${m.name}</h3>
+                <p class="model-description">${desc}</p>
+                <div style="margin-top:10px;">
+                    ${m.tags.map(tag => `<span class="feature-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="model-actions">
+                    ${m.url ? `<a href="${m.url}" target="_blank" class="model-link ${m.featured ? 'primary' : ''}">${t.tryBtn} ${m.name} →</a>` : ''}
+                    ${m.pageUrl ? `<a href="${m.pageUrl}" class="model-link primary">${t.learnMore}</a>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+async function fetchRSS() {
+    const feedContainer = document.getElementById('rss-feed');
+    
+    try {
+        const promises = RSS_FEEDS.map(f => 
+            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(f.url)}`)
+            .then(res => res.json()).catch(() => null)
+        );
+        const results = await Promise.all(promises);
+        let html = '';
+        let itemCount = 0;
+        
+        results.forEach((data, index) => {
+            if (data && data.status === 'ok' && itemCount < 15) {
+                data.items.slice(0, 2).forEach(item => {
+                    if (itemCount < 15) {
+                        html += `
+                            <div class="rss-item">
+                                <div class="rss-source">${RSS_FEEDS[index].name}</div>
+                                <a href="${item.link}" target="_blank">${item.title}</a>
+                                <div class="rss-date">${new Date(item.pubDate).toLocaleDateString()}</div>
+                            </div>
+                        `;
+                        itemCount++;
+                    }
+                });
+            }
+        });
+        
+        feedContainer.innerHTML = html || '<div style="text-align:center; padding:20px; color:#aaa;">No news available.</div>';
+    } catch (e) { 
+        feedContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Error connecting to news feed.</div>'; 
+    }
+}
+
+function updateUI() {
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = getTranslation(currentLang, key);
+    });
+    
+    // Render grids
+    renderPricingGrid();
+    renderSimpleModels('grid-prompt-library', modelsData.prompt);
+    renderModelsWithStats('grid-security', modelsData.security);
+    renderModelsWithStats('grid-personal', modelsData.personal);
+    renderModelsWithStats('grid-youtubers', modelsData.youtubers);
+    renderModelsWithStats('grid-local', modelsData.local);
+    renderModelsWithStats('grid-conversational', modelsData.conversational);
+    renderModelsWithStats('grid-free-creative', modelsData.freeCreative);
+    renderModelsWithStats('grid-premium-creative', modelsData.premiumCreative);
+    renderModelsWithStats('grid-developer', modelsData.developer);
+}
+
+// Menu toggle
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.querySelector('.menu-toggle');
+    menu.classList.toggle('active');
+    toggle.classList.toggle('active');
+}
+
+function closeMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.querySelector('.menu-toggle');
+    menu.classList.remove('active');
+    toggle.classList.remove('active');
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Scroll animations
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+});
+
+// Language selector
+document.getElementById('language-select').addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    localStorage.setItem('selectedLanguage', currentLang);
+    updateUI();
+});
+
+document.getElementById('language-select').value = currentLang;
+updateUI();
+fetchRSS();
+</script>
+</body>
+</html>
