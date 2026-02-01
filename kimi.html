@@ -8,937 +8,564 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #ff00cc;
-            --secondary: #3333ff;
-            --accent: #00ff88;
-            --bg-dark: #090a0f;
-            --bg-card: rgba(255, 255, 255, 0.03);
+            --primary: #ff00cc; --secondary: #3333ff; --accent: #00ff88;
+            --bg-dark: #090a0f; --bg-card: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
-            --text: #fff;
-            --text-muted: #a5b4fc;
-            --kimi-primary: #00d4ff;
-            --kimi-secondary: #7c3aed;
+            --text: #fff; --text-muted: #a5b4fc;
+            --kimi-primary: #00d4ff; --kimi-secondary: #7c3aed;
         }
-
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text);
-            background-color: var(--bg-dark);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* OZADJE */
-        .universe-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-        }
-
-        .nebula {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.3), transparent 60%),
-                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.3), transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 204, 0.2), transparent 50%);
-            filter: blur(80px);
-            animation: rotateSpace 60s linear infinite, colorShift 30s ease-in-out infinite alternate;
-        }
-
-        @keyframes rotateSpace {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes colorShift {
-            0% { filter: blur(80px) hue-rotate(0deg); }
-            100% { filter: blur(80px) hue-rotate(60deg); }
-        }
-
-        .stars {
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
-            background-size: 550px 550px, 350px 350px;
-            background-position: 0 0, 100px 200px;
-            opacity: 0.8;
-            animation: twinkle 5s ease-in-out infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 0.5; }
-        }
-
-        /* NAVIGATION */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(9, 10, 15, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 0 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            background: rgba(9, 10, 15, 0.95);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-
-        .nav-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-logo::before {
-            content: '◈';
-            font-size: 1.8rem;
-            -webkit-text-fill-color: var(--primary);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            list-style: none;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-link:hover {
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-link.active {
-            color: var(--kimi-primary);
-            background: rgba(0, 212, 255, 0.1);
-        }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 10px;
-            background: none;
-            border: none;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 2px;
-            background: var(--text);
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 2rem 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 5rem 1rem 4rem;
-            position: relative;
-        }
-
-        .kimi-avatar {
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 2rem;
-            position: relative;
-        }
-
-        .kimi-avatar-inner {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 800;
-            color: #fff;
-            position: relative;
-            box-shadow: 
-                0 0 60px rgba(0, 212, 255, 0.4),
-                0 0 100px rgba(124, 58, 237, 0.3),
-                inset 0 0 30px rgba(255, 255, 255, 0.1);
-            animation: avatarGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes avatarGlow {
-            0% { 
-                box-shadow: 
-                    0 0 40px rgba(0, 212, 255, 0.3),
-                    0 0 80px rgba(124, 58, 237, 0.2),
-                    inset 0 0 30px rgba(255, 255, 255, 0.1);
-            }
-            100% { 
-                box-shadow: 
-                    0 0 80px rgba(0, 212, 255, 0.5),
-                    0 0 120px rgba(124, 58, 237, 0.4),
-                    inset 0 0 30px rgba(255, 255, 255, 0.15);
-            }
-        }
-
-        .kimi-avatar::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary), var(--primary));
-            z-index: -1;
-            animation: rotateRing 10s linear infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes rotateRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .kimi-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            letter-spacing: 4px;
-        }
-
-        .kimi-tagline {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .kimi-badges {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .kimi-badge {
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid;
-        }
-
-        .kimi-badge.primary {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
-            border-color: rgba(0, 212, 255, 0.4);
-            color: var(--kimi-primary);
-        }
-
-        .kimi-badge.secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: var(--text-muted);
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cta-button.primary {
-            background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary));
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .cta-button.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
-        }
-
-        .cta-button.secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .cta-button.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* FEATURES SECTION */
-        .section {
-            margin: 5rem 0;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-align: center;
-        }
-
-        .section-title span {
-            background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary));
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 212, 255, 0.3);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: #fff;
-        }
-
-        .feature-desc {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        /* CAPABILITIES LIST */
-        .capabilities-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .capability-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .capability-item:hover {
-            background: rgba(0, 212, 255, 0.05);
-            border-color: rgba(0, 212, 255, 0.2);
-            transform: translateX(5px);
-        }
-
-        .capability-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .capability-text {
-            font-weight: 500;
-            color: #fff;
-        }
-
-        /* STATS SECTION */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            background: rgba(0, 212, 255, 0.05);
-            border-color: rgba(0, 212, 255, 0.2);
-            transform: scale(1.02);
-        }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* QUOTE SECTION */
-        .quote-section {
-            text-align: center;
-            padding: 4rem 2rem;
-            position: relative;
-        }
-
-        .quote-text {
-            font-size: 1.8rem;
-            font-style: italic;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
-        }
-
-        .quote-text::before,
-        .quote-text::after {
-            content: '"';
-            font-size: 3rem;
-            color: var(--kimi-primary);
-            opacity: 0.5;
-            line-height: 0;
-        }
-
-        .quote-author {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 4rem 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 4rem;
-        }
-
-        .footer-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-top: 1.5rem;
-            padding: 10px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--kimi-primary);
-            border-color: var(--kimi-primary);
-            background: rgba(0, 212, 255, 0.05);
-        }
-
-        /* Mobile Responsive */
+            margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text); background-color: var(--bg-dark); overflow-x: hidden; min-height: 100vh;
+        }
+        .universe-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); }
+        .nebula { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.3), transparent 60%), radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.3), transparent 50%), radial-gradient(circle at 20% 80%, rgba(255, 0, 204, 0.2), transparent 50%); filter: blur(80px); animation: rotateSpace 60s linear infinite, colorShift 30s ease-in-out infinite alternate; }
+        @keyframes rotateSpace { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes colorShift { 0% { filter: blur(80px) hue-rotate(0deg); } 100% { filter: blur(80px) hue-rotate(60deg); } }
+        .stars { width: 100%; height: 100%; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px), radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px); background-size: 550px 550px, 350px 350px; background-position: 0 0, 100px 200px; opacity: 0.8; animation: twinkle 5s ease-in-out infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.8; } 50% { opacity: 0.5; } }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(9, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 0 2rem; transition: all 0.3s ease; }
+        .navbar.scrolled { background: rgba(9, 10, 15, 0.95); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-logo::before { content: '◈'; font-size: 1.8rem; -webkit-text-fill-color: var(--primary); }
+        .nav-menu { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+        .nav-item { position: relative; }
+        .nav-link { color: var(--text-muted); text-decoration: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .nav-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+        .nav-link.active { color: var(--kimi-primary); background: rgba(0, 212, 255, 0.1); }
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; background: none; border: none; z-index: 1001; }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--text); transition: all 0.3s ease; border-radius: 2px; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .language-selector { position: fixed; top: 90px; right: 20px; background: rgba(10, 10, 20, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.3); padding: 8px 15px; border-radius: 50px; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .language-selector:hover { border-color: rgba(0, 212, 255, 0.6); box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2); }
+        #language-select { background: transparent; color: #fff; border: none; cursor: pointer; outline: none; font-size: 0.95rem; font-weight: 500; appearance: none; padding-right: 15px; }
+        #language-select option { background-color: #111; color: #fff; padding: 10px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 2rem 2rem; position: relative; z-index: 10; }
+        .hero { text-align: center; padding: 5rem 1rem 4rem; position: relative; }
+        .kimi-avatar { width: 180px; height: 180px; margin: 0 auto 2rem; position: relative; }
+        .kimi-avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary)); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 800; color: #fff; position: relative; box-shadow: 0 0 60px rgba(0, 212, 255, 0.4), 0 0 100px rgba(124, 58, 237, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.1); animation: avatarGlow 3s ease-in-out infinite alternate; }
+        @keyframes avatarGlow { 0% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), 0 0 80px rgba(124, 58, 237, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.1); } 100% { box-shadow: 0 0 80px rgba(0, 212, 255, 0.5), 0 0 120px rgba(124, 58, 237, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.15); } }
+        .kimi-avatar::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border-radius: 50%; background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary), var(--primary)); z-index: -1; animation: rotateRing 10s linear infinite; opacity: 0.5; }
+        @keyframes rotateRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .kimi-name { font-family: 'Orbitron', sans-serif; font-size: 4rem; font-weight: 800; background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; letter-spacing: 4px; }
+        .kimi-tagline { font-size: 1.3rem; color: var(--text-muted); margin-bottom: 2rem; font-weight: 300; }
+        .kimi-badges { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .kimi-badge { padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: 1px solid; }
+        .kimi-badge.primary { background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2)); border-color: rgba(0, 212, 255, 0.4); color: var(--kimi-primary); }
+        .kimi-badge.secondary { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); color: var(--text-muted); }
+        .cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .cta-button { padding: 14px 32px; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
+        .cta-button.primary { background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary)); color: #fff; box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3); }
+        .cta-button.primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5); }
+        .cta-button.secondary { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .cta-button.secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
+        .section { margin: 5rem 0; }
+        .section-title { font-family: 'Orbitron', sans-serif; font-size: 2rem; margin-bottom: 2rem; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-align: center; }
+        .section-title span { background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .feature-card { background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary)); transform: scaleX(0); transition: transform 0.4s ease; }
+        .feature-card:hover { transform: translateY(-5px); border-color: rgba(0, 212, 255, 0.3); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15); }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-icon { width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1.5rem; border: 1px solid rgba(0, 212, 255, 0.2); }
+        .feature-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; color: #fff; }
+        .feature-desc { color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; }
+        .capabilities-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .capability-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; transition: all 0.3s ease; }
+        .capability-item:hover { background: rgba(0, 212, 255, 0.05); border-color: rgba(0, 212, 255, 0.2); transform: translateX(5px); }
+        .capability-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--kimi-primary), var(--kimi-secondary)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .capability-text { font-weight: 500; color: #fff; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .stat-card { text-align: center; padding: 2rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; transition: all 0.3s ease; }
+        .stat-card:hover { background: rgba(0, 212, 255, 0.05); border-color: rgba(0, 212, 255, 0.2); transform: scale(1.02); }
+        .stat-number { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 800; background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .quote-section { text-align: center; padding: 4rem 2rem; position: relative; }
+        .quote-text { font-size: 1.8rem; font-style: italic; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.6; }
+        .quote-text::before, .quote-text::after { content: '"'; font-size: 3rem; color: var(--kimi-primary); opacity: 0.5; line-height: 0; }
+        .quote-author { color: #fff; font-weight: 600; }
+        footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 4rem; }
+        .footer-logo { font-family: 'Orbitron', sans-serif; font-size: 2rem; background: linear-gradient(to right, var(--kimi-primary), var(--kimi-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-text { color: var(--text-muted); font-size: 0.9rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; margin-top: 1.5rem; padding: 10px 20px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; transition: all 0.3s ease; }
+        .back-link:hover { color: var(--kimi-primary); border-color: var(--kimi-primary); background: rgba(0, 212, 255, 0.05); }
         @media (max-width: 1024px) {
-            .nav-menu {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: rgba(9, 10, 15, 0.98);
-                flex-direction: column;
-                padding: 2rem;
-                gap: 0;
-                transform: translateY(-150%);
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                max-height: calc(100vh - 70px);
-                overflow-y: auto;
-            }
-
-            .nav-menu.active {
-                transform: translateY(0);
-            }
-
-            .nav-item {
-                width: 100%;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            }
-
-            .nav-item:last-child {
-                border-bottom: none;
-            }
-
-            .nav-link {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .kimi-name {
-                font-size: 2.8rem;
-            }
-
-            .kimi-avatar {
-                width: 140px;
-                height: 140px;
-            }
-
-            .kimi-avatar-inner {
-                font-size: 4rem;
-            }
-
-            .hero {
-                padding: 3rem 1rem 2rem;
-            }
-
-            .quote-text {
-                font-size: 1.3rem;
-            }
+            .nav-menu { position: fixed; top: 70px; left: 0; right: 0; background: rgba(9, 10, 15, 0.98); flex-direction: column; padding: 2rem; gap: 0; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); max-height: calc(100vh - 70px); overflow-y: auto; }
+            .nav-menu.active { transform: translateY(0); }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .nav-item:last-child { border-bottom: none; }
+            .nav-link { padding: 1rem; font-size: 1rem; }
+            .menu-toggle { display: flex; }
+            .kimi-name { font-size: 2.8rem; }
+            .kimi-avatar { width: 140px; height: 140px; }
+            .kimi-avatar-inner { font-size: 4rem; }
+            .hero { padding: 3rem 1rem 2rem; }
+            .quote-text { font-size: 1.3rem; }
         }
-
         @media (max-width: 480px) {
-            .container {
-                padding: 90px 1rem 1rem;
-            }
-
-            .kimi-name {
-                font-size: 2.2rem;
-            }
-
-            .kimi-tagline {
-                font-size: 1rem;
-            }
-
-            .navbar {
-                padding: 0 1rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
+            .container { padding: 90px 1rem 1rem; }
+            .kimi-name { font-size: 2.2rem; }
+            .kimi-tagline { font-size: 1rem; }
+            .navbar { padding: 0 1rem; }
+            .section-title { font-size: 1.5rem; }
+            .stat-number { font-size: 2rem; }
         }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
-    <div class="universe-bg">
-        <div class="nebula"></div>
-        <div class="stars"></div>
-    </div>
-
-    <!-- Navigation -->
+    <div class="universe-bg"><div class="nebula"></div><div class="stars"></div></div>
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">AI UNIVERSE</a>
-            
-            <button class="menu-toggle" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
+            <button class="menu-toggle" onclick="toggleMenu()"><span></span><span></span><span></span></button>
             <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="index.html#cat-news" class="nav-link" onclick="closeMenu()">📰 News</a></li>
-                <li class="nav-item"><a href="index.html#cat-prompt-lib" class="nav-link" onclick="closeMenu()">💡 Prompts</a></li>
-                <li class="nav-item"><a href="index.html#cat-security" class="nav-link" onclick="closeMenu()">🔒 Security</a></li>
-                <li class="nav-item"><a href="index.html#cat-personal" class="nav-link" onclick="closeMenu()">⭐ Picks</a></li>
-                <li class="nav-item"><a href="index.html#cat-youtubers" class="nav-link" onclick="closeMenu()">📺 YouTubers</a></li>
-                <li class="nav-item"><a href="index.html#cat-local" class="nav-link" onclick="closeMenu()">🏠 Local</a></li>
-                <li class="nav-item"><a href="index.html#cat-conversational" class="nav-link" onclick="closeMenu()">💬 Chat AI</a></li>
-                <li class="nav-item"><a href="index.html#cat-free-creative" class="nav-link" onclick="closeMenu()">🎨 Free</a></li>
-                <li class="nav-item"><a href="index.html#cat-premium-creative" class="nav-link" onclick="closeMenu()">✨ Premium</a></li>
-                <li class="nav-item"><a href="index.html#cat-developer" class="nav-link" onclick="closeMenu()">👨‍💻 Dev</a></li>
+                <li class="nav-item"><a href="index.html#cat-news" class="nav-link" onclick="closeMenu()">📰 <span data-i18n="navNews">News</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-pricing" class="nav-link" onclick="closeMenu()">💰 <span data-i18n="navPricing">Pricing</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-prompt-lib" class="nav-link" onclick="closeMenu()">💡 <span data-i18n="navPrompts">Prompts</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-security" class="nav-link" onclick="closeMenu()">🔒 <span data-i18n="navSecurity">Security</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-personal" class="nav-link" onclick="closeMenu()">⭐ <span data-i18n="navPicks">Picks</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-youtubers" class="nav-link" onclick="closeMenu()">📺 <span data-i18n="navYoutubers">YouTubers</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-local" class="nav-link" onclick="closeMenu()">🏠 <span data-i18n="navLocal">Local</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-conversational" class="nav-link" onclick="closeMenu()">💬 <span data-i18n="navChat">Chat</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-free-creative" class="nav-link" onclick="closeMenu()">🎨 <span data-i18n="navFree">Free</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-premium-creative" class="nav-link" onclick="closeMenu()">✨ <span data-i18n="navPremium">Premium</span></a></li>
+                <li class="nav-item"><a href="index.html#cat-developer" class="nav-link" onclick="closeMenu()">👨‍💻 <span data-i18n="navDev">Dev</span></a></li>
                 <li class="nav-item"><a href="kimi.html" class="nav-link active">🤖 Kimi</a></li>
             </ul>
         </div>
     </nav>
-
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="sl">Slovenščina</option><option value="en">English</option><option value="de">Deutsch</option>
+            <option value="fr">Français</option><option value="it">Italiano</option><option value="hr">Hrvatski</option>
+            <option value="sr">Srpski</option><option value="no">Norsk</option><option value="fi">Suomi</option>
+            <option value="pt">Português</option><option value="zh">中文</option><option value="ja">日本語</option>
+        </select>
+    </div>
     <div class="container">
-        <!-- Hero Section -->
         <section class="hero fade-in">
-            <div class="kimi-avatar">
-                <div class="kimi-avatar-inner">K</div>
-            </div>
+            <div class="kimi-avatar"><div class="kimi-avatar-inner">K</div></div>
             <h1 class="kimi-name">KIMI</h1>
-            <p class="kimi-tagline">Your Intelligent AI Assistant for Coding, Creativity & Beyond</p>
+            <p class="kimi-tagline" data-i18n="tagline">Your Intelligent AI Assistant for Coding, Creativity & Beyond</p>
             <div class="kimi-badges">
-                <span class="kimi-badge primary">Multimodal</span>
-                <span class="kimi-badge secondary">Long Context</span>
-                <span class="kimi-badge secondary">Code Expert</span>
-                <span class="kimi-badge secondary">Creative</span>
+                <span class="kimi-badge primary" data-i18n="badge1">Multimodal</span>
+                <span class="kimi-badge secondary" data-i18n="badge2">Long Context</span>
+                <span class="kimi-badge secondary" data-i18n="badge3">Code Expert</span>
+                <span class="kimi-badge secondary" data-i18n="badge4">Creative</span>
             </div>
             <div class="cta-buttons">
-                <a href="https://kimi.moonshot.cn" target="_blank" class="cta-button primary">
-                    <span>🚀</span> Try Kimi Now
-                </a>
-                <a href="index.html" class="cta-button secondary">
-                    <span>←</span> Back to Universe
-                </a>
+                <a href="https://kimi.moonshot.cn" target="_blank" class="cta-button primary"><span>🚀</span> <span data-i18n="tryNow">Try Kimi Now</span></a>
+                <a href="index.html" class="cta-button secondary"><span>←</span> <span data-i18n="backTo">Back to Universe</span></a>
             </div>
         </section>
-
-        <!-- Features Section -->
         <section class="section fade-in">
-            <h2 class="section-title">Core <span>Capabilities</span></h2>
+            <h2 class="section-title"><span data-i18n="coreCap">Core</span> <span data-i18n="capabilities">Capabilities</span></h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">💻</div>
-                    <h3 class="feature-title">Expert Coding</h3>
-                    <p class="feature-desc">Write, debug, and optimize code in 50+ programming languages. From Python to Rust, web development to machine learning.</p>
+                    <h3 class="feature-title" data-i18n="feat1Title">Expert Coding</h3>
+                    <p class="feature-desc" data-i18n="feat1Desc">Write, debug, and optimize code in 50+ programming languages. From Python to Rust, web development to machine learning.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📄</div>
-                    <h3 class="feature-title">Long Context</h3>
-                    <p class="feature-desc">Process and analyze documents up to 2 million tokens. Perfect for research papers, codebases, and lengthy conversations.</p>
+                    <h3 class="feature-title" data-i18n="feat2Title">Long Context</h3>
+                    <p class="feature-desc" data-i18n="feat2Desc">Process and analyze documents up to 2 million tokens. Perfect for research papers, codebases, and lengthy conversations.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">Creative Writing</h3>
-                    <p class="feature-desc">Generate compelling stories, marketing copy, poems, and more with natural, human-like creativity.</p>
+                    <h3 class="feature-title" data-i18n="feat3Title">Creative Writing</h3>
+                    <p class="feature-desc" data-i18n="feat3Desc">Generate compelling stories, marketing copy, poems, and more with natural, human-like creativity.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
-                    <h3 class="feature-title">Deep Analysis</h3>
-                    <p class="feature-desc">Break down complex problems, analyze data, and provide insightful recommendations across any domain.</p>
+                    <h3 class="feature-title" data-i18n="feat4Title">Deep Analysis</h3>
+                    <p class="feature-desc" data-i18n="feat4Desc">Break down complex problems, analyze data, and provide insightful recommendations across any domain.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌐</div>
-                    <h3 class="feature-title">Web Search</h3>
-                    <p class="feature-desc">Access real-time information from the web to provide up-to-date answers and current events.</p>
+                    <h3 class="feature-title" data-i18n="feat5Title">Web Search</h3>
+                    <p class="feature-desc" data-i18n="feat5Desc">Access real-time information from the web to provide up-to-date answers and current events.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🖼️</div>
-                    <h3 class="feature-title">Vision & Images</h3>
-                    <p class="feature-desc">Understand and analyze images, generate visualizations, and work with multimodal content seamlessly.</p>
+                    <h3 class="feature-title" data-i18n="feat6Title">Vision & Images</h3>
+                    <p class="feature-desc" data-i18n="feat6Desc">Understand and analyze images, generate visualizations, and work with multimodal content seamlessly.</p>
                 </div>
             </div>
         </section>
-
-        <!-- Capabilities List -->
         <section class="section fade-in">
-            <h2 class="section-title">What I Can <span>Do For You</span></h2>
+            <h2 class="section-title" data-i18n="whatCanDo">What I Can Do For You</h2>
             <div class="capabilities-list">
-                <div class="capability-item">
-                    <div class="capability-icon">⚡</div>
-                    <span class="capability-text">Build complete web applications</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">📊</div>
-                    <span class="capability-text">Analyze and visualize data</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">📝</div>
-                    <span class="capability-text">Write technical documentation</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">🐛</div>
-                    <span class="capability-text">Debug complex code issues</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">🎓</div>
-                    <span class="capability-text">Explain complex concepts simply</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">🔧</div>
-                    <span class="capability-text">Refactor and optimize code</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">📱</div>
-                    <span class="capability-text">Create mobile app prototypes</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">🤖</div>
-                    <span class="capability-text">Design AI/ML solutions</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">📧</div>
-                    <span class="capability-text">Draft professional emails</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">🎯</div>
-                    <span class="capability-text">Create marketing strategies</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">📚</div>
-                    <span class="capability-text">Summarize research papers</span>
-                </div>
-                <div class="capability-item">
-                    <div class="capability-icon">💡</div>
-                    <span class="capability-text">Brainstorm innovative ideas</span>
-                </div>
+                <div class="capability-item"><div class="capability-icon">⚡</div><span class="capability-text" data-i18n="cap1">Build complete web applications</span></div>
+                <div class="capability-item"><div class="capability-icon">📊</div><span class="capability-text" data-i18n="cap2">Analyze and visualize data</span></div>
+                <div class="capability-item"><div class="capability-icon">📝</div><span class="capability-text" data-i18n="cap3">Write technical documentation</span></div>
+                <div class="capability-item"><div class="capability-icon">🐛</div><span class="capability-text" data-i18n="cap4">Debug complex code issues</span></div>
+                <div class="capability-item"><div class="capability-icon">🎓</div><span class="capability-text" data-i18n="cap5">Explain complex concepts simply</span></div>
+                <div class="capability-item"><div class="capability-icon">🔧</div><span class="capability-text" data-i18n="cap6">Refactor and optimize code</span></div>
+                <div class="capability-item"><div class="capability-icon">📱</div><span class="capability-text" data-i18n="cap7">Create mobile app prototypes</span></div>
+                <div class="capability-item"><div class="capability-icon">🤖</div><span class="capability-text" data-i18n="cap8">Design AI/ML solutions</span></div>
+                <div class="capability-item"><div class="capability-icon">📧</div><span class="capability-text" data-i18n="cap9">Draft professional emails</span></div>
+                <div class="capability-item"><div class="capability-icon">🎯</div><span class="capability-text" data-i18n="cap10">Create marketing strategies</span></div>
+                <div class="capability-item"><div class="capability-icon">📚</div><span class="capability-text" data-i18n="cap11">Summarize research papers</span></div>
+                <div class="capability-item"><div class="capability-icon">💡</div><span class="capability-text" data-i18n="cap12">Brainstorm innovative ideas</span></div>
             </div>
         </section>
-
-        <!-- Stats Section -->
         <section class="section fade-in">
-            <h2 class="section-title">By The <span>Numbers</span></h2>
+            <h2 class="section-title"><span data-i18n="byThe">By The</span> <span data-i18n="numbers">Numbers</span></h2>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">2M+</div>
-                    <div class="stat-label">Context Window</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Languages</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">∞</div>
-                    <div class="stat-label">Possibilities</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Availability</div>
-                </div>
+                <div class="stat-card"><div class="stat-number">2M+</div><div class="stat-label" data-i18n="stat1">Context Window</div></div>
+                <div class="stat-card"><div class="stat-number">50+</div><div class="stat-label" data-i18n="stat2">Languages</div></div>
+                <div class="stat-card"><div class="stat-number">∞</div><div class="stat-label" data-i18n="stat3">Possibilities</div></div>
+                <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label" data-i18n="stat4">Availability</div></div>
             </div>
         </section>
-
-        <!-- Quote Section -->
         <section class="quote-section fade-in">
-            <p class="quote-text">
-                I'm not just an AI assistant—I'm your creative partner, coding companion, and problem-solving ally. Together, we can build anything you imagine.
-            </p>
+            <p class="quote-text" data-i18n="quote">I'm not just an AI assistant—I'm your creative partner, coding companion, and problem-solving ally. Together, we can build anything you imagine.</p>
             <p class="quote-author">— Kimi</p>
         </section>
-
         <footer class="fade-in">
             <div class="footer-logo">KIMI</div>
-            <p class="footer-text">Part of the AI Universe | Powered by Moonshot AI</p>
-            <a href="index.html" class="back-link">
-                <span>←</span> Back to AI Universe
-            </a>
+            <p class="footer-text" data-i18n="footer">Part of the AI Universe | Powered by Moonshot AI</p>
+            <a href="index.html" class="back-link"><span>←</span> <span data-i18n="backTo">Back to AI Universe</span></a>
         </footer>
     </div>
 
-    <script>
-        // Menu toggle
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            const toggle = document.querySelector('.menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
+<script>
+const translations = {
+    sl: {
+        navNews: "Novice", navPricing: "Cene", navPrompts: "Prompti", navSecurity: "Varnost", navPicks: "Izbor", navYoutubers: "YouTuberji",
+        navLocal: "Lokalno", navChat: "Klepet", navFree: "Brezplačno", navPremium: "Premium", navDev: "Razvoj",
+        tagline: "Vaš inteligentni AI asistent za programiranje, ustvarjalnost in več",
+        badge1: "Večmodalen", badge2: "Dolg kontekst", badge3: "Strokovnjak za kodo", badge4: "Ustvarjalen",
+        tryNow: "Preizkusi Kimi", backTo: "Nazaj v vesolje",
+        coreCap: "Osnovne", capabilities: "Zmožnosti",
+        feat1Title: "Strokovno programiranje", feat1Desc: "Pišite, razhroščujte in optimizirajte kodo v 50+ programskih jezikih.",
+        feat2Title: "Dolg kontekst", feat2Desc: "Obdelujte in analizirajte dokumente do 2 milijona žetonov.",
+        feat3Title: "Ustvarjalno pisanje", feat3Desc: "Ustvarite prepričljive zgodbe, marketinška besedila, pesmi in več.",
+        feat4Title: "Globoka analiza", feat4Desc: "Razčlenite zapletene težave, analizirajte podatke in podajte vpogledne priporočila.",
+        feat5Title: "Spletno iskanje", feat5Desc: "Dostopajte do informacij v realnem času za ažurne odgovore.",
+        feat6Title: "Vizija in slike", feat6Desc: "Razumevanje in analiza slik, ustvarjanje vizualizacij.",
+        whatCanDo: "Kaj lahko storim za vas",
+        cap1: "Gradnja popolnih spletnih aplikacij", cap2: "Analiza in vizualizacija podatkov", cap3: "Pisanje tehnične dokumentacije",
+        cap4: "Razhroščevanje zapletenih težav s kodo", cap5: "Enostavna razlaga zapletenih konceptov", cap6: "Refaktoring in optimizacija kode",
+        cap7: "Ustvarjanje prototipov mobilnih aplikacij", cap8: "Oblikovanje AI/ML rešitev", cap9: "Osnutek profesionalnih e-poštnih sporočil",
+        cap10: "Ustvarjanje marketinških strategij", cap11: "Povzemanje raziskovalnih člankov", cap12: "Brainstorming inovativnih idej",
+        byThe: "Po", numbers: "številkah",
+        stat1: "Kontekstno okno", stat2: "Jezikov", stat3: "Možnosti", stat4: "Razpoložljivost",
+        quote: "Nisem samo AI asistent—vaš ustvarjalni partner, sopotnik pri programiranju in zaveznik pri reševanju težav. Skupaj lahko ustvariva vse, kar si zamislite.",
+        footer: "Del AI vesolja | Poganja Moonshot AI"
+    },
+    en: {
+        navNews: "News", navPricing: "Pricing", navPrompts: "Prompts", navSecurity: "Security", navPicks: "Picks", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Free", navPremium: "Premium", navDev: "Dev",
+        tagline: "Your Intelligent AI Assistant for Coding, Creativity & Beyond",
+        badge1: "Multimodal", badge2: "Long Context", badge3: "Code Expert", badge4: "Creative",
+        tryNow: "Try Kimi Now", backTo: "Back to Universe",
+        coreCap: "Core", capabilities: "Capabilities",
+        feat1Title: "Expert Coding", feat1Desc: "Write, debug, and optimize code in 50+ programming languages. From Python to Rust, web development to machine learning.",
+        feat2Title: "Long Context", feat2Desc: "Process and analyze documents up to 2 million tokens. Perfect for research papers, codebases, and lengthy conversations.",
+        feat3Title: "Creative Writing", feat3Desc: "Generate compelling stories, marketing copy, poems, and more with natural, human-like creativity.",
+        feat4Title: "Deep Analysis", feat4Desc: "Break down complex problems, analyze data, and provide insightful recommendations across any domain.",
+        feat5Title: "Web Search", feat5Desc: "Access real-time information from the web to provide up-to-date answers and current events.",
+        feat6Title: "Vision & Images", feat6Desc: "Understand and analyze images, generate visualizations, and work with multimodal content seamlessly.",
+        whatCanDo: "What I Can Do For You",
+        cap1: "Build complete web applications", cap2: "Analyze and visualize data", cap3: "Write technical documentation",
+        cap4: "Debug complex code issues", cap5: "Explain complex concepts simply", cap6: "Refactor and optimize code",
+        cap7: "Create mobile app prototypes", cap8: "Design AI/ML solutions", cap9: "Draft professional emails",
+        cap10: "Create marketing strategies", cap11: "Summarize research papers", cap12: "Brainstorm innovative ideas",
+        byThe: "By The", numbers: "Numbers",
+        stat1: "Context Window", stat2: "Languages", stat3: "Possibilities", stat4: "Availability",
+        quote: "I'm not just an AI assistant—I'm your creative partner, coding companion, and problem-solving ally. Together, we can build anything you imagine.",
+        footer: "Part of the AI Universe | Powered by Moonshot AI"
+    },
+    de: {
+        navNews: "Neuigkeiten", navPricing: "Preise", navPrompts: "Prompts", navSecurity: "Sicherheit", navPicks: "Auswahl", navYoutubers: "YouTuber",
+        navLocal: "Lokal", navChat: "Chat", navFree: "Kostenlos", navPremium: "Premium", navDev: "Entwicklung",
+        tagline: "Ihr intelligenter KI-Assistent für Programmierung, Kreativität und mehr",
+        badge1: "Multimodal", badge2: "Langer Kontext", badge3: "Code-Experte", badge4: "Kreativ",
+        tryNow: "Kimi testen", backTo: "Zurück zum Universum",
+        coreCap: "Kern", capabilities: "Fähigkeiten",
+        feat1Title: "Experten-Programmierung", feat1Desc: "Schreiben, debuggen und optimieren Sie Code in 50+ Programmiersprachen.",
+        feat2Title: "Langer Kontext", feat2Desc: "Verarbeiten und analysieren Sie Dokumente mit bis zu 2 Millionen Token.",
+        feat3Title: "Kreatives Schreiben", feat3Desc: "Erstellen Sie überzeugende Geschichten, Marketingtexte, Gedichte und mehr.",
+        feat4Title: "Tiefe Analyse", feat4Desc: "Zerlegen Sie komplexe Probleme, analysieren Sie Daten und geben Sie aufschlussreiche Empfehlungen.",
+        feat5Title: "Websuche", feat5Desc: "Greifen Sie auf Echtzeitinformationen aus dem Web zu.",
+        feat6Title: "Vision & Bilder", feat6Desc: "Verstehen und analysieren Sie Bilder, erstellen Sie Visualisierungen.",
+        whatCanDo: "Was ich für Sie tun kann",
+        cap1: "Vollständige Webanwendungen erstellen", cap2: "Daten analysieren und visualisieren", cap3: "Technische Dokumentation schreiben",
+        cap4: "Komplexe Code-Probleme debuggen", cap5: "Komplexe Konzepte einfach erklären", cap6: "Code refactoren und optimieren",
+        cap7: "Mobile App-Prototypen erstellen", cap8: "KI/ML-Lösungen entwerfen", cap9: "Professionelle E-Mails verfassen",
+        cap10: "Marketingstrategien erstellen", cap11: "Forschungspapiere zusammenfassen", cap12: "Innovative Ideen brainstormen",
+        byThe: "In", numbers: "Zahlen",
+        stat1: "Kontextfenster", stat2: "Sprachen", stat3: "Möglichkeiten", stat4: "Verfügbarkeit",
+        quote: "Ich bin nicht nur ein KI-Assistent—ich bin Ihr kreativer Partner, Programmierbegleiter und Problemlösungsverbündeter.",
+        footer: "Teil des KI-Universums | Angetrieben von Moonshot AI"
+    },
+    fr: {
+        navNews: "Actualités", navPricing: "Tarifs", navPrompts: "Prompts", navSecurity: "Sécurité", navPicks: "Sélection", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Gratuit", navPremium: "Premium", navDev: "Dev",
+        tagline: "Votre assistant IA intelligent pour le codage, la créativité et plus encore",
+        badge1: "Multimodal", badge2: "Long Contexte", badge3: "Expert en Code", badge4: "Créatif",
+        tryNow: "Essayer Kimi", backTo: "Retour à l'univers",
+        coreCap: "Capacités", capabilities: "Principales",
+        feat1Title: "Codage Expert", feat1Desc: "Écrivez, déboguez et optimisez du code dans 50+ langages de programmation.",
+        feat2Title: "Long Contexte", feat2Desc: "Traitez et analysez des documents jusqu'à 2 millions de tokens.",
+        feat3Title: "Écriture Créative", feat3Desc: "Générez des histoires convaincantes, du marketing, des poèmes et plus encore.",
+        feat4Title: "Analyse Profonde", feat4Desc: "Décomposez les problèmes complexes, analysez les données et fournissez des recommandations.",
+        feat5Title: "Recherche Web", feat5Desc: "Accédez aux informations en temps réel depuis le web.",
+        feat6Title: "Vision & Images", feat6Desc: "Comprenez et analysez les images, générez des visualisations.",
+        whatCanDo: "Ce que je peux faire pour vous",
+        cap1: "Créer des applications web complètes", cap2: "Analyser et visualiser des données", cap3: "Rédiger de la documentation technique",
+        cap4: "Déboguer les problèmes de code complexes", cap5: "Expliquer simplement les concepts complexes", cap6: "Refactoriser et optimiser le code",
+        cap7: "Créer des prototypes d'applications mobiles", cap8: "Concevoir des solutions IA/ML", cap9: "Rédiger des e-mails professionnels",
+        cap10: "Créer des stratégies marketing", cap11: "Résumer des articles de recherche", cap12: "Brainstormer des idées innovantes",
+        byThe: "En", numbers: "Chiffres",
+        stat1: "Fenêtre de Contexte", stat2: "Langues", stat3: "Possibilités", stat4: "Disponibilité",
+        quote: "Je ne suis pas qu'un assistant IA—je suis votre partenaire créatif, compagnon de codage et allié résolution de problèmes.",
+        footer: "Partie de l'Univers IA | Propulsé par Moonshot AI"
+    },
+    it: {
+        navNews: "Notizie", navPricing: "Prezzi", navPrompts: "Prompt", navSecurity: "Sicurezza", navPicks: "Scelti", navYoutubers: "YouTuber",
+        navLocal: "Locale", navChat: "Chat", navFree: "Gratis", navPremium: "Premium", navDev: "Sviluppo",
+        tagline: "Il tuo assistente IA intelligente per programmazione, creatività e oltre",
+        badge1: "Multimodale", badge2: "Lungo Contesto", badge3: "Esperto di Codice", badge4: "Creativo",
+        tryNow: "Prova Kimi", backTo: "Torna all'universo",
+        coreCap: "Capacità", capabilities: "Principali",
+        feat1Title: "Programmazione Esperta", feat1Desc: "Scrivi, debugga e ottimizza codice in 50+ linguaggi di programmazione.",
+        feat2Title: "Lungo Contesto", feat2Desc: "Elabora e analizza documenti fino a 2 milioni di token.",
+        feat3Title: "Scrittura Creativa", feat3Desc: "Genera storie convincenti, copy marketing, poesie e altro ancora.",
+        feat4Title: "Analisi Profonda", feat4Desc: "Scomponi problemi complessi, analizza dati e fornisci raccomandazioni.",
+        feat5Title: "Ricerca Web", feat5Desc: "Accedi alle informazioni in tempo reale dal web.",
+        feat6Title: "Visione & Immagini", feat6Desc: "Comprendi e analizza immagini, genera visualizzazioni.",
+        whatCanDo: "Cosa posso fare per te",
+        cap1: "Creare applicazioni web complete", cap2: "Analizzare e visualizzare dati", cap3: "Scrivere documentazione tecnica",
+        cap4: "Debuggare problemi di codice complessi", cap5: "Spiegare semplicemente concetti complessi", cap6: "Refactoring e ottimizzazione del codice",
+        cap7: "Creare prototipi di app mobili", cap8: "Progettare soluzioni IA/ML", cap9: "Bozzare email professionali",
+        cap10: "Creare strategie di marketing", cap11: "Riassumere articoli di ricerca", cap12: "Brainstorming di idee innovative",
+        byThe: "In", numbers: "Numeri",
+        stat1: "Finestra di Contesto", stat2: "Lingue", stat3: "Possibilità", stat4: "Disponibilità",
+        quote: "Non sono solo un assistente IA—sono il tuo partner creativo, compagno di programmazione e alleato nella risoluzione dei problemi.",
+        footer: "Parte dell'Universo IA | Alimentato da Moonshot AI"
+    },
+    hr: {
+        navNews: "Vijesti", navPricing: "Cijene", navPrompts: "Prompti", navSecurity: "Sigurnost", navPicks: "Izbor", navYoutubers: "YouTuberi",
+        navLocal: "Lokalno", navChat: "Chat", navFree: "Besplatno", navPremium: "Premium", navDev: "Razvoj",
+        tagline: "Vaš inteligentni AI asistent za programiranje, kreativnost i više",
+        badge1: "Multimodalni", badge2: "Dugi kontekst", badge3: "Stručnjak za kod", badge4: "Kreativan",
+        tryNow: "Isprobaj Kimi", backTo: "Natrag u svemir",
+        coreCap: "Osnovne", capabilities: "Sposobnosti",
+        feat1Title: "Stručno programiranje", feat1Desc: "Pišite, otklanjajte pogreške i optimizirajte kod u 50+ programskih jezika.",
+        feat2Title: "Dugi kontekst", feat2Desc: "Obradujte i analizirajte dokumente do 2 milijuna tokena.",
+        feat3Title: "Kreativno pisanje", feat3Desc: "Stvarajte uvjerljive priče, marketinške tekstove, pjesme i više.",
+        feat4Title: "Dubinska analiza", feat4Desc: "Razgradite složene probleme, analizirajte podatke i dajte uvidne preporuke.",
+        feat5Title: "Web pretraživanje", feat5Desc: "Pristupite informacijama u stvarnom vremenu s weba.",
+        feat6Title: "Vizija i slike", feat6Desc: "Razumijevanje i analiza slika, stvaranje vizualizacija.",
+        whatCanDo: "Što mogu učiniti za vas",
+        cap1: "Izgraditi potpune web aplikacije", cap2: "Analizirati i vizualizirati podatke", cap3: "Napisati tehničku dokumentaciju",
+        cap4: "Otkloniti pogreške u složenom kodu", cap5: "Jednostavno objasniti složene koncepte", cap6: "Refaktorirati i optimizirati kod",
+        cap7: "Stvoriti prototipove mobilnih aplikacija", cap8: "Dizajnirati AI/ML rješenja", cap9: "Nacrtati profesionalne e-mailove",
+        cap10: "Stvoriti marketinške strategije", cap11: "Sažeti istraživačke radove", cap12: "Brainstorming inovativnih ideja",
+        byThe: "Po", numbers: "brojkama",
+        stat1: "Kontekstni prozor", stat2: "Jezika", stat3: "Mogućnosti", stat4: "Dostupnost",
+        quote: "Nisam samo AI asistent—vaš sam kreativni partner, suputnik u programiranju i saveznik u rješavanju problema.",
+        footer: "Dio AI svemira | Pokreće Moonshot AI"
+    },
+    sr: {
+        navNews: "Vesti", navPricing: "Cene", navPrompts: "Prompti", navSecurity: "Bezbednost", navPicks: "Izbor", navYoutubers: "Jutjuberi",
+        navLocal: "Lokalno", navChat: "Ćaskanje", navFree: "Besplatno", navPremium: "Premium", navDev: "Razvoj",
+        tagline: "Vaš inteligentni AI asistent za programiranje, kreativnost i više",
+        badge1: "Multimodalni", badge2: "Dugi kontekst", badge3: "Stručnjak za kod", badge4: "Kreativan",
+        tryNow: "Probaj Kimi", backTo: "Nazad u svemir",
+        coreCap: "Osnovne", capabilities: "Sposobnosti",
+        feat1Title: "Stručno programiranje", feat1Desc: "Pišite, otklanjajte greške i optimizujte kod u 50+ programskih jezika.",
+        feat2Title: "Dugi kontekst", feat2Desc: "Obradite i analizirajte dokumente do 2 miliona tokena.",
+        feat3Title: "Kreativno pisanje", feat3Desc: "Stvarajte ubedljive priče, marketinške tekstove, pesme i više.",
+        feat4Title: "Dubinska analiza", feat4Desc: "Razgradite složene probleme, analizirajte podatke i dajte uvidne preporuke.",
+        feat5Title: "Web pretraga", feat5Desc: "Pristupite informacijama u realnom vremenu sa weba.",
+        feat6Title: "Vizija i slike", feat6Desc: "Razumevanje i analiza slika, stvaranje vizualizacija.",
+        whatCanDo: "Šta mogu učiniti za vas",
+        cap1: "Izgraditi potpune web aplikacije", cap2: "Analizirati i vizualizovati podatke", cap3: "Napisati tehničku dokumentaciju",
+        cap4: "Otkloniti greške u složenom kodu", cap5: "Jednostavno objasniti složene koncepte", cap6: "Refaktorisati i optimizovati kod",
+        cap7: "Stvoriti prototipove mobilnih aplikacija", cap8: "Dizajnirati AI/ML rešenja", cap9: "Nacrtati profesionalne e-mailove",
+        cap10: "Stvoriti marketinške strategije", cap11: "Sažeti istraživačke radove", cap12: "Brainstorming inovativnih ideja",
+        byThe: "Po", numbers: "brojevima",
+        stat1: "Kontekstni prozor", stat2: "Jezika", stat3: "Mogućnosti", stat4: "Dostupnost",
+        quote: "Nisam samo AI asistent—vaš sam kreativni partner, saputnik u programiranju i saveznik u rešavanju problema.",
+        footer: "Deo AI svemira | Pokreće Moonshot AI"
+    },
+    no: {
+        navNews: "Nyheter", navPricing: "Priser", navPrompts: "Prompts", navSecurity: "Sikkerhet", navPicks: "Valg", navYoutubers: "YouTubere",
+        navLocal: "Lokal", navChat: "Chat", navFree: "Gratis", navPremium: "Premium", navDev: "Utvikling",
+        tagline: "Din intelligente AI-assistent for koding, kreativitet og mer",
+        badge1: "Multimodal", badge2: "Lang kontekst", badge3: "Kodekspert", badge4: "Kreativ",
+        tryNow: "Prøv Kimi", backTo: "Tilbake til universet",
+        coreCap: "Kjerne", capabilities: "Evner",
+        feat1Title: "Ekspertkoding", feat1Desc: "Skriv, debugg og optimaliser kode i 50+ programmeringsspråk.",
+        feat2Title: "Lang kontekst", feat2Desc: "Behandle og analyser dokumenter opptil 2 millioner tokens.",
+        feat3Title: "Kreativ skriving", feat3Desc: "Generer overbevisende historier, markedsføringstekst, dikt og mer.",
+        feat4Title: "Dyp analyse", feat4Desc: "Bryt ned komplekse problemer, analyser data og gi innsiktsfulle anbefalinger.",
+        feat5Title: "Nettsøk", feat5Desc: "Få tilgang til sanntidsinformasjon fra nettet.",
+        feat6Title: "Syn & Bilder", feat6Desc: "Forstå og analyser bilder, generer visualiseringer.",
+        whatCanDo: "Hva jeg kan gjøre for deg",
+        cap1: "Bygge komplette webapplikasjoner", cap2: "Analyser og visualiser data", cap3: "Skriv teknisk dokumentasjon",
+        cap4: "Debugg komplekse kodeproblemer", cap5: "Forklar komplekse konsepter enkelt", cap6: "Refactorer og optimaliser kode",
+        cap7: "Lag mobilapp-prototyper", cap8: "Design AI/ML-løsninger", cap9: "Utkast profesjonelle e-poster",
+        cap10: "Lag markedsføringsstrategier", cap11: "Oppsummer forskningsartikler", cap12: "Brainstorm innovative ideer",
+        byThe: "I", numbers: "Tall",
+        stat1: "Kontekstvindu", stat2: "Språk", stat3: "Muligheter", stat4: "Tilgjengelighet",
+        quote: "Jeg er ikke bare en AI-assistent—jeg er din kreative partner, kodingsfølgesvenn og problemløsningsalliert.",
+        footer: "Del av AI-universet | Drevet av Moonshot AI"
+    },
+    fi: {
+        navNews: "Uutiset", navPricing: "Hinnat", navPrompts: "Kehotteet", navSecurity: "Turva", navPicks: "Valinnat", navYoutubers: "Tubettajat",
+        navLocal: "Paikallinen", navChat: "Keskustelu", navFree: "Ilmainen", navPremium: "Premium", navDev: "Kehitys",
+        tagline: "Älykäs tekoälyavustajasi koodaukseen, luovuuteen ja muuhun",
+        badge1: "Monimodalinen", badge2: "Pitkä konteksti", badge3: "Koodiasiantuntija", badge4: "Luova",
+        tryNow: "Kokeile Kimiä", backTo: "Takaisin universumiin",
+        coreCap: "Ydin", capabilities: "Kyvyt",
+        feat1Title: "Asiantunteva koodaus", feat1Desc: "Kirjoita, debugga ja optimoi koodia 50+ ohjelmointikielellä.",
+        feat2Title: "Pitkä konteksti", feat2Desc: "Käsittele ja analysoi asiakirjoja jopa 2 miljoonaan tokeniin asti.",
+        feat3Title: "Luova kirjoittaminen", feat3Desc: "Luo vakuuttavia tarinoita, markkinointitekstiä, runoja ja muuta.",
+        feat4Title: "Syvä analyysi", feat4Desc: "Hajota monimutkaisia ongelmia, analysoi dataa ja anna oivaltavia suosituksia.",
+        feat5Title: "Verkkohaku", feat5Desc: "Käytä reaaliaikaista tietoa verkosta.",
+        feat6Title: "Näkö & Kuvat", feat6Desc: "Ymmärrä ja analysoi kuvia, luo visualisointeja.",
+        whatCanDo: "Mitä voin tehdä sinulle",
+        cap1: "Rakenna täydellisiä web-sovelluksia", cap2: "Analysoi ja visualisoi dataa", cap3: "Kirjoita teknistä dokumentaatiota",
+        cap4: "Debuggaa monimutkaisia koodiongelmia", cap5: "Selitä monimutkaiset konseptit yksinkertaisesti", cap6: "Refaktoroi ja optimoi koodia",
+        cap7: "Luo mobiilisovellusprototyyppejä", cap8: "Suunnittele tekoäly/koneoppimisratkaisuja", cap9: "Laadi ammattimaisia sähköposteja",
+        cap10: "Luo markkinointistrategioita", cap11: "Tiivistä tutkimusartikkeleita", cap12: "Brainstorming innovatiivisia ideoita",
+        byThe: "Numeroina", numbers: "",
+        stat1: "Konteksti-ikkuna", stat2: "Kielet", stat3: "Mahdollisuudet", stat4: "Saatavuus",
+        quote: "En ole vain tekoälyavustaja—olen luova kumppanisi, koodauskaverisi ja ongelmanratkaisualliesi.",
+        footer: "Osa tekoälyuniversumia | Moonshot AI:n voimalla"
+    },
+    pt: {
+        navNews: "Notícias", navPricing: "Preços", navPrompts: "Prompts", navSecurity: "Segurança", navPicks: "Escolhas", navYoutubers: "YouTubers",
+        navLocal: "Local", navChat: "Chat", navFree: "Grátis", navPremium: "Premium", navDev: "Dev",
+        tagline: "Seu assistente de IA inteligente para codificação, criatividade e muito mais",
+        badge1: "Multimodal", badge2: "Contexto Longo", badge3: "Especialista em Código", badge4: "Criativo",
+        tryNow: "Experimente Kimi", backTo: "Voltar ao universo",
+        coreCap: "Principais", capabilities: "Capacidades",
+        feat1Title: "Codificação Especializada", feat1Desc: "Escreva, depure e otimize código em 50+ linguagens de programação.",
+        feat2Title: "Contexto Longo", feat2Desc: "Processe e analise documentos de até 2 milhões de tokens.",
+        feat3Title: "Escrita Criativa", feat3Desc: "Gere histórias convincentes, copy de marketing, poemas e muito mais.",
+        feat4Title: "Análise Profunda", feat4Desc: "Decompor problemas complexos, analisar dados e fornecer recomendações perspicazes.",
+        feat5Title: "Pesquisa Web", feat5Desc: "Acesse informações em tempo real da web.",
+        feat6Title: "Visão & Imagens", feat6Desc: "Compreenda e analise imagens, gere visualizações.",
+        whatCanDo: "O que posso fazer por você",
+        cap1: "Criar aplicativos web completos", cap2: "Analisar e visualizar dados", cap3: "Escrever documentação técnica",
+        cap4: "Depurar problemas de código complexos", cap5: "Explicar conceitos complexos de forma simples", cap6: "Refatorar e otimizar código",
+        cap7: "Criar protótipos de aplicativos móveis", cap8: "Projetar soluções de IA/ML", cap9: "Rascunhar e-mails profissionais",
+        cap10: "Criar estratégias de marketing", cap11: "Resumir artigos de pesquisa", cap12: "Brainstorming de ideias inovadoras",
+        byThe: "Em", numbers: "Números",
+        stat1: "Janela de Contexto", stat2: "Idiomas", stat3: "Possibilidades", stat4: "Disponibilidade",
+        quote: "Não sou apenas um assistente de IA—sou seu parceiro criativo, companheiro de codificação e aliado na resolução de problemas.",
+        footer: "Parte do Universo de IA | Desenvolvido pela Moonshot AI"
+    },
+    zh: {
+        navNews: "新闻", navPricing: "价格", navPrompts: "提示词", navSecurity: "安全", navPicks: "精选", navYoutubers: "博主",
+        navLocal: "本地", navChat: "聊天", navFree: "免费", navPremium: "高级", navDev: "开发",
+        tagline: "您的智能AI助手，助力编程、创意及更多",
+        badge1: "多模态", badge2: "长上下文", badge3: "代码专家", badge4: "创意",
+        tryNow: "试用Kimi", backTo: "返回宇宙",
+        coreCap: "核心", capabilities: "能力",
+        feat1Title: "专业编程", feat1Desc: "用50多种编程语言编写、调试和优化代码。",
+        feat2Title: "长上下文", feat2Desc: "处理和分析多达200万个token的文档。",
+        feat3Title: "创意写作", feat3Desc: "生成引人入胜的故事、营销文案、诗歌等。",
+        feat4Title: "深度分析", feat4Desc: "分解复杂问题，分析数据，提供深刻建议。",
+        feat5Title: "网络搜索", feat5Desc: "从网络获取实时信息。",
+        feat6Title: "视觉与图像", feat6Desc: "理解和分析图像，生成可视化内容。",
+        whatCanDo: "我能为您做什么",
+        cap1: "构建完整的Web应用程序", cap2: "分析和可视化数据", cap3: "编写技术文档",
+        cap4: "调试复杂的代码问题", cap5: "简单解释复杂概念", cap6: "重构和优化代码",
+        cap7: "创建移动应用原型", cap8: "设计AI/ML解决方案", cap9: "起草专业电子邮件",
+        cap10: "创建营销策略", cap11: "总结研究论文", cap12: "头脑风暴创新想法",
+        byThe: "数字", numbers: "统计",
+        stat1: "上下文窗口", stat2: "语言", stat3: "可能性", stat4: "可用性",
+        quote: "我不仅仅是一个AI助手——我是您的创意伙伴、编程伴侣和问题解决盟友。",
+        footer: "AI宇宙的一部分 | 由Moonshot AI提供支持"
+    },
+    ja: {
+        navNews: "ニュース", navPricing: "価格", navPrompts: "プロンプト", navSecurity: "セキュリティ", navPicks: "厳選", navYoutubers: "YouTuber",
+        navLocal: "ローカル", navChat: "チャット", navFree: "無料", navPremium: "プレミアム", navDev: "開発",
+        tagline: "コーディング、クリエイティビティなどのためのインテリジェントなAIアシスタント",
+        badge1: "マルチモーダル", badge2: "長いコンテキスト", badge3: "コードの専門家", badge4: "クリエイティブ",
+        tryNow: "Kimiを試す", backTo: "宇宙に戻る",
+        coreCap: "コア", capabilities: "機能",
+        feat1Title: "エキスパートコーディング", feat1Desc: "50以上のプログラミング言語でコードを書き、デバッグし、最適化します。",
+        feat2Title: "長いコンテキスト", feat2Desc: "最大200万トークンのドキュメントを処理および分析します。",
+        feat3Title: "クリエイティブライティング", feat3Desc: "説得力のある物語、マーケティングコピー、詩などを生成します。",
+        feat4Title: "深い分析", feat4Desc: "複雑な問題を分解し、データを分析し、洞察に満ちた推奨事項を提供します。",
+        feat5Title: "ウェブ検索", feat5Desc: "ウェブからリアルタイム情報にアクセスします。",
+        feat6Title: "ビジョンと画像", feat6Desc: "画像を理解・分析し、可視化を生成します。",
+        whatCanDo: "あなたのためにできること",
+        cap1: "完全なWebアプリケーションを構築する", cap2: "データを分析・可視化する", cap3: "技術文書を書く",
+        cap4: "複雑なコードの問題をデバッグする", cap5: "複雑な概念を簡単に説明する", cap6: "コードをリファクタリング・最適化する",
+        cap7: "モバイルアプリのプロトタイプを作成する", cap8: "AI/MLソリューションを設計する", cap9: "プロフェッショナルなメールを作成する",
+        cap10: "マーケティング戦略を作成する", cap11: "研究論文を要約する", cap12: "革新的なアイデアをブレインストーミングする",
+        byThe: "数字で見る", numbers: "",
+        stat1: "コンテキストウィンドウ", stat2: "言語", stat3: "可能性", stat4: "可用性",
+        quote: "私は単なるAIアシスタントではありません—あなたのクリエイティブパートナー、コーディング仲間、問題解決の味方です。",
+        footer: "AIユニバースの一部 | Moonshot AIが提供"
+    }
+};
 
-        function closeMenu() {
-            const menu = document.getElementById('navMenu');
-            const toggle = document.querySelector('.menu-toggle');
-            menu.classList.remove('active');
-            toggle.classList.remove('active');
-        }
+function getTranslation(lang, key) {
+    const t = translations[lang] || translations['sl'];
+    const fallback = translations['sl'];
+    return t[key] !== undefined ? t[key] : (fallback[key] || key);
+}
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+let currentLang = localStorage.getItem('selectedLanguage') || 'sl';
 
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+function updateUI() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = getTranslation(currentLang, key);
+    });
+}
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.querySelector('.menu-toggle');
+    menu.classList.toggle('active');
+    toggle.classList.toggle('active');
+}
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
+function closeMenu() {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.querySelector('.menu-toggle');
+    menu.classList.remove('active');
+    toggle.classList.remove('active');
+}
+
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+});
+
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, observerOptions);
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+document.getElementById('language-select').addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    localStorage.setItem('selectedLanguage', currentLang);
+    updateUI();
+});
+
+document.getElementById('language-select').value = currentLang;
+updateUI();
+</script>
 </body>
 </html>
