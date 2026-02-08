@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Universe - Models & Pricing Index</title>
+    <title>AI Universe - Collection & Tips</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100;200;300;400;600&display=swap" rel="stylesheet">
+
     <style>
+        /* BASE STYLES & ANIMATIONS */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             background-color: #000;
             overflow-x: hidden;
             min-height: 100vh;
+            scroll-behavior: smooth;
+            font-weight: 300;
         }
 
         .universe-bg {
@@ -67,6 +75,7 @@
             100% { opacity: 1; }
         }
 
+        /* SHOOTING STAR ANIMATION */
         .shooting-star {
             position: absolute;
             top: 50%;
@@ -76,8 +85,10 @@
             background: #fff;
             border-radius: 50%;
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
-            animation: shoot 5s linear infinite;
+            /* SPREMEMBA: animation-iteration-count: 1 (samo enkrat) */
+            animation: shoot 3s linear 1 forwards;
             opacity: 0;
+            z-index: -1;
         }
 
         .shooting-star::before {
@@ -91,11 +102,58 @@
         }
 
         @keyframes shoot {
-            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
-            70% { opacity: 1; }
-            100% { transform: rotate(315deg) translateX(-1500px); opacity: 0; }
+            0% {
+                transform: rotate(315deg) translateX(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(315deg) translateX(-1000px);
+                opacity: 0;
+            }
+        }
+        
+        /* Positioning multiple stars */
+        .shooting-star:nth-child(1) { top: 0; right: 0; left: initial; animation-delay: 0s; animation-duration: 4s; }
+        .shooting-star:nth-child(2) { top: 0; right: 80px; left: initial; animation-delay: 2s; animation-duration: 5s; }
+        .shooting-star:nth-child(3) { top: 80px; right: 0px; left: initial; animation-delay: 4s; animation-duration: 3s; }
+
+
+        /* NAVIGATION */
+        .nav-bar {
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #9d4edd;
+            color: white;
+            box-shadow: 0 0 15px #9d4edd;
+        }
+
+        /* CONTAINER & HEADER */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -106,160 +164,262 @@
 
         header {
             text-align: center;
-            padding: 3rem 1rem 2rem;
+            padding: 4rem 1rem 1rem;
         }
 
+        /* MINIMALIST HEADER STYLE */
         h1 {
-            font-size: 4rem;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 100; /* Thin letters */
+            font-size: 5rem;
             margin: 0;
-            letter-spacing: 4px;
-            font-weight: 800;
+            letter-spacing: 10px; /* Wide spacing */
             text-transform: uppercase;
-            background: linear-gradient(to right, #ff00cc, #3333ff);
+            
+            background: linear-gradient(to right, #e9d5ff, #c084fc);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.6));
+            color: #fff;
+            
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
         }
 
         .subtitle {
-            font-size: 1.3rem;
-            color: #a5b4fc;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 200;
+            font-size: 1.2rem;
+            color: #c4b5fd;
             margin-top: 15px;
-            font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
+        /* DAILY QUOTE */
+        .daily-quote-container {
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid #a855f7;
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            font-weight: 200;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 10px;
+            color: #a855f7;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        /* SECTIONS */
         .category-section {
-            margin: 3rem 0;
+            margin: 4rem 0;
+            scroll-margin-top: 100px;
         }
 
         .category-title {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 300;
             font-size: 2rem;
             margin-bottom: 1.5rem;
             color: #fff;
-            border-left: 4px solid #ff00cc;
+            border-left: 3px solid #d946ef;
             padding-left: 1rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 0 0 15px rgba(217, 70, 239, 0.3);
         }
 
+        /* RTL SUPPORT */
+        [dir="rtl"] .category-title {
+            border-left: none;
+            border-right: 3px solid #d946ef;
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+        
+        [dir="rtl"] .model-header {
+             flex-direction: row-reverse;
+        }
+
+        /* BADGES */
         .badge {
-            font-size: 0.7rem;
-            padding: 4px 12px;
-            border-radius: 12px;
-            background: rgba(255, 0, 204, 0.2);
-            color: #ff00cc;
-            font-weight: 600;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-left: 10px;
+            vertical-align: middle;
         }
 
+        /* GRID & CARDS */
         .models-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
         }
 
         .model-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             padding: 1.5rem;
             transition: all 0.3s ease;
-            position: relative;
+            position: relative; 
             overflow: hidden;
-        }
-
-        .model-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: 0.5s;
-        }
-
-        .model-card:hover::before {
-            left: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .model-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
-            border-color: rgba(139, 92, 246, 0.6);
-            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .model-header {
             display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .model-name {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
             color: #fff;
             margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .model-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            padding: 6px 12px;
-            border-radius: 8px;
-            white-space: nowrap;
+        .star-icon {
+            color: #ffd700;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
 
         .model-description {
             color: #cbd5e1;
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 1rem;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            flex-grow: 1; /* Pushes content down */
+            font-weight: 300;
         }
 
-        .model-features {
+        /* BUTTONS */
+        .card-actions {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 1rem;
-        }
-
-        .feature-tag {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            background: rgba(139, 92, 246, 0.2);
-            color: #a78bfa;
-            border-radius: 6px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            flex-direction: column;
+            gap: 5px; /* Gap between video link and button */
+            width: 100%;
+            margin-top: auto; /* Ensures actions stick to the bottom */
         }
 
         .model-link {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 8px 16px;
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
             text-decoration: none;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-weight: 400;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .model-link:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: #00ff88;
-            color: #00ff88;
+            border-color: #d8b4fe;
+            color: #d8b4fe;
         }
 
+        /* TEXT LINK FOR VIDEO GUIDE (ABOVE BUTTON) */
+        .video-guide-text-link {
+            display: block;
+            text-align: center;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+            margin-bottom: 5px; /* Space between guide and button */
+            font-weight: 500;
+        }
+
+        .video-guide-text-link:hover {
+            opacity: 1;
+            color: #d8b4fe;
+            text-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+        }
+
+        /* SPECIAL SECTIONS */
+        .ethics-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(220, 38, 38, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            text-align: center;
+        }
+
+        .ethics-button {
+            display: inline-block;
+            text-align: center;
+            width: auto;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .ethics-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fca5a5;
+            color: #fca5a5;
+        }
+
+        /* LANGUAGE SELECTOR */
         .language-selector {
             position: fixed;
             top: 20px;
@@ -268,48 +428,31 @@
             align-items: center;
             gap: 10px;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 16px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
             border-radius: 50px;
-            z-index: 100;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        .lang-icon {
-            font-size: 1.2rem;
+            z-index: 2000;
         }
 
         #language-select {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            background: transparent;
+            color: #cbd5e1;
+            border: none;
+            font-size: 0.85rem;
             cursor: pointer;
             outline: none;
-            transition: all 0.3s ease;
-        }
-
-        #language-select:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #00ff88;
+            font-family: 'Exo 2', sans-serif;
         }
 
         #language-select option {
-            background: #1a1a1a;
-            color: #fff;
+            background: #000;
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 3rem; letter-spacing: 5px; }
             .models-grid { grid-template-columns: 1fr; }
-            .language-selector { 
-                top: 10px; 
-                right: 10px;
-                padding: 8px 12px;
-            }
+            .nav-bar { display: none; }
         }
     </style>
 </head>
@@ -318,512 +461,500 @@
     <div class="universe-bg">
         <div class="nebula"></div>
         <div class="stars"></div>
-        <div class="shooting-star"></div>
+        <span class="shooting-star"></span>
+        <span class="shooting-star"></span>
+        <span class="shooting-star"></span>
     </div>
 
     <div class="language-selector">
-        <div class="lang-icon">🌐</div>
+        <span>🌐</span>
         <select id="language-select">
             <option value="sl">Slovenščina</option>
             <option value="hr">Hrvatski</option>
             <option value="sr">Srpski</option>
+            <option value="mk">Македонски</option>
+            <option value="sq">Shqip</option>
             <option value="en">English</option>
-            <option value="de">German</option>
+            <option value="de">Deutsch</option>
             <option value="no">Norsk</option>
-            <option value="it">Italian</option>
-            <option value="es">Spanish</option>
+            <option value="fi">Suomi</option>
+            <option value="se">Svenska</option>
+            <option value="it">Italiano</option>
+            <option value="pt">Português</option>
+            <option value="es">Español</option>
+            <option value="ru">Русский</option>
+            <option value="ua">Українська</option>
+            <option value="cn">中文</option>
+            <option value="ja">日本語</option>
+            <option value="tr">Türkçe</option>
+            <option value="ar">العربية</option>
+            <option value="is">Íslenska</option>
         </select>
     </div>
+
+    <nav class="nav-bar" id="main-nav">
+        </nav>
 
     <div class="container">
         <header>
             <h1 id="main-title">AI VESOLJE</h1>
-            <p class="subtitle" id="main-subtitle">Popoln indeks AI modelov in vodnik po cenah</p>
+            <p class="subtitle" id="main-subtitle">Mala zbirka uporabnih AI modelov in nasvetov</p>
+            
+            <div class="daily-quote-container">
+                <p id="daily-quote" class="quote-text">Loading quote...</p>
+                <span id="quote-author" class="quote-author"></span>
+            </div>
         </header>
 
-        <section class="category-section">
+        <section class="category-section" id="sec-personal">
             <h2 class="category-title">
                 <span id="cat-personal">Osebni izbor</span>
-                <span class="badge" id="badge-curated">Izbrano</span>
+                <span class="badge" style="border-color:#d946ef; color:#d946ef" id="badge-curated">Izbrano</span>
             </h2>
             <div class="models-grid" id="grid-personal"></div>
         </section>
 
-        <section class="category-section">
-            <h2 class="category-title" id="cat-conversational">Pogovorni AI</h2>
-            <div class="models-grid" id="grid-conversational"></div>
+        <section class="category-section" id="sec-local">
+            <h2 class="category-title" id="cat-local">Lokalni AI</h2>
+            <div class="models-grid" id="grid-local"></div>
         </section>
 
-        <section class="category-section">
-            <h2 class="category-title">
-                <span id="cat-free-creative">Brezplačen ustvarjalni AI</span>
-                <span class="badge" id="badge-nocost">Brezplačno</span>
+        <section class="category-section" id="sec-tools">
+            <h2 class="category-title" id="cat-tools">Uporabna orodja (Web/Audio/Video)</h2>
+            <div class="models-grid" id="grid-tools"></div>
+        </section>
+
+        <section class="category-section" id="sec-creative">
+            <h2 class="category-title" id="cat-creative">Kreativni Studio</h2>
+            <div class="models-grid" id="grid-creative"></div>
+        </section>
+
+        <section class="category-section" id="sec-dev">
+            <h2 class="category-title" id="cat-dev">Razvijalci & Avtomatizacija</h2>
+            <div class="models-grid" id="grid-dev"></div>
+        </section>
+
+        <section class="category-section" id="sec-prompts">
+            <h2 class="category-title" id="cat-prompts">Knjižnica promptov</h2>
+            <div style="margin-top: 20px;">
+                <div class="models-grid" id="grid-prompt-resources"></div>
+            </div>
+        </section>
+
+        <section class="category-section" id="sec-youtubers">
+            <h2 class="category-title" id="cat-youtubers">Inspiracijski YouTuberji</h2>
+            <div class="models-grid" id="grid-youtubers"></div>
+        </section>
+
+        <section class="category-section" id="sec-sites">
+            <h2 class="category-title" id="cat-sites">Priporočene spletne strani</h2>
+            <div class="models-grid" id="grid-sites"></div>
+        </section>
+
+        <section class="category-section" id="sec-ethics">
+            <h2 class="category-title" style="border-color: #ff3333; color: #ff9999;">
+                <span id="cat-ethics">AI Etika & Varnost</span>
             </h2>
-            <div class="models-grid" id="grid-free-creative"></div>
-        </section>
-
-        <section class="category-section">
-            <h2 class="category-title" id="cat-premium-creative">Premium ustvarjalni AI</h2>
-            <div class="models-grid" id="grid-premium-creative"></div>
-        </section>
-
-        <section class="category-section">
-            <h2 class="category-title" id="cat-developer">Razvijalska orodja in odprtokodnost</h2>
-            <div class="models-grid" id="grid-developer"></div>
+            <div class="ethics-container">
+                <div>
+                    <a href="https://youtu.be/BFU1OCkhBwo?si=LnL-eOkJZSQSOlvq" target="_blank" class="ethics-button">
+                        ▶ <span id="btn-watch">Oglej si video: The A.I. Dilemma</span>
+                    </a>
+                </div>
+                <div>
+                    <h3 style="margin-top:0; font-weight:400;">Tristan Harris</h3>
+                    <p id="ethics-desc">Tristan Harris je soustanovitelj Centra za humano tehnologijo. Raziskuje, kako današnja tehnologija ugrablja našo pozornost in destabilizira družbo.</p>
+                </div>
+            </div>
         </section>
 
     </div>
 
     <script>
-        const modelsData = {
+        // --- DATA ---
+        
+        const models = {
             personal: [
-                { name: 'Perplexity', url: 'https://www.perplexity.ai/', price: 'free', desc: 'perplexity', tags: ['search', 'citations', 'realtime'] },
-                { name: 'Perplexity Comet', url: 'https://www.perplexity.ai/', price: 'proOnly', desc: 'perplexityComet', tags: ['deepReasoning', 'research', 'stepByStep'] },
-                { name: 'NotebookLM', url: 'https://notebooklm.google.com/', price: 'free', desc: 'notebooklm', tags: ['documents', 'audioPods', 'research'] },
-                { name: 'Gemini', url: 'https://gemini.google.com/', price: 'free', desc: 'gemini', tags: ['multimodal', 'googleIntegration', 'vision'] },
-                { name: 'Grok', url: 'https://grok.x.ai/', price: 'grok', desc: 'grok', tags: ['xIntegration', 'realtime', 'humor'] },
-                { name: 'Pi AI', url: 'https://pi.ai/', price: 'free', desc: 'piAi', tags: ['voice', 'empathetic', 'supportive'] }
+                { name: 'Flow', url: 'https://labs.google/flow/about', price: '', desc: 'flow', star: true },
+                { 
+                    name: 'Perplexity', 
+                    url: 'https://www.perplexity.ai/', 
+                    videoGuide: 'https://youtu.be/p8eYHO07o6E?si=N1YiUcaJQgs9sYhq',
+                    price: '', 
+                    desc: 'perplexity', 
+                    star: true 
+                },
+                { 
+                    name: 'NotebookLM', 
+                    url: 'https://notebooklm.google.com/', 
+                    videoGuide: 'https://youtu.be/8Jw5Wa_8K0Y?si=IOiP2HCb7KCfhhu3',
+                    price: 'alwaysFree', 
+                    desc: 'notebooklm', 
+                    star: true 
+                },
+                { name: 'Gemini', url: 'https://gemini.google.com/', price: '', desc: 'gemini', star: true },
+                { name: 'DeepSeek', url: 'https://chat.deepseek.com/', price: 'alwaysFree', desc: 'deepseek' },
+                { name: 'ChatGPT', url: 'https://chat.openai.com/', price: '', desc: 'chatgpt' },
+                { name: 'Claude', url: 'https://claude.ai/', price: '', desc: 'claude' }
             ],
-            conversational: [
-                { name: 'ChatGPT', url: 'https://chat.openai.com/', price: 'chatgpt', desc: 'chatgpt', tags: ['gpt4', 'plugins', 'vision'] },
-                { name: 'Claude', url: 'https://claude.ai/', price: 'claude', desc: 'claude', tags: ['longContext', 'safety', 'analysis'] }
+            local: [
+                { name: 'LM Studio', url: 'https://lmstudio.ai/', price: '', desc: 'lmstudio' }
             ],
-            freeCreative: [
-                { name: 'Whisk AI', url: 'https://labs.google/whisk', price: 'free', desc: 'whiskAi', tags: ['imageGen', 'visualRemix', 'experimental'] },
-                { name: 'Kling AI', url: 'https://www.klingai.com/', price: 'free', desc: 'klingAi', tags: ['videoGen', 'cinematic', '1080p'] },
-                { name: 'Pika AI', url: 'https://pika.art/', price: 'free', desc: 'pikaAi', tags: ['quickGen', 'socialMedia', 'webBased'] },
-                { name: 'Stable Diffusion', url: 'https://stability.ai/', price: 'free', desc: 'stableDiffusion', tags: ['openSource', 'customizable', 'local'] }
+            tools: [
+                { name: 'DeepL', url: 'https://www.deepl.com/', price: '', desc: 'deepl' },
+                { name: 'Amebis Besana', url: 'https://besana.amebis.si/preverjanje/', price: '', desc: 'besana' },
+                { name: 'Povejmo.si', url: 'https://povejmo.si/', price: '', desc: 'povejmo' },
+                { name: 'ElevenLabs', url: 'https://elevenlabs.io/', price: '', desc: 'elevenlabs' },
+                { name: 'Sonix', url: 'https://sonix.ai/', price: 'paid', desc: 'sonix' },
+                { name: 'DeepAI Proofreader', url: 'https://deepai.org/chat/proofreader', price: '', desc: 'deepai' },
+                { name: 'Opus Clip', url: 'https://www.opus.pro/', price: 'paid', desc: 'opus' }
             ],
-            premiumCreative: [
-                { name: 'Midjourney', url: 'https://www.midjourney.com/', price: 'midjourney', desc: 'midjourney', tags: ['imageGen', 'artistic', 'highQuality'] },
-                { name: 'Suno', url: 'https://suno.com/', price: 'suno', desc: 'suno', tags: ['music', 'vocals', 'fullSongs'] },
-                { name: 'Runway', url: 'https://runwayml.com/', price: 'runway', desc: 'runway', tags: ['videoGen', 'editing', 'effects'] },
-                { name: 'Higgsfield', url: 'https://higgsfield.ai/', price: 'higgsfield', desc: 'higgsfield', tags: ['cinematic', 'effects', 'cameraControl'] }
+            creative: [
+                { name: 'Midjourney', url: 'https://www.midjourney.com/', price: 'paid', desc: 'midjourney' },
+                { name: 'Flux AI', url: 'https://flux-ai.io/', price: '', desc: 'flux' },
+                { name: 'Higgsfield', url: 'https://higgsfield.ai/', price: 'paid', desc: 'higgsfield' },
+                { name: 'Topaz Labs', url: 'https://www.topazlabs.com/', price: 'paid', desc: 'topaz' },
+                { name: 'Krea AI', url: 'https://www.krea.ai/app', price: '', desc: 'krea' },
+                { name: 'Suno', url: 'https://suno.com/', price: '', desc: 'suno' }
             ],
-            developer: [
-                { name: 'Hugging Face', url: 'https://huggingface.co/', price: 'free', desc: 'huggingface', tags: ['openSource', 'modelsHub', 'community'], linkType: 'explore' },
-                { name: 'LLaMA 3', url: 'https://llama.meta.com/', price: 'free', desc: 'llama3', tags: ['openSource', '128kContext', 'selfHost'], linkType: 'get' }
+            dev: [
+                { name: 'n8n', url: 'https://n8n.io/', price: '', desc: 'n8n' },
+                { name: 'Google AI Studio', url: 'https://aistudio.google.com/', price: '', desc: 'aistudio' },
+                { name: 'Hugging Face', url: 'https://huggingface.co/', price: '', desc: 'huggingface' }
+            ],
+            youtubers: [
+                { name: 'Matt Wolfe', url: 'https://www.youtube.com/@mreflow', desc: 'yt_mattwolfe' },
+                { name: 'AI Advantage', url: 'https://www.youtube.com/@aiadvantage', desc: 'yt_aiadvantage' },
+                { name: 'Two Minute Papers', url: 'https://www.youtube.com/@TwoMinutePapers', desc: 'yt_2min' },
+                { name: 'NetworkChuck', url: 'https://www.youtube.com/@NetworkChuck', desc: 'yt_chuck' }
+            ],
+            sites: [
+                { name: 'Future Tools', url: 'https://www.futuretools.io/', desc: 'site_future' },
+                { name: 'Matt Wolfe', url: 'https://mattwolfe.com/', desc: 'site_matt' },
+                { name: 'Tracking AI', url: 'https://www.trackingai.org/', desc: 'site_tracking' },
+                { name: 'HSF Kramer', url: 'https://www.hsfkramer.com/insights/reports/ai-tracker', desc: 'site_hsf' }
             ]
         };
 
-        const translations = {
+        const promptResources = [
+            { name: 'Anthropic Prompt Library', url: 'https://docs.anthropic.com/en/prompt-library/library', desc: 'res_anthropic' }
+        ];
+
+        const quotesBase = [
+            { text: "With artificial intelligence, we are summoning the demon.", author: "Elon Musk" },
+            { text: "AI is likely to be either the best or worst thing to happen to humanity.", author: "Stephen Hawking" },
+            { text: "The real danger is not that computers will begin to think like men, but that men will begin to think like computers.", author: "Sydney J. Harris" },
+            { text: "We have to figure out how to have a human-centered technology.", author: "Tristan Harris" },
+            { text: "AI will not replace you. A person using AI will.", author: "Unknown" },
+            { text: "The saddest aspect of life right now is that science gathers knowledge faster than society gathers wisdom.", author: "Isaac Asimov" }
+        ];
+
+        // --- TRANSLATIONS (Full support for 18 languages) ---
+        const t = {
+            // SL - Slovenian
             sl: {
                 title: "AI VESOLJE",
-                subtitle: "Popoln indeks AI modelov in vodnik po cenah",
-                catPersonal: "Osebni izbor",
-                catConversational: "Pogovorni AI",
-                catFreeCreative: "Brezplačen ustvarjalni AI",
-                catPremiumCreative: "Premium ustvarjalni AI",
-                catDeveloper: "Razvijalska orodja in odprtokodnost",
-                badgeCurated: "Izbrano",
-                badgeNoCost: "Brezplačno",
-                free: "Brezplačno",
-                proOnly: "Samo Pro",
-                perMonth: "/mesec",
-                tryBtn: "Preizkusi",
-                exploreBtn: "Razišči",
-                getBtn: "Pridobi",
-                prices: { free: "Brezplačno", proOnly: "Samo Pro", grok: "$8/mesec", chatgpt: "Brezplačno/$20", claude: "Brezplačno/$20", midjourney: "$10/mesec", suno: "Brezplačno/$10", runway: "$12/mesec", higgsfield: "$9/mesec" },
-                tags: {
-                    search: "Iskanje", citations: "Citati", realtime: "Реално vreme", deepReasoning: "Globoko sklepanje", research: "Raziskave", stepByStep: "Korak za korakom",
-                    documents: "Dokumenti", audioPods: "Avdio", multimodal: "Multimodalni", googleIntegration: "Google integracija", vision: "Vid",
-                    xIntegration: "X integracija", humor: "Humor", voice: "Glas", empathetic: "Empatičen", supportive: "Podporen",
-                    gpt4: "GPT-4", plugins: "Vtičniki", longContext: "Dolg kontekst", safety: "Varnost", analysis: "Analiza",
-                    imageGen: "Generator slik", visualRemix: "Vizualni remiski", experimental: "Eksperimentalno", videoGen: "Generator videa", cinematic: "Kinematografski", "1080p": "1080p",
-                    quickGen: "Hitro generiranje", socialMedia: "Družbeni mediji", webBased: "Spletno", openSource: "Odprtokodno", customizable: "Prilagodljivo", local: "Lokalno",
-                    artistic: "Umetniško", highQuality: "Visoka kakovost", music: "Glasba", vocals: "Vokali", fullSongs: "Cele pesmi",
-                    editing: "Urejanje", effects: "Efekti", cameraControl: "Nadzor kamere", modelsHub: "Zbirka modelov", community: "Skupnost", "128kContext": "128K kontekst", selfHost: "Lastno gostovanje"
-                },
-                descriptions: {
-                    perplexity: "AI-pogonjen iskalnik odgovorov, ki išče po spletu v realnem času in zagotavlja citirane, pogovorne odgovore na vaša vprašanja.",
-                    perplexityComet: "Napreden model sklepanja, ki se loteva kompleksnih problemov korak za korakom, popoln za poglobljene raziskave in tehnična vprašanja.",
-                    notebooklm: "Googlov AI beležnik, ki vaše dokumente spremeni v interaktivne pogovore, povzetke in celo razprave v slogu podcastov.",
-                    gemini: "Googlov multimodalni AI, ki razume besedilo, slike, video in kodo ter pomaga pri ustvarjalnih in analitičnih nalogah.",
-                    grok: "Pogovorni AI podjetja xAI z dostopom v realnem času do podatkov X (Twitter) in duhovito, uporniško osebnostjo.",
-                    piAi: "Inflectionov empatičen osebni AI asistent, zasnovan za podporne pogovore, čustveno inteligenco in prijateljske nasvete.",
-                    chatgpt: "OpenAI-jev vodilni chatbot za ustvarjalno pisanje, kodiranje, analizo in splošno pomoč z GPT-4 v Plus paketu.",
-                    claude: "Anthropicov prijazen, iskren AI asistent, ki odlično obvlada analizo, kodiranje in pisanje daljših besedil z močnimi varnostnimi funkcijami.",
-                    whiskAi: "Googlov eksperimentalni generator slik, ki ustvarja nove vizualne podobe s kombiniranjem slik subjekta, scene in sloga namesto besedilnih pozivov.",
-                    klingAi: "Kuaishov kinematografski AI generator videoposnetkov, ki ustvarja 1080p videoposnetke iz besedila/slik z gladkim gibanjem in realističnimi fizikalnimi lastnostmi.",
-                    pikaAi: "Lahek AI generator videoposnetkov, popoln za hitro vsebino družbenih medijev z možnostmi besedilo-v-video in slika-v-video.",
-                    stableDiffusion: "Odprtokodni model generiranja slik s polno prilagoditvijo, lokalno namestitvijo in razvojem skupnosti.",
-                    midjourney: "Vodilni generator AI umetnosti, ki ustvarja osupljive, umetniške slike iz besedilnih opisov z neverjetnimi podrobnostmi in slogom.",
-                    suno: "Ustvarite celotne pesmi z vokali in inštrumenti v katerem koli slogu iz preprostih besedilnih opisov.",
-                    runway: "Profesionalna AI video orodja za generiranje, urejanje in efekte, vključno z besedilom-v-video in sledenjem gibanja.",
-                    higgsfield: "Kinematografski AI ustvarjalec videoposnetkov z 80+ gibanji kamere in 20+ posebnimi efekti za profesionalno vsebino.",
-                    huggingface: "Odprtokodna platforma, ki gosti tisoče AI modelov, naborov podatkov in orodij za skupinsko strojno učenje za razvijalce.",
-                    llama3: "Metajev odprtokodni jezikovni model, na voljo v velikostih 8B in 70B s kontekstnim oknom 128K za raznovrstne aplikacije."
+                subtitle: "Mala zbirka uporabnih AI modelov in nasvetov",
+                nav: { home: "Domov", personal: "Izbrano", tools: "Orodja", creative: "Kreativno", prompts: "Prompti", ethics: "Etika" },
+                cat: { personal: "Osebni izbor", local: "Lokalni AI", tools: "Uporabna orodja", creative: "Kreativni Studio", dev: "Razvijalci", prompts: "Knjižnica promptov", youtubers: "Inspiracija", sites: "Priporočeno", ethics: "AI Etika" },
+                badges: { curated: "Izbrano", free: "Brezplačno" },
+                prices: { alwaysFree: "Brezplačno" },
+                labels: { view: "Oglej si", videoGuide: "▶ Video vodič", watch: "Oglej si: The A.I. Dilemma" },
+                desc: {
+                    flow: "Ustvarjanje videa iz opisa, slik.",
+                    perplexity: "Iskalnik z viri v realnem času.",
+                    notebooklm: "Pametna beležka za vaše dokumente.",
+                    deepseek: "Odličen model za kodiranje in logiko.",
+                    gemini: "Googlov pametni pomočnik.",
+                    chatgpt: "Najbolj popularen AI.",
+                    claude: "Naraven in varen sogovornik.",
+                    lmstudio: "Poganjanje AI modelov lokalno na vašem računalniku.",
+                    deepl: "Najboljši prevajalnik.",
+                    besana: "Slovenska slovnica.",
+                    povejmo: "Slovenski govorni sintetizator.",
+                    elevenlabs: "Kloniranje glasov.",
+                    sonix: "Transkripcija in podnapisi.",
+                    deepai: "Urejanje besedil.",
+                    opus: "Iz dolgih videov v kratke.",
+                    midjourney: "Vrhunske umetniške slike.",
+                    flux: "Realistične slike (open source).",
+                    higgsfield: "Kontroliran video AI.",
+                    topaz: "Izboljšava kvalitete slik/videa.",
+                    krea: "Slikanje v realnem času.",
+                    suno: "Ustvari glasbo.",
+                    n8n: "Avtomatizacija procesov.",
+                    aistudio: "Google razvojno okolje.",
+                    huggingface: "Dom za AI modele.",
+                    yt_mattwolfe: "AI novice in vadnice.",
+                    yt_aiadvantage: "Praktični nasveti.",
+                    yt_2min: "Znanstveni preboji.",
+                    yt_chuck: "IT in AI hekanje.",
+                    yt_wes: "Novice industrije.",
+                    site_future: "Future Tools - velika zbirka AI modelov (Matt Wolfe).",
+                    site_matt: "Blog Matta Wolfa.",
+                    site_tracking: "AI sledilnik.",
+                    site_hsf: "AI Poročila.",
+                    ethics_text: "Tristan Harris o nevarnostih AI.",
+                    res_anthropic: "Uradna knjižnica promptov.",
                 }
             },
-            hr: {
-                title: "AI SVEMIR",
-                subtitle: "Potpuni indeks AI modela i vodič za cijene",
-                catPersonal: "Osobni izbor",
-                catConversational: "Konverzacijski AI",
-                catFreeCreative: "Besplatni kreativni AI",
-                catPremiumCreative: "Premium kreativni AI",
-                catDeveloper: "Alati za programere i otvoreni kod",
-                badgeCurated: "Odabrano",
-                badgeNoCost: "Besplatno",
-                tryBtn: "Isprobaj",
-                exploreBtn: "Istraži",
-                getBtn: "Preuzmi",
-                prices: { free: "Besplatno", proOnly: "Samo Pro", grok: "$8/mjesec", chatgpt: "Besplatno/$20", claude: "Besplatno/$20", midjourney: "$10/mjesec", suno: "Besplatno/$10", runway: "$12/mjesec", higgsfield: "$9/mjesec" },
-                tags: {
-                    search: "Pretraživanje", citations: "Citati", realtime: "Stvarno vrijeme", deepReasoning: "Duboko rasuđivanje", research: "Istraživanje", stepByStep: "Korak po korak",
-                    documents: "Dokumenti", audioPods: "Audio", multimodal: "Multimodalni", googleIntegration: "Google integracija", vision: "Vid",
-                    xIntegration: "X integracija", humor: "Humor", voice: "Glas", empathetic: "Empatičan", supportive: "Podržavajući",
-                    gpt4: "GPT-4", plugins: "Dodaci", longContext: "Dugi kontekst", safety: "Sigurnost", analysis: "Analiza",
-                    imageGen: "Generator slika", visualRemix: "Vizualni remiksi", experimental: "Eksperimentalno", videoGen: "Generator videa", cinematic: "Kinematografski", "1080p": "1080p",
-                    quickGen: "Brzo generiranje", socialMedia: "Društveni mediji", webBased: "Web-bazirano", openSource: "Otvoreni kod", customizable: "Prilagodljivo", local: "Lokalno",
-                    artistic: "Umjetnički", highQuality: "Visoka kvaliteta", music: "Glazba", vocals: "Vokali", fullSongs: "Cijele pjesme",
-                    editing: "Uređivanje", effects: "Efekti", cameraControl: "Kontrola kamere", modelsHub: "Zbirka modela", community: "Zajednica", "128kContext": "128K kontekst", selfHost: "Vlastiti hosting"
-                },
-                descriptions: {
-                    perplexity: "AI tražilica odgovora koja pretražuje web u stvarnom vremenu i pruža citirane, konverzacijske odgovore na vaša pitanja.",
-                    perplexityComet: "Napredni model rasuđivanja koji rješava složene probleme korak po korak, savršen za dubinsko istraživanje i tehnička pitanja.",
-                    notebooklm: "Google-ov AI bilježnik koji pretvara vaše dokumente u interaktivne razgovore, sažetke, pa čak i audio rasprave u stilu podcasta.",
-                    gemini: "Google-ov multimodalni AI koji razumije tekst, slike, video i kod te pomaže u kreativnim i analitičkim zadacima.",
-                    grok: "Konverzacijski AI tvrtke xAI s pristupom u stvarnom vremenu podacima X (Twitter) i duhovitom, buntovnom osobnošću.",
-                    piAi: "Inflectionov empatični osobni AI asistent dizajniran za podržavajuće razgovore, emocionalnu inteligenciju i prijateljske savjete.",
-                    chatgpt: "OpenAI-jev vodeći chatbot za kreativno pisanje, kodiranje, analizu i opću pomoć s GPT-4 u Plus paketu.",
-                    claude: "Anthropic-ov koristan, iskren AI asistent koji izvrsno vlada analizom, kodiranjem i pisanjem dugih tekstova s jakim sigurnosnim značajkama.",
-                    whiskAi: "Google-ov eksperimentalni generator slika koji stvara nove vizuale kombiniranjem slika subjekta, scene i stila umjesto tekstualnih uputa.",
-                    klingAi: "Kuaishou-ov kinematografski AI generator videa koji stvara 1080p videozapise iz teksta/slika s glatkim pokretom i realističnom fizikom.",
-                    pikaAi: "Lagani AI generator videa savršen za brzi sadržaj društvenih medija s mogućnostima tekst-u-video i slika-u-video.",
-                    stableDiffusion: "Model generiranja slika otvorenog koda s potpunom prilagodbom, lokalnom implementacijom i razvojem zajednice.",
-                    midjourney: "Vodeći AI generator umjetnosti koji stvara zadivljujuće, umjetničke slike iz tekstualnih opisa s nevjerojatnim detaljima i stilom.",
-                    suno: "Generirajte cijele pjesme s vokalima i instrumentima u bilo kojem stilu iz jednostavnih tekstualnih opisa.",
-                    runway: "Profesionalni AI video alati za generiranje, uređivanje i efekte, uključujući tekst-u-video i praćenje pokreta.",
-                    higgsfield: "Kinematografski AI kreator videa s 80+ pokreta kamere i 20+ specijalnih efekata za profesionalni sadržaj.",
-                    huggingface: "Platforma otvorenog koda koja hostira tisuće AI modela, skupova podataka i alata za kolaborativno strojno učenje za programere.",
-                    llama3: "Meta-ov jezični model otvorenog koda dostupan u veličinama 8B i 70B sa 128K kontekstnim prozorom za raznolike aplikacije."
-                }
-            },
-            sr: {
-                title: "AI УНИВЕРЗУМ",
-                subtitle: "Потпуни индекс AI модела и водич за цене",
-                catPersonal: "Лични избор",
-                catConversational: "Конверзацијски AI",
-                catFreeCreative: "Бесплатни креативни AI",
-                catPremiumCreative: "Премиум креативни AI",
-                catDeveloper: "Алати за програмере и отворени код",
-                badgeCurated: "Одабрано",
-                badgeNoCost: "Бесплатно",
-                tryBtn: "Пробај",
-                exploreBtn: "Истражи",
-                getBtn: "Преузми",
-                prices: { free: "Бесплатно", proOnly: "Само Pro", grok: "$8/месец", chatgpt: "Бесплатно/$20", claude: "Бесплатно/$20", midjourney: "$10/месец", suno: "Бесплатно/$10", runway: "$12/месец", higgsfield: "$9/месец" },
-                tags: {
-                    search: "Претрага", citations: "Цитати", realtime: "Реално време", deepReasoning: "Дубоко резоновање", research: "Истраживање", stepByStep: "Корак по корак",
-                    documents: "Документи", audioPods: "Аудио", multimodal: "Мултимодални", googleIntegration: "Google интеграција", vision: "Вид",
-                    xIntegration: "X интеграција", humor: "Хумор", voice: "Глас", empathetic: "Емпатичан", supportive: "Подржавајући",
-                    gpt4: "GPT-4", plugins: "Додаци", longContext: "Дуги контекст", safety: "Безбедност", analysis: "Анализа",
-                    imageGen: "Генератор слика", visualRemix: "Визуелни ремикси", experimental: "Експериментално", videoGen: "Генератор видеа", cinematic: "Кинематографски", "1080p": "1080p",
-                    quickGen: "Брзо генерисање", socialMedia: "Друштвени медији", webBased: "Веб-базирано", openSource: "Отворени код", customizable: "Прилагодљиво", local: "Локално",
-                    artistic: "Уметнички", highQuality: "Висока квалитет", music: "Музика", vocals: "Вокали", fullSongs: "Целе песме",
-                    editing: "Уређивање", effects: "Ефекти", cameraControl: "Контрола камере", modelsHub: "Збирка модела", community: "Заједница", "128kContext": "128K контекст", selfHost: "Сопствени хостинг"
-                },
-                descriptions: {
-                    perplexity: "AI претраживач одговора који претражује веб у реалном времену и пружа цитиране, конверзацијске одговоре на ваша питања.",
-                    perplexityComet: "Напредни модел резоновања који решава сложене проблеме корак по корак, савршен за дубинска истраживања и техничка питања.",
-                    notebooklm: "Google-ов AI бележник који претвара ваше документе у интерактивне разговоре, резимеe и чак аудио дискусије у стилу подкаста.",
-                    gemini: "Google-ов мултимодални AI који разуме текст, слике, видео и код и помаже у креативним и аналитичким задацима.",
-                    grok: "Конверзацијски AI компаније xAI са приступом у реалном времену X (Twitter) подацима и духовитом, бунтовном личношћу.",
-                    piAi: "Inflection-ов емпатични лични AI асистент дизајниран за подржавајуће разговоре, емоционалну интелигенцију и пријатељске савете.",
-                    chatgpt: "OpenAI-јев водећи chatbot за креативно писање, кодирање, анализу и општу помоћ са GPT-4 у Plus пакету.",
-                    claude: "Anthropic-ов користан, искрен AI асистент који одлично влада анализом, кодирањем и писањем дугих текстова са јаким безбедносним функцијама.",
-                    whiskAi: "Google-ов експериментални генератор слика који ствара нове визуелне приказе комбиновањем слика субјекта, сцене и стила уместо текстуалних упутстава.",
-                    klingAi: "Kuaishou-ов кинематографски AI генератор видеа који ствара 1080p видео снимке из текста/слика са глатким покретом и реалистичном физиком.",
-                    pikaAi: "Лагани AI генератор видеа савршен за брз садржај друштвених медија са могућностима текст-у-видео и слика-у-видео.",
-                    stableDiffusion: "Модел генерисања слика отвореног кода са потпуном прилагођавањем, локалном имплементацијом и развојем заједнице.",
-                    midjourney: "Водећи AI генератор уметности који ствара задивљујуће, уметничке слике из текстуалних описа са невероватним детаљима и стилом.",
-                    suno: "Генеришите целе песме са вокалима и инструментима у било ком стилу из једноставних текстуалних описа.",
-                    runway: "Професионални AI видео алати за генерисање, уређивање и ефекте, укључујући текст-у-видео и праћење покрета.",
-                    higgsfield: "Кинематографски AI креатор видеа са 80+ покрета камере и 20+ специјалних ефеката за професионални садржај.",
-                    huggingface: "Платформа отвореног кода која хостује хиљаде AI модела, скупова података и алата за колаборативно машинско учење за програмере.",
-                    llama3: "Meta-ов језички модел отвореног кода доступан у величинама 8B и 70B са 128K контекстним прозором за разноврсне апликације."
-                }
-            },
+            // EN - English
             en: {
                 title: "AI UNIVERSE",
-                subtitle: "Complete AI Models Index & Pricing Guide",
-                catPersonal: "Personal Picks",
-                catConversational: "Conversational AI",
-                catFreeCreative: "Free Creative AI",
-                catPremiumCreative: "Premium Creative AI",
-                catDeveloper: "Developer & Open Source",
-                badgeCurated: "Curated",
-                badgeNoCost: "No Cost",
-                tryBtn: "Try",
-                exploreBtn: "Explore",
-                getBtn: "Get",
-                prices: { free: "Free", proOnly: "Pro Only", grok: "$8/mo", chatgpt: "Free/$20", claude: "Free/$20", midjourney: "$10/mo", suno: "Free/$10", runway: "$12/mo", higgsfield: "$9/mo" },
-                tags: {
-                    search: "Search", citations: "Citations", realtime: "Real-time", deepReasoning: "Deep Reasoning", research: "Research", stepByStep: "Step-by-step",
-                    documents: "Documents", audioPods: "Audio Pods", multimodal: "Multimodal", googleIntegration: "Google Integration", vision: "Vision",
-                    xIntegration: "X Integration", humor: "Humor", voice: "Voice", empathetic: "Empathetic", supportive: "Supportive",
-                    gpt4: "GPT-4", plugins: "Plugins", longContext: "Long Context", safety: "Safety", analysis: "Analysis",
-                    imageGen: "Image Gen", visualRemix: "Visual Remix", experimental: "Experimental", videoGen: "Video Gen", cinematic: "Cinematic", "1080p": "1080p",
-                    quickGen: "Quick Gen", socialMedia: "Social Media", webBased: "Web-Based", openSource: "Open Source", customizable: "Customizable", local: "Local",
-                    artistic: "Artistic", highQuality: "High Quality", music: "Music", vocals: "Vocals", fullSongs: "Full Songs",
-                    editing: "Editing", effects: "Effects", cameraControl: "Camera Control", modelsHub: "Models Hub", community: "Community", "128kContext": "128K Context", selfHost: "Self-Host"
-                },
-                descriptions: {
-                    perplexity: "AI-powered answer engine that searches the web in real-time and provides cited, conversational responses to your questions.",
-                    perplexityComet: "Advanced reasoning model that tackles complex problems step-by-step, perfect for deep research and technical questions.",
-                    notebooklm: "Google's AI notebook that turns your documents into interactive conversations, summaries, and even podcast-style audio discussions.",
-                    gemini: "Google's multimodal AI that understands text, images, video, and code to help with creative and analytical tasks.",
-                    grok: "xAI's conversational AI with real-time access to X (Twitter) data and a witty, rebellious personality.",
-                    piAi: "Inflection's empathetic personal AI assistant designed for supportive conversations, emotional intelligence, and friendly advice.",
-                    chatgpt: "OpenAI's flagship chatbot for creative writing, coding, analysis, and general assistance with GPT-4 in Plus tier.",
-                    claude: "Anthropic's helpful, honest AI assistant excelling at analysis, coding, and long-form writing with strong safety features.",
-                    whiskAi: "Google's experimental image generator that creates new visuals by combining subject, scene, and style images instead of text prompts.",
-                    klingAi: "Kuaishou's cinematic AI video generator creating 1080p videos from text/images with smooth motion and realistic physics.",
-                    pikaAi: "Lightweight AI video generator perfect for quick social media content with text-to-video and image-to-video capabilities.",
-                    stableDiffusion: "Open-source image generation model with full customization, local deployment, and community-driven development.",
-                    midjourney: "Leading AI art generator creating stunning, artistic images from text prompts with incredible detail and style.",
-                    suno: "Generate complete songs with vocals and instruments in any style from simple text descriptions.",
-                    runway: "Professional AI video tools for generation, editing, and effects including text-to-video and motion tracking.",
-                    higgsfield: "Cinematic AI video creator with 80+ camera movements and 20+ special effects for professional-looking content.",
-                    huggingface: "Open-source platform hosting thousands of AI models, datasets, and collaborative ML tools for developers.",
-                    llama3: "Meta's open-source language model available in 8B and 70B sizes with 128K context window for diverse applications."
+                subtitle: "Small collection of useful AI models and tips",
+                nav: { home: "Home", personal: "Picks", tools: "Tools", creative: "Creative", prompts: "Prompts", ethics: "Ethics" },
+                cat: { personal: "Personal Picks", local: "Local AI", tools: "Useful Tools", creative: "Creative Studio", dev: "Developers", prompts: "Prompt Library", youtubers: "Inspiration", sites: "Recommended", ethics: "AI Ethics" },
+                badges: { curated: "Curated", free: "Free" },
+                prices: { alwaysFree: "Free" },
+                labels: { view: "Visit", videoGuide: "▶ Video Guide", watch: "Watch: The A.I. Dilemma" },
+                desc: {
+                    flow: "Create video from text and images.",
+                    perplexity: "Real-time search with citations.",
+                    notebooklm: "Smart notebook for your docs.",
+                    deepseek: "Great for coding and logic.",
+                    gemini: "Google's smart assistant.",
+                    chatgpt: "Most popular AI.",
+                    claude: "Natural and safe AI.",
+                    lmstudio: "Run AI models locally on your computer.",
+                    deepl: "Best translator.",
+                    besana: "Slovenian grammar check.",
+                    povejmo: "Slovenian TTS.",
+                    elevenlabs: "Voice cloning.",
+                    sonix: "Transcription and subtitles.",
+                    deepai: "Text editing.",
+                    opus: "Long to short video.",
+                    midjourney: "Top tier art generation.",
+                    flux: "Realistic open source images.",
+                    higgsfield: "Controlled AI video.",
+                    topaz: "Image/Video upscaling.",
+                    krea: "Real-time painting.",
+                    suno: "Create music.",
+                    n8n: "Workflow automation.",
+                    aistudio: "Google dev environment.",
+                    huggingface: "Hub for AI models.",
+                    yt_mattwolfe: "AI news and tutorials.",
+                    yt_aiadvantage: "Practical tips.",
+                    yt_2min: "Scientific breakthroughs.",
+                    yt_chuck: "IT and AI hacking.",
+                    yt_wes: "Industry news.",
+                    site_future: "Future Tools - Large collection of AI models (Matt Wolfe).",
+                    site_matt: "Matt Wolfe's blog.",
+                    site_tracking: "AI Tracker.",
+                    site_hsf: "AI Reports.",
+                    ethics_text: "Tristan Harris on AI dangers.",
+                    res_anthropic: "Official Prompt Library.",
                 }
             },
-            de: {
-                title: "AI UNIVERSUM",
-                subtitle: "Vollständiger AI-Modell-Index und Preisführer",
-                catPersonal: "Persönliche Auswahl",
-                catConversational: "Konversations-KI",
-                catFreeCreative: "Kostenlose kreative KI",
-                catPremiumCreative: "Premium kreative KI",
-                catDeveloper: "Entwickler und Open Source",
-                badgeCurated: "Kuratiert",
-                badgeNoCost: "Kostenlos",
-                tryBtn: "Testen",
-                exploreBtn: "Erkunden",
-                getBtn: "Holen",
-                prices: { free: "Kostenlos", proOnly: "Nur Pro", grok: "$8/Monat", chatgpt: "Kostenlos/$20", claude: "Kostenlos/$20", midjourney: "$10/Monat", suno: "Kostenlos/$10", runway: "$12/Monat", higgsfield: "$9/Monat" },
-                tags: {
-                    search: "Suche", citations: "Zitate", realtime: "Echtzeit", deepReasoning: "Tiefes Denken", research: "Forschung", stepByStep: "Schritt für Schritt",
-                    documents: "Dokumente", audioPods: "Audio", multimodal: "Multimodal", googleIntegration: "Google Integration", vision: "Vision",
-                    xIntegration: "X Integration", humor: "Humor", voice: "Stimme", empathetic: "Empathisch", supportive: "Unterstützend",
-                    gpt4: "GPT-4", plugins: "Plugins", longContext: "Langer Kontext", safety: "Sicherheit", analysis: "Analyse",
-                    imageGen: "Bildgen", visualRemix: "Visueller Remix", experimental: "Experimentell", videoGen: "Videogen", cinematic: "Kinematografisch", "1080p": "1080p",
-                    quickGen: "Schnellgen", socialMedia: "Soziale Medien", webBased: "Web-basiert", openSource: "Open Source", customizable: "Anpassbar", local: "Lokal",
-                    artistic: "Künstlerisch", highQuality: "Hohe Qualität", music: "Musik", vocals: "Gesang", fullSongs: "Ganze Songs",
-                    editing: "Bearbeitung", effects: "Effekte", cameraControl: "Kamerasteuerung", modelsHub: "Modell-Hub", community: "Gemeinschaft", "128kContext": "128K Kontext", selfHost: "Selbst-Host"
-                },
-                descriptions: {
-                    perplexity: "KI-gestützte Antwortmaschine, die das Web in Echtzeit durchsucht und zitierte, gesprächige Antworten auf Ihre Fragen liefert.",
-                    perplexityComet: "Fortschrittliches Reasoning-Modell, das komplexe Probleme Schritt für Schritt angeht, perfekt für tiefgehende Forschung und technische Fragen.",
-                    notebooklm: "Googles KI-Notizbuch, das Ihre Dokumente in interaktive Gespräche, Zusammenfassungen und sogar Podcast-artige Audio-Diskussionen verwandelt.",
-                    gemini: "Googles multimodale KI, die Text, Bilder, Videos und Code versteht und bei kreativen und analytischen Aufgaben hilft.",
-                    grok: "xAIs Konversations-KI mit Echtzeitzugriff auf X (Twitter) Daten und einer witzigen, rebellischen Persönlichkeit.",
-                    piAi: "Inflections empathischer persönlicher KI-Assistent für unterstützende Gespräche, emotionale Intelligenz und freundliche Ratschläge.",
-                    chatgpt: "OpenAIs Flaggschiff-Chatbot für kreatives Schreiben, Programmieren, Analysen und allgemeine Unterstützung mit GPT-4 im Plus-Tarif.",
-                    claude: "Anthropics hilfreicher, ehrlicher KI-Assistent, der sich durch Analysen, Programmierung und langformatiges Schreiben mit starken Sicherheitsfunktionen auszeichnet.",
-                    whiskAi: "Googles experimenteller Bildgenerator, der neue Visuals durch Kombination von Subjekt-, Szenen- und Stilbildern anstelle von Textaufforderungen erstellt.",
-                    klingAi: "Kuaishous kinematografischer KI-Videogenerator, der 1080p-Videos aus Text/Bildern mit flüssiger Bewegung und realistischer Physik erstellt.",
-                    pikaAi: "Leichter KI-Videogenerator perfekt für schnelle Social-Media-Inhalte mit Text-zu-Video- und Bild-zu-Video-Funktionen.",
-                    stableDiffusion: "Open-Source-Bildgenerierungsmodell mit voller Anpassung, lokaler Bereitstellung und Community-gesteuerter Entwicklung.",
-                    midjourney: "Führender KI-Kunstgenerator, der atemberaubende, künstlerische Bilder aus Textaufforderungen mit unglaublichen Details und Stil erstellt.",
-                    suno: "Generieren Sie vollständige Songs mit Gesang und Instrumenten in jedem Stil aus einfachen Textbeschreibungen.",
-                    runway: "Professionelle KI-Video-Tools für Generierung, Bearbeitung und Effekte, einschließlich Text-zu-Video und Motion-Tracking.",
-                    higgsfield: "Kinematografischer KI-Video-Ersteller mit 80+ Kamerabewegungen und 20+ Spezialeffekten für professionell aussehende Inhalte.",
-                    huggingface: "Open-Source-Plattform, die Tausende von KI-Modellen, Datensätzen und kollaborativen ML-Tools für Entwickler hostet.",
-                    llama3: "Metas Open-Source-Sprachmodell in 8B- und 70B-Größen mit 128K-Kontextfenster für vielfältige Anwendungen."
-                }
-            },
-            no: {
-                title: "AI UNIVERS",
-                subtitle: "Komplett AI-modell indeks og prisguide",
-                catPersonal: "Personlige valg",
-                catConversational: "Samtale-AI",
-                catFreeCreative: "Gratis kreativ AI",
-                catPremiumCreative: "Premium kreativ AI",
-                catDeveloper: "Utvikler og åpen kildekode",
-                badgeCurated: "Kuratert",
-                badgeNoCost: "Ingen kostnad",
-                tryBtn: "Prøv",
-                exploreBtn: "Utforsk",
-                getBtn: "Hent",
-                prices: { free: "Gratis", proOnly: "Kun Pro", grok: "$8/md", chatgpt: "Gratis/$20", claude: "Gratis/$20", midjourney: "$10/md", suno: "Gratis/$10", runway: "$12/md", higgsfield: "$9/md" },
-                tags: {
-                    search: "Søk", citations: "Sitater", realtime: "Sanntid", deepReasoning: "Dyp resonnering", research: "Forskning", stepByStep: "Steg-for-steg",
-                    documents: "Dokumenter", audioPods: "Lyd", multimodal: "Multimodal", googleIntegration: "Google integrasjon", vision: "Syn",
-                    xIntegration: "X integrasjon", humor: "Humor", voice: "Stemme", empathetic: "Empatisk", supportive: "Støttende",
-                    gpt4: "GPT-4", plugins: "Plugins", longContext: "Lang kontekst", safety: "Sikkerhet", analysis: "Analyse",
-                    imageGen: "Bildegen", visualRemix: "Visuell remix", experimental: "Eksperimentelt", videoGen: "Videogen", cinematic: "Kinematisk", "1080p": "1080p",
-                    quickGen: "Rask gen", socialMedia: "Sosiale medier", webBased: "Nettbasert", openSource: "Åpen kildekode", customizable: "Tilpassbar", local: "Lokal",
-                    artistic: "Kunstnerisk", highQuality: "Høy kvalitet", music: "Musikk", vocals: "Vokal", fullSongs: "Hele sanger",
-                    editing: "Redigering", effects: "Effekter", cameraControl: "Kamerakontroll", modelsHub: "Modell-hub", community: "Fellesskap", "128kContext": "128K kontekst", selfHost: "Selvvert"
-                },
-                descriptions: {
-                    perplexity: "AI-drevet svarmotor som søker på nettet i sanntid og gir siterte, samtalepregede svar på spørsmålene dine.",
-                    perplexityComet: "Avansert resonneringsmodell som takler komplekse problemer steg-for-steg, perfekt for dyp forskning og tekniske spørsmål.",
-                    notebooklm: "Googles AI-notatbok som gjør dokumentene dine om til interaktive samtaler, sammendrag og til og med podcast-lignende lyddiskusjoner.",
-                    gemini: "Googles multimodale AI som forstår tekst, bilder, video og kode for å hjelpe med kreative og analytiske oppgaver.",
-                    grok: "xAIs samtale-AI med sanntidstilgang til X (Twitter) data og en vittig, opprørsk personlighet.",
-                    piAi: "Inflections empatiske personlige AI-assistent designet for støttende samtaler, emosjonell intelligens og vennlige råd.",
-                    chatgpt: "OpenAIs flaggskip chatbot for kreativ skriving, koding, analyse og generell assistanse med GPT-4 i Plus-nivået.",
-                    claude: "Anthropics hjelpsomme, ærlige AI-assistent som utmerker seg i analyse, koding og langform skriving med sterke sikkerhetsfunksjoner.",
-                    whiskAi: "Googles eksperimentelle bildegenerator som skaper nye visuals ved å kombinere subjekt-, scene- og stilbilder i stedet for tekstmeldinger.",
-                    klingAi: "Kuaishous kinematiske AI-videogenerator som lager 1080p-videoer fra tekst/bilder med jevn bevegelse og realistisk fysikk.",
-                    pikaAi: "Lett AI-videogenerator perfekt for raskt innhold på sosiale medier med tekst-til-video og bilde-til-video muligheter.",
-                    stableDiffusion: "Åpen kildekode bildegeneringsmodell med full tilpasning, lokal distribusjon og fellesskapsdrevet utvikling.",
-                    midjourney: "Ledende AI-kunstgenerator som skaper fantastiske, kunstneriske bilder fra tekstbeskrivelser med utrolige detaljer og stil.",
-                    suno: "Generer komplette sanger med vokal og instrumenter i hvilken som helst stil fra enkle tekstbeskrivelser.",
-                    runway: "Profesjonelle AI-videoverktøy for generering, redigering og effekter inkludert tekst-til-video og bevegelsesporing.",
-                    higgsfield: "Kinematisk AI-videoskaper med 80+ kamerabevegelser og 20+ spesialeffekter for profesjonelt innhold.",
-                    huggingface: "Åpen kildekode-plattform som hoster tusenvis av AI-modeller, datasett og samarbeidende ML-verktøy for utviklere.",
-                    llama3: "Metas åpen kildekode språkmodell tilgjengelig i 8B og 70B størrelser med 128K kontekstvindu for ulike applikasjoner."
-                }
-            },
-            it: {
-                title: "AI UNIVERSO",
-                subtitle: "Indice completo dei modelli AI e guida ai prezzi",
-                catPersonal: "Scelte personali",
-                catConversational: "AI conversazionale",
-                catFreeCreative: "AI creativo gratuito",
-                catPremiumCreative: "AI creativo premium",
-                catDeveloper: "Sviluppatori e open source",
-                badgeCurated: "Curato",
-                badgeNoCost: "Gratuito",
-                tryBtn: "Prova",
-                exploreBtn: "Esplora",
-                getBtn: "Ottieni",
-                prices: { free: "Gratuito", proOnly: "Solo Pro", grok: "$8/mese", chatgpt: "Gratuito/$20", claude: "Gratuito/$20", midjourney: "$10/mese", suno: "Gratuito/$10", runway: "$12/mese", higgsfield: "$9/mese" },
-                tags: {
-                    search: "Ricerca", citations: "Citazioni", realtime: "Tempo reale", deepReasoning: "Ragionamento profondo", research: "Ricerca", stepByStep: "Passo dopo passo",
-                    documents: "Documenti", audioPods: "Audio", multimodal: "Multimodale", googleIntegration: "Integrazione Google", vision: "Visione",
-                    xIntegration: "Integrazione X", humor: "Umorismo", voice: "Voce", empathetic: "Empatico", supportive: "Supportivo",
-                    gpt4: "GPT-4", plugins: "Plugin", longContext: "Lungo contesto", safety: "Sicurezza", analysis: "Analisi",
-                    imageGen: "Gen immagini", visualRemix: "Remix visivo", experimental: "Sperimentale", videoGen: "Gen video", cinematic: "Cinematografico", "1080p": "1080p",
-                    quickGen: "Gen rapido", socialMedia: "Social media", webBased: "Basato sul web", openSource: "Open source", customizable: "Personalizzabile", local: "Locale",
-                    artistic: "Artistico", highQuality: "Alta qualità", music: "Musica", vocals: "Voce", fullSongs: "Canzoni complete",
-                    editing: "Modifica", effects: "Effetti", cameraControl: "Controllo camera", modelsHub: "Hub modelli", community: "Comunità", "128kContext": "128K contesto", selfHost: "Auto-host"
-                },
-                descriptions: {
-                    perplexity: "Motore di risposta alimentato da AI che cerca sul web in tempo reale e fornisce risposte citate e conversazionali alle tue domande.",
-                    perplexityComet: "Modello di ragionamento avanzato che affronta problemi complessi passo dopo passo, perfetto per ricerche approfondite e domande tecniche.",
-                    notebooklm: "Il taccuino AI di Google che trasforma i tuoi documenti in conversazioni interattive, riassunti e persino discussioni audio in stile podcast.",
-                    gemini: "L'AI multimodale di Google che comprende testo, immagini, video e codice per aiutare con compiti creativi e analitici.",
-                    grok: "L'AI conversazionale di xAI con accesso in tempo reale ai dati di X (Twitter) e una personalità spiritosa e ribelle.",
-                    piAi: "L'assistente AI personale empatico di Inflection progettato per conversazioni di supporto, intelligenza emotiva e consigli amichevoli.",
-                    chatgpt: "Il chatbot di punta di OpenAI per scrittura creativa, codifica, analisi e assistenza generale con GPT-4 nel livello Plus.",
-                    claude: "L'assistente AI utile e onesto di Anthropic che eccelle nell'analisi, nella codifica e nella scrittura di testi lunghi con forti funzionalità di sicurezza.",
-                    whiskAi: "Il generatore di immagini sperimentale di Google che crea nuove visual combinando immagini di soggetto, scena e stile invece di prompt di testo.",
-                    klingAi: "Il generatore video AI cinematografico di Kuaishou che crea video 1080p da testo/immagini con movimento fluido e fisica realistica.",
-                    pikaAi: "Generatore video AI leggero perfetto per contenuti social media veloci con capacità testo-a-video e immagine-a-video.",
-                    stableDiffusion: "Modello di generazione immagini open-source con personalizzazione completa, distribuzione locale e sviluppo guidato dalla comunità.",
-                    midjourney: "Generatore di arte AI leader che crea immagini artistiche straordinarie da prompt di testo con dettagli e stile incredibili.",
-                    suno: "Genera canzoni complete con voce e strumenti in qualsiasi stile da semplici descrizioni testuali.",
-                    runway: "Strumenti video AI professionali per generazione, editing ed effetti, inclusi testo-a-video e motion tracking.",
-                    higgsfield: "Creatore video AI cinematografico con 80+ movimenti della fotocamera e 20+ effetti speciali per contenuti dall'aspetto professionale.",
-                    huggingface: "Piattaforma open-source che ospita migliaia di modelli AI, dataset e strumenti ML collaborativi per sviluppatori.",
-                    llama3: "Il modello linguistico open-source di Meta disponibile nelle dimensioni 8B e 70B con finestra di contesto 128K per diverse applicazioni."
-                }
-            },
-            es: {
-                title: "AI UNIVERSO",
-                subtitle: "Índice completo de modelos de IA y guía de precios",
-                catPersonal: "Selecciones personales",
-                catConversational: "IA conversacional",
-                catFreeCreative: "IA creativo gratuito",
-                catPremiumCreative: "IA creativo premium",
-                catDeveloper: "Desarrolladores y código abierto",
-                badgeCurated: "Seleccionado",
-                badgeNoCost: "Sin costo",
-                tryBtn: "Probar",
-                exploreBtn: "Explorar",
-                getBtn: "Obtener",
-                prices: { free: "Gratis", proOnly: "Solo Pro", grok: "$8/mes", chatgpt: "Gratis/$20", claude: "Gratis/$20", midjourney: "$10/mes", suno: "Gratis/$10", runway: "$12/mes", higgsfield: "$9/mes" },
-                tags: {
-                    search: "Búsqueda", citations: "Citas", realtime: "Tiempo real", deepReasoning: "Razonamiento profundo", research: "Investigación", stepByStep: "Paso a paso",
-                    documents: "Documentos", audioPods: "Audio", multimodal: "Multimodal", googleIntegration: "Integración Google", vision: "Visión",
-                    xIntegration: "Integración X", humor: "Humor", voice: "Voz", empathetic: "Empático", supportive: "De apoyo",
-                    gpt4: "GPT-4", plugins: "Plugins", longContext: "Contexto largo", safety: "Seguridad", analysis: "Análisis",
-                    imageGen: "Gen imágenes", visualRemix: "Remix visual", experimental: "Experimental", videoGen: "Gen video", cinematic: "Cinematográfico", "1080p": "1080p",
-                    quickGen: "Gen rápido", socialMedia: "Redes sociales", webBased: "Basado en web", openSource: "Código abierto", customizable: "Personalizable", local: "Local",
-                    artistic: "Artístico", highQuality: "Alta calidad", music: "Música", vocals: "Voces", fullSongs: "Canciones completas",
-                    editing: "Edición", effects: "Efectos", cameraControl: "Control de cámara", modelsHub: "Hub de modelos", community: "Comunidad", "128kContext": "128K contexto", selfHost: "Auto-host"
-                },
-                descriptions: {
-                    perplexity: "Motor de respuestas impulsado por IA que busca en la web en tiempo real y proporciona respuestas citadas y conversacionales a tus preguntas.",
-                    perplexityComet: "Modelo de razonamiento avanzado que aborda problemas complejos paso a paso, perfecto para investigación profunda y preguntas técnicas.",
-                    notebooklm: "El cuaderno de IA de Google que convierte tus documentos en conversaciones interactivas, resúmenes e incluso discusiones de audio estilo podcast.",
-                    gemini: "La IA multimodal de Google que entiende texto, imágenes, video y código para ayudar con tareas creativas y analíticas.",
-                    grok: "La IA conversacional de xAI con acceso en tiempo real a datos de X (Twitter) y una personalidad ingeniosa y rebelde.",
-                    piAi: "El asistente de IA personal empático de Inflection diseñado para conversaciones de apoyo, inteligencia emocional y consejos amigables.",
-                    chatgpt: "El chatbot insignia de OpenAI para escritura creativa, codificación, análisis y asistencia general con GPT-4 en el nivel Plus.",
-                    claude: "El asistente de IA útil y honesto de Anthropic que sobresale en análisis, codificación y escritura de formato largo con fuertes características de seguridad.",
-                    whiskAi: "El generador de imágenes experimental de Google que crea nuevas visuales combinando imágenes de sujeto, escena y estilo en lugar de indicaciones de texto.",
-                    klingAi: "El generador de video AI cinematográfico de Kuaishou que crea videos 1080p a partir de texto/imágenes con movimiento suave y física realista.",
-                    pikaAi: "Generador de video AI ligero perfecto para contenido rápido de redes sociales con capacidades de texto a video e imagen a video.",
-                    stableDiffusion: "Modelo de generación de imágenes de código abierto con personalización completa, implementación local y desarrollo impulsado por la comunidad.",
-                    midjourney: "Generador de arte de IA líder que crea impresionantes imágenes artísticas a partir de indicaciones de texto con increíbles detalles y estilo.",
-                    suno: "Genera canciones completas con voces e instrumentos en cualquier estilo a partir de simples descripciones de texto.",
-                    runway: "Herramientas de video de IA profesionales para generación, edición y efectos, incluyendo texto a video y seguimiento de movimiento.",
-                    higgsfield: "Creador de video AI cinematográfico con 80+ movimientos de cámara y 20+ efectos especiales para contenido de aspecto profesional.",
-                    huggingface: "Plataforma de código abierto que aloja miles de modelos de IA, conjuntos de datos y herramientas de ML colaborativas para desarrolladores.",
-                    llama3: "El modelo de lenguaje de código abierto de Meta disponible en tamaños 8B y 70B con ventana de contexto de 128K para diversas aplicaciones."
+            // DE - Deutsch
+            de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { home: "Start", personal: "Auswahl", tools: "Tools", creative: "Kreativ", prompts: "Prompts", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma" }, desc: { flow: "Video aus Text und Bildern erstellen.", perplexity: "Echtzeit-Suche.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
+            // HR - Croatian
+            hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma" }, desc: { flow: "Izrada videa iz teksta i slika.", perplexity: "Pretraga u stvarnom vremenu.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+            // SR - Serbian
+            sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma" }, desc: { flow: "Pravljenje videa iz teksta i slika.", perplexity: "Pretraga u realnom vremenu.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+             // MK - Macedonian
+            mk: { title: "AI ВСЕЛЕНА", subtitle: "Мала збирка на корисни АИ модели", nav: { home: "Дома", personal: "Избор", tools: "Алатки", creative: "Креативно", prompts: "Промптови", ethics: "Етика" }, cat: { personal: "Личен избор", local: "Локален АИ", tools: "Корисни алатки", creative: "Креативно студио", dev: "Програмери", prompts: "Библиотека на промптови", youtubers: "Инспирација", sites: "Препорачано", ethics: "АИ Етика" }, badges: { curated: "Избрано", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Види", videoGuide: "▶ Видео Водич", watch: "Гледај: The A.I. Dilemma" }, desc: { flow: "Креирање видеа од текст и слики.", perplexity: "Пребарување во реално време.", notebooklm: "Паметна тетратка.", deepseek: "Одличен за кодирање.", gemini: "Google асистент.", chatgpt: "Најпопуларен АИ.", claude: "Природен разговор.", lmstudio: "Локално извршување на АИ модели.", deepl: "Најдобар преведувач.", besana: "Проверка на граматика.", povejmo: "Синтеза на говор.", elevenlabs: "Клонирање глас.", sonix: "Транскрипција.", deepai: "Уредување текст.", opus: "Кратки видеа.", midjourney: "Врвни слики.", flux: "Реалистични слики.", higgsfield: "Видео контрола.", topaz: "Подобрување квалитет.", krea: "Цртање во живо.", suno: "Креирај музика.", n8n: "Автоматизација.", aistudio: "Google развој.", huggingface: "АИ модели.", ethics_text: "Опасности од АИ.", site_future: "Future Tools - Голема збирка АИ модели (Matt Wolfe)." } },
+            // SQ - Albanian
+            sq: { title: "AI UNIVERSI", subtitle: "Koleksion i vogël i modeleve AI", nav: { home: "Kreu", personal: "Zgjedhjet", tools: "Mjetet", creative: "Kreative", prompts: "Prompts", ethics: "Etika" }, cat: { personal: "Zgjedhjet Personale", local: "AI Lokale", tools: "Mjete të Dobishme", creative: "Studio Kreative", dev: "Zhvilluesit", prompts: "Biblioteka e Prompteve", youtubers: "Frymëzim", sites: "Rekomanduar", ethics: "Etika e AI" }, badges: { curated: "Zgjedhur", free: "Falas" }, prices: { alwaysFree: "Falas" }, labels: { view: "Shiko", videoGuide: "▶ Udhëzues Video", watch: "Shiko: The A.I. Dilemma" }, desc: { flow: "Krijimi i videos nga teksti dhe imazhet.", perplexity: "Kërkim në kohë reale.", notebooklm: "Fletore e zgjuar.", deepseek: "Mirë për kodim.", gemini: "Asistenti i Google.", chatgpt: "Më popullori.", claude: "Bisedë natyrale.", lmstudio: "Ekzekuto modele AI lokalisht.", deepl: "Përkthyesi më i mirë.", besana: "Gramatika.", povejmo: "Sintezë zëri.", elevenlabs: "Klonim zëri.", sonix: "Transkriptim.", deepai: "Redaktim teksti.", opus: "Video të shkurtra.", midjourney: "Art cilësor.", flux: "Imazhe realiste.", higgsfield: "Kontroll video.", topaz: "Përmirësim cilësie.", krea: "Pikturim live.", suno: "Krijo muzikë.", n8n: "Automatizim.", aistudio: "Zhvillim Google.", huggingface: "Modele AI.", ethics_text: "Rreziqet e AI.", site_future: "Future Tools - Koleksion i madh modelesh AI (Matt Wolfe)." } },
+            // IT - Italian
+            it: { title: "UNIVERSO AI", subtitle: "Piccola raccolta di modelli AI utili", nav: { home: "Home", personal: "Scelti", tools: "Strumenti", creative: "Creativo", prompts: "Prompt", ethics: "Etica" }, cat: { personal: "Scelte Personali", local: "AI Locale", tools: "Strumenti Utili", creative: "Studio Creativo", dev: "Sviluppatori", prompts: "Libreria Prompt", youtubers: "Ispirazione", sites: "Consigliati", ethics: "Etica AI" }, badges: { curated: "Scelto", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Vedi", videoGuide: "▶ Video Guida", watch: "Guarda: The A.I. Dilemma" }, desc: { flow: "Crea video da testo e immagini.", perplexity: "Ricerca in tempo reale.", notebooklm: "Taccuino intelligente.", deepseek: "Ottimo per il codice.", gemini: "Assistente Google.", chatgpt: "Il più popolare.", claude: "Conversazione naturale.", lmstudio: "Esegui modelli AI localmente.", deepl: "Miglior traduttore.", besana: "Grammatica.", povejmo: "Sintesi vocale.", elevenlabs: "Clonazione voce.", sonix: "Trascrizione.", deepai: "Editing testo.", opus: "Video brevi.", midjourney: "Arte top.", flux: "Immagini realistiche.", higgsfield: "Controllo video.", topaz: "Miglioramento qualità.", krea: "Pittura live.", suno: "Crea musica.", n8n: "Automazione.", aistudio: "Sviluppo Google.", huggingface: "Modelli AI.", ethics_text: "Pericoli dell'IA.", site_future: "Future Tools - Grande raccolta di modelli AI (Matt Wolfe)." } },
+            // ES - Spanish
+            es: { title: "UNIVERSO IA", subtitle: "Pequeña colección de modelos de IA útiles", nav: { home: "Inicio", personal: "Selección", tools: "Herramientas", creative: "Creativo", prompts: "Prompts", ethics: "Ética" }, cat: { personal: "Selección Personal", local: "IA Local", tools: "Herramientas Útiles", creative: "Estudio Creativo", dev: "Desarrolladores", prompts: "Biblioteca de Prompts", youtubers: "Inspiración", sites: "Recomendado", ethics: "Ética de la IA" }, badges: { curated: "Elegido", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ver", videoGuide: "▶ Guía en Video", watch: "Ver: The A.I. Dilemma" }, desc: { flow: "Crear video a partir de texto e imágenes.", perplexity: "Búsqueda en tiempo real.", notebooklm: "Cuaderno inteligente.", deepseek: "Genial para código.", gemini: "Asistente de Google.", chatgpt: "El más popular.", claude: "Conversación natural.", lmstudio: "Ejecutar modelos IA localmente.", deepl: "Mejor traductor.", besana: "Gramática.", povejmo: "Síntesis de voz.", elevenlabs: "Clonación de voz.", sonix: "Transcripción.", deepai: "Edición de texto.", opus: "Videos cortos.", midjourney: "Arte top.", flux: "Imágenes realistas.", higgsfield: "Control de video.", topaz: "Mejora de calidad.", krea: "Pintura en vivo.", suno: "Crear música.", n8n: "Automatización.", aistudio: "Desarrollo Google.", huggingface: "Modelos de IA.", ethics_text: "Peligros de la IA.", site_future: "Future Tools - Gran colección de modelos IA (Matt Wolfe)." } },
+            // PT - Portuguese
+            pt: { title: "UNIVERSO IA", subtitle: "Pequena coleção de modelos de IA úteis", nav: { home: "Início", personal: "Escolhas", tools: "Ferramentas", creative: "Criativo", prompts: "Prompts", ethics: "Ética" }, cat: { personal: "Escolhas Pessoais", local: "IA Local", tools: "Ferramentas Úteis", creative: "Estúdio Criativo", dev: "Desenvolvedores", prompts: "Biblioteca de Prompts", youtubers: "Inspiração", sites: "Recomendado", ethics: "Ética da IA" }, badges: { curated: "Escolhido", free: "Grátis" }, prices: { alwaysFree: "Grátis" }, labels: { view: "Ver", videoGuide: "▶ Guia de Vídeo", watch: "Ver: The A.I. Dilemma" }, desc: { flow: "Criar vídeo a partir de texto e imagens.", perplexity: "Busca em tempo real.", notebooklm: "Caderno inteligente.", deepseek: "Ótimo para código.", gemini: "Assistente Google.", chatgpt: "O mais popular.", claude: "Conversa natural.", lmstudio: "Executar modelos IA localmente.", deepl: "Melhor tradutor.", besana: "Gramática.", povejmo: "Síntese de voz.", elevenlabs: "Clonagem de voz.", sonix: "Transcrição.", deepai: "Edição de texto.", opus: "Vídeos curtos.", midjourney: "Arte top.", flux: "Imagens realistas.", higgsfield: "Controle de vídeo.", topaz: "Melhoria de qualidade.", krea: "Pintura ao vivo.", suno: "Criar música.", n8n: "Automação.", aistudio: "Desenvolvimento Google.", huggingface: "Modelos de IA.", ethics_text: "Perigos da IA.", site_future: "Future Tools - Grande coleção de modelos IA (Matt Wolfe)." } },
+            // NO - Norwegian
+            no: { title: "AI UNIVERSET", subtitle: "Liten samling av nyttige AI-modeller", nav: { home: "Hjem", personal: "Utvalg", tools: "Verktøy", creative: "Kreativt", prompts: "Prompter", ethics: "Etikk" }, cat: { personal: "Personlige Valg", local: "Lokal AI", tools: "Nyttige Verktøy", creative: "Kreativt Studio", dev: "Utviklere", prompts: "Prompt-bibliotek", youtubers: "Inspirasjon", sites: "Anbefalt", ethics: "AI Etikk" }, badges: { curated: "Utvalgt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Se", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma" }, desc: { flow: "Lag video fra tekst og bilder.", perplexity: "Sanntidssøk.", notebooklm: "Smart notatbok.", deepseek: "Bra for koding.", gemini: "Google-assistent.", chatgpt: "Mest populær.", claude: "Naturlig samtale.", lmstudio: "Kjør AI-modeller lokalt.", deepl: "Best oversetter.", besana: "Grammatikk.", povejmo: "Talesyntese.", elevenlabs: "Stemmekloning.", sonix: "Transkripsjon.", deepai: "Tekstredigering.", opus: "Korte videoer.", midjourney: "Topp kunst.", flux: "Realistiske bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsforbedring.", krea: "Live maling.", suno: "Lag musikk.", n8n: "Automasjon.", aistudio: "Google utvikling.", huggingface: "AI-modeller.", ethics_text: "Farer med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
+            // FI - Finnish
+            fi: { title: "TEKOÄLYUNIVERSUMI", subtitle: "Pieni kokoelma hyödyllisiä tekoälymalleja", nav: { home: "Koti", personal: "Valinnat", tools: "Työkalut", creative: "Luova", prompts: "Kehotteet", ethics: "Etiikka" }, cat: { personal: "Omat Valinnat", local: "Paikallinen AI", tools: "Hyödylliset Työkalut", creative: "Luova Studio", dev: "Kehittäjät", prompts: "Kehotekirjasto", youtubers: "Inspiraatio", sites: "Suositellut", ethics: "Tekoälyn Etiikka" }, badges: { curated: "Valittu", free: "Ilmainen" }, prices: { alwaysFree: "Ilmainen" }, labels: { view: "Katso", videoGuide: "▶ Video-opas", watch: "Katso: The A.I. Dilemma" }, desc: { flow: "Luo video tekstistä ja kuvista.", perplexity: "Reaaliaikainen haku.", notebooklm: "Älykäs muistikirja.", deepseek: "Hyvä koodaukseen.", gemini: "Google-avustaja.", chatgpt: "Suosituin.", claude: "Luonnollinen keskustelu.", lmstudio: "Aja tekoälymalleja paikallisesti.", deepl: "Paras kääntäjä.", besana: "Kielioppi.", povejmo: "Puhesynteesi.", elevenlabs: "Äänen kloonaus.", sonix: "Litterointi.", deepai: "Tekstin muokkaus.", opus: "Lyhytvideot.", midjourney: "Huipputaidetta.", flux: "Realistiset kuvat.", higgsfield: "Videon hallinta.", topaz: "Laadun parannus.", krea: "Live-maalaus.", suno: "Luo musiikkia.", n8n: "Automaatio.", aistudio: "Google-kehitys.", huggingface: "AI-mallit.", ethics_text: "Tekoälyn vaarat.", site_future: "Future Tools - Suuri kokoelma AI-malleja (Matt Wolfe)." } },
+            // SE - Swedish
+            se: { title: "AI UNIVERSUM", subtitle: "Liten samling användbara AI-modeller", nav: { home: "Hem", personal: "Urval", tools: "Verktyg", creative: "Kreativt", prompts: "Prompts", ethics: "Etik" }, cat: { personal: "Personliga Val", local: "Lokal AI", tools: "Användbara Verktyg", creative: "Kreativ Studio", dev: "Utvecklare", prompts: "Promptbibliotek", youtubers: "Inspiration", sites: "Rekommenderat", ethics: "AI Etik" }, badges: { curated: "Utvalt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Visa", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma" }, desc: { flow: "Skapa video från text och bilder.", perplexity: "Sök i realtid.", notebooklm: "Smart anteckningsbok.", deepseek: "Bra för kodning.", gemini: "Google-assistent.", chatgpt: "Mest populär.", claude: "Naturligt samtal.", lmstudio: "Kör AI-modeller lokalt.", deepl: "Bästa översättaren.", besana: "Grammatik.", povejmo: "Talsyntes.", elevenlabs: "Röstkloning.", sonix: "Transkribering.", deepai: "Textredigering.", opus: "Korta videor.", midjourney: "Toppkonst.", flux: "Realistiska bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsförbättring.", krea: "Live-målning.", suno: "Skapa musik.", n8n: "Automation.", aistudio: "Google-utveckling.", huggingface: "AI-modeller.", ethics_text: "Faror med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
+            // RU - Russian
+            ru: { title: "ВСЕЛЕННАЯ ИИ", subtitle: "Небольшая коллекция полезных моделей ИИ", nav: { home: "Главная", personal: "Выбор", tools: "Инструменты", creative: "Творчество", prompts: "Промпты", ethics: "Этика" }, cat: { personal: "Личный выбор", local: "Локальный ИИ", tools: "Полезные инструменты", creative: "Творческая студия", dev: "Разработчикам", prompts: "Библиотека промптов", youtubers: "Вдохновение", sites: "Рекомендуем", ethics: "Этика ИИ" }, badges: { curated: "Выбор", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Смотреть", videoGuide: "▶ Видео-гайд", watch: "Смотреть: The A.I. Dilemma" }, desc: { flow: "Создание видео из текста и изображений.", perplexity: "Поиск в реальном времени.", notebooklm: "Умный блокнот.", deepseek: "Отлично для кода.", gemini: "Ассистент Google.", chatgpt: "Самый популярный.", claude: "Естественный диалог.", lmstudio: "Запуск ИИ моделей локально.", deepl: "Лучший переводчик.", besana: "Грамматика.", povejmo: "Синтез речи.", elevenlabs: "Клонирование голоса.", sonix: "Транскрипция.", deepai: "Редактирование текста.", opus: "Короткие видео.", midjourney: "Топовые арты.", flux: "Реалистичные фото.", higgsfield: "Контроль видео.", topaz: "Улучшение качества.", krea: "Рисование в реальном времени.", suno: "Создание музыки.", n8n: "Автоматизация.", aistudio: "Google разработка.", huggingface: "Модели ИИ.", ethics_text: "Опасности ИИ.", site_future: "Future Tools - Большая коллекция ИИ моделей (Matt Wolfe)." } },
+            // UA - Ukrainian
+            ua: { title: "ВСЕСВІТ ШІ", subtitle: "Невелика колекція корисних моделей ШІ", nav: { home: "Головна", personal: "Вибір", tools: "Інструменти", creative: "Творчість", prompts: "Промпти", ethics: "Етика" }, cat: { personal: "Особистий вибір", local: "Локальний ШІ", tools: "Корисні інструменти", creative: "Творча студія", dev: "Розробникам", prompts: "Бібліотека промптів", youtubers: "Натхнення", sites: "Рекомендуємо", ethics: "Етика ШІ" }, badges: { curated: "Вибір", free: "Безкоштовно" }, prices: { alwaysFree: "Безкоштовно" }, labels: { view: "Дивитись", videoGuide: "▶ Відео-гайд", watch: "Дивитись: The A.I. Dilemma" }, desc: { flow: "Створення відео з тексту та зображень.", perplexity: "Пошук у реальному часі.", notebooklm: "Розумний записник.", deepseek: "Чудово для коду.", gemini: "Асистент Google.", chatgpt: "Найпопулярніший.", claude: "Природний діалог.", lmstudio: "Запуск ШІ моделей локально.", deepl: "Найкращий перекладач.", besana: "Граматика.", povejmo: "Синтез мовлення.", elevenlabs: "Клонування голосу.", sonix: "Транскрипція.", deepai: "Редагування тексту.", opus: "Короткі відео.", midjourney: "Топові арти.", flux: "Реалістичні фото.", higgsfield: "Контроль відео.", topaz: "Покращення якості.", krea: "Малювання в реальному часі.", suno: "Створення музики.", n8n: "Автоматизація.", aistudio: "Google розробка.", huggingface: "Моделі ШІ.", ethics_text: "Небезпеки ШІ.", site_future: "Future Tools - Велика колекція ШІ моделей (Matt Wolfe)." } },
+            // CN - Chinese
+            cn: { title: "AI 宇宙", subtitle: "精选实用 AI 模型合集", nav: { home: "首页", personal: "精选", tools: "工具", creative: "创意", prompts: "提示词", ethics: "伦理" }, cat: { personal: "个人精选", local: "本地 AI", tools: "实用工具", creative: "创意工作室", dev: "开发者", prompts: "提示词库", youtubers: "灵感", sites: "推荐网站", ethics: "AI 伦理" }, badges: { curated: "精选", free: "免费" }, prices: { alwaysFree: "免费" }, labels: { view: "查看", videoGuide: "▶ 视频指南", watch: "观看: The A.I. Dilemma" }, desc: { flow: "从文本和图像创建视频。", perplexity: "实时搜索.", notebooklm: "智能笔记本.", deepseek: "代码利器.", gemini: "谷歌助手.", chatgpt: "最受欢迎.", claude: "自然对话.", lmstudio: "本地运行 AI 模型.", deepl: "最佳翻译.", besana: "语法检查.", povejmo: "语音合成.", elevenlabs: "声音克隆.", sonix: "转录字幕.", deepai: "文本编辑.", opus: "短视频制作.", midjourney: "顶级艺术.", flux: "逼真图像.", higgsfield: "视频控制.", topaz: "画质增强.", krea: "实时绘画.", suno: "创作音乐.", n8n: "自动化.", aistudio: "谷歌开发.", huggingface: "AI 模型库.", ethics_text: "AI 的危险.", site_future: "Future Tools - 大型 AI 模型集合 (Matt Wolfe)." } },
+            // JA - Japanese
+            ja: { title: "AI 宇宙", subtitle: "便利なAIモデルの小コレクション", nav: { home: "ホーム", personal: "厳選", tools: "ツール", creative: "クリエイティブ", prompts: "プロンプト", ethics: "倫理" }, cat: { personal: "個人的な選択", local: "ローカルAI", tools: "便利なツール", creative: "クリエイティブスタジオ", dev: "開発者", prompts: "プロンプトライブラリ", youtubers: "インスピレーション", sites: "おすすめ", ethics: "AI倫理" }, badges: { curated: "厳選", free: "無料" }, prices: { alwaysFree: "無料" }, labels: { view: "見る", videoGuide: "▶ 動画ガイド", watch: "見る: The A.I. Dilemma" }, desc: { flow: "テキストと画像から動画を作成。", perplexity: "リアルタイム検索.", notebooklm: "スマートノート.", deepseek: "コーディングに最適.", gemini: "Googleアシスタント.", chatgpt: "最も人気.", claude: "自然な会話.", lmstudio: "AIモデルをローカルで実行。", deepl: "最高の翻訳.", besana: "文法チェック.", povejmo: "音声合成.", elevenlabs: "音声クローン.", sonix: "文字起こし.", deepai: "テキスト編集.", opus: "ショート動画.", midjourney: "最高のアート.", flux: "リアルな画像.", higgsfield: "動画コントロール.", topaz: "画質向上.", krea: "リアルタイム描画.", suno: "音楽作成.", n8n: "自動化.", aistudio: "Google開発.", huggingface: "AIモデル.", ethics_text: "AIの危険性.", site_future: "Future Tools - AIモデルの大規模コレクション (Matt Wolfe)." } },
+            // AR - Arabic
+            ar: { dir: "rtl", title: "كون الذكاء الاصطناعي", subtitle: "مجموعة صغيرة من نماذج الذكاء الاصطناعي المفيدة", nav: { home: "الرئيسية", personal: "مختارات", tools: "أدوات", creative: "إبداع", prompts: "أوامر", ethics: "أخلاقيات" }, cat: { personal: "اختيارات شخصية", local: "ذكاء اصطناعي محلي", tools: "أدوات مفيدة", creative: "ستوديو الإبداع", dev: "المطورون", prompts: "مكتبة الأوامر", youtubers: "إلهام", sites: "موصى به", ethics: "أخلاقيات الذكاء الاصطناعي" }, badges: { curated: "مختار", free: "مجاني" }, prices: { alwaysFree: "مجاني" }, labels: { view: "شاهد", videoGuide: "▶ دليل الفيديو", watch: "شاهد: معضلة الذكاء الاصطناعي" }, desc: { flow: "إنشاء فيديو من النص والصور.", perplexity: "بحث في الوقت الفعلي.", notebooklm: "دفتر ملاحظات ذكي.", deepseek: "ممتاز للبرمجة.", gemini: "مساعد جوجل.", chatgpt: "الأكثر شهرة.", claude: "محادثة طبيعية.", lmstudio: "تشغيل نماذج الذكاء الاصطناعي محليًا.", deepl: "أفضل مترجم.", besana: "قواعد نحوية.", povejmo: "تحويل النص لكلام.", elevenlabs: "استنساخ الصوت.", sonix: "التفريغ الصوتي.", deepai: "تحرير النصوص.", opus: "فيديوهات قصيرة.", midjourney: "فن راقي.", flux: "صور واقعية.", higgsfield: "تحكم بالفيديو.", topaz: "تحسين الجودة.", krea: "رسم مباشر.", suno: "إنشاء موسيقى.", n8n: "أتمتة.", aistudio: "تطوير جوجل.", huggingface: "نماذج الذكاء الاصطناعي.", ethics_text: "مخاطر الذكاء الاصطناعي.", site_future: "Future Tools - مجموعة كبيرة من نماذج الذكاء الاصطناعي (Matt Wolfe)." } },
+            // IS - Icelandic
+            is: { title: "Gervigreindarheimurinn", subtitle: "Lítið safn af nytsamlegum gervigreindartólum", nav: { home: "Heim", personal: "Val", tools: "Tól", creative: "Skapandi", prompts: "Skipanir", ethics: "Siðfræði" }, cat: { personal: "Persónulegt val", local: "Staðbundin gervigreind", tools: "Nytsamleg tól", creative: "Skapandi stúdíó", dev: "Forritarar", prompts: "Skipanasafn", youtubers: "Innblástur", sites: "Mælt með", ethics: "Siðfræði gervigreindar" }, badges: { curated: "Valið", free: "Ókeypis" }, prices: { alwaysFree: "Ókeypis" }, labels: { view: "Skoða", videoGuide: "▶ Myndbandsleiðbeiningar", watch: "Horfa: The A.I. Dilemma" }, desc: { flow: "Búa til myndband úr texta og myndum.", perplexity: "Leit í rauntíma.", notebooklm: "Snjöll minnisbók.", deepseek: "Frábært fyrir kóðun.", gemini: "Google aðstoðarmaður.", chatgpt: "Vinsælast.", claude: "Eðlilegt spjall.", lmstudio: "Keyra gervigreindarlíkön staðbundið.", deepl: "Besti þýðandinn.", besana: "Málfræði.", povejmo: "Talgerfll.", elevenlabs: "Raddklónun.", sonix: "Uppskrift.", deepai: "Textavinnsla.", opus: "Stutt myndbönd.", midjourney: "Topp list.", flux: "Raunverulegar myndir.", higgsfield: "Myndbandsstjórnun.", topaz: "Gæðabæting.", krea: "Teikna í rauntíma.", suno: "Búa til tónlist.", n8n: "Sjálfvirkni.", aistudio: "Google þróun.", huggingface: "Gervigreindarlíkön.", ethics_text: "Hættur gervigreindar.", site_future: "Future Tools - Stórt safn gervigreindarlíkana (Matt Wolfe)." } },
+            // TR - Turkish
+            tr: {
+                title: "YAPAY ZEKA EVRENİ",
+                subtitle: "Faydalı yapay zeka modelleri ve ipuçları koleksiyonu",
+                nav: { home: "Anasayfa", personal: "Seçimler", tools: "Araçlar", creative: "Yaratıcı", prompts: "Komutlar", ethics: "Etik" },
+                cat: { personal: "Kişisel Seçimler", local: "Yerel YZ", tools: "Faydalı Araçlar", creative: "Yaratıcı Stüdyo", dev: "Geliştiriciler", prompts: "Prompt Kütüphanesi", youtubers: "İlham", sites: "Önerilen", ethics: "YZ Etiği" },
+                badges: { curated: "Seçilmiş", free: "Ücretsiz" },
+                prices: { alwaysFree: "Ücretsiz" },
+                labels: { view: "Görüntüle", videoGuide: "▶ Video Rehberi", watch: "İzle: The A.I. Dilemma" },
+                desc: {
+                    flow: "Metin ve resimlerden video oluşturma.",
+                    perplexity: "Gerçek zamanlı arama motoru.",
+                    notebooklm: "Belgeleriniz için akıllı not defteri.",
+                    deepseek: "Kodlama ve mantık için harika.",
+                    gemini: "Google'ın akıllı asistanı.",
+                    chatgpt: "En popüler yapay zeka.",
+                    claude: "Doğal ve güvenli sohbet.",
+                    lmstudio: "YZ modellerini yerel olarak çalıştırın.",
+                    deepl: "En iyi çevirmen.",
+                    besana: "Slovence dilbilgisi.",
+                    povejmo: "Slovence ses sentezi.",
+                    elevenlabs: "Ses klonlama.",
+                    sonix: "Deşifre ve altyazı.",
+                    deepai: "Metin düzenleme.",
+                    opus: "Uzun videolardan kısalar.",
+                    midjourney: "Üst düzey sanat üretimi.",
+                    flux: "Gerçekçi açık kaynak görseller.",
+                    higgsfield: "Kontrollü video yapay zekası.",
+                    topaz: "Görüntü/Video kalitesi artırma.",
+                    krea: "Gerçek zamanlı çizim.",
+                    suno: "Müzik oluştur.",
+                    n8n: "İş akışı otomasyonu.",
+                    aistudio: "Google geliştirme ortamı.",
+                    huggingface: "Yapay zeka modelleri merkezi.",
+                    yt_mattwolfe: "YZ haberleri ve dersleri.",
+                    yt_aiadvantage: "Pratik ipuçları.",
+                    yt_2min: "Bilimsel gelişmeler.",
+                    yt_chuck: "BT ve YZ hackleme.",
+                    yt_wes: "Endüstri haberleri.",
+                    site_future: "Future Tools - Büyük YZ modeli koleksiyonu (Matt Wolfe).",
+                    site_matt: "Matt Wolfe'un blogu.",
+                    site_tracking: "YZ Takipçisi.",
+                    site_hsf: "YZ Raporları.",
+                    ethics_text: "Tristan Harris YZ tehlikeleri üzerine.",
+                    res_anthropic: "Resmi Prompt Kütüphanesi.",
                 }
             }
         };
 
-        let currentLang = localStorage.getItem('selectedLanguage') || 'sl';
-        
-        function renderModels(gridId, models) {
-            const grid = document.getElementById(gridId);
-            const t = translations[currentLang];
+        // --- FUNCTIONS ---
+        function changeLanguage() {
+            const lang = document.getElementById('language-select').value;
+            localStorage.setItem('selectedLanguage', lang);
             
-            grid.innerHTML = models.map(model => {
-                const linkText = model.linkType === 'explore' ? t.exploreBtn : model.linkType === 'get' ? t.getBtn : t.tryBtn;
-                return `
-                    <div class="model-card">
-                        <div class="model-header">
-                            <h3 class="model-name">${model.name}</h3>
-                            <span class="model-price">${t.prices[model.price]}</span>
-                        </div>
-                        <p class="model-description">${t.descriptions[model.desc]}</p>
-                        <div class="model-features">
-                            ${model.tags.map(tag => `<span class="feature-tag">${t.tags[tag]}</span>`).join('')}
-                        </div>
-                        <a href="${model.url}" target="_blank" class="model-link">${linkText} ${model.name} →</a>
+            // Set RTL if needed
+            if (t[lang].dir === "rtl") {
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.removeAttribute('dir');
+            }
+            
+            const data = t[lang] || t['sl']; // Fallback to SL
+
+            // Update static text
+            document.title = data.title;
+            document.getElementById('main-title').textContent = data.title;
+            document.getElementById('main-subtitle').textContent = data.subtitle;
+
+            // Nav (re-render)
+            renderNav(data);
+
+            // Categories
+            document.getElementById('cat-personal').textContent = data.cat.personal;
+            document.getElementById('badge-curated').textContent = data.badges.curated;
+            document.getElementById('cat-local').textContent = data.cat.local;
+            document.getElementById('cat-tools').textContent = data.cat.tools;
+            document.getElementById('cat-creative').textContent = data.cat.creative;
+            document.getElementById('cat-dev').textContent = data.cat.dev;
+            document.getElementById('cat-prompts').textContent = data.cat.prompts;
+            document.getElementById('cat-youtubers').textContent = data.cat.youtubers;
+            document.getElementById('cat-sites').textContent = data.cat.sites;
+            document.getElementById('cat-ethics').textContent = data.cat.ethics;
+            document.getElementById('ethics-desc').textContent = getDesc('ethics_text', lang);
+            document.getElementById('btn-watch').textContent = data.labels.watch;
+
+            // Renders
+            renderNav(data);
+            renderModels('grid-personal', models.personal, lang);
+            renderModels('grid-local', models.local, lang);
+            renderModels('grid-tools', models.tools, lang);
+            renderModels('grid-creative', models.creative, lang);
+            renderModels('grid-dev', models.dev, lang);
+            renderModels('grid-youtubers', models.youtubers, lang);
+            renderModels('grid-sites', models.sites, lang);
+            renderModels('grid-prompt-resources', promptResources, lang);
+        }
+
+        function renderNav(data) {
+            const nav = document.getElementById('main-nav');
+            nav.innerHTML = `
+                <a href="#sec-personal" class="nav-link">${data.nav.personal}</a>
+                <a href="#sec-tools" class="nav-link">${data.nav.tools}</a>
+                <a href="#sec-creative" class="nav-link">${data.nav.creative}</a>
+                <a href="#sec-prompts" class="nav-link">${data.nav.prompts}</a>
+                <a href="#sec-ethics" class="nav-link">${data.nav.ethics}</a>
+            `;
+        }
+
+        function renderModels(elementId, items, lang) {
+            const container = document.getElementById(elementId);
+            if(!container) return;
+            container.innerHTML = '';
+            
+            const data = t[lang] || t['sl'];
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'model-card';
+                
+                // Description lookup
+                const descText = getDesc(item.desc, lang);
+
+                // Button text logic - Always "Visit"/Link
+                const btnText = data.labels.view || "Visit";
+
+                // Star logic
+                const starHtml = item.star ? '<span class="star-icon">★</span>' : '';
+
+                // Video Guide Logic (Text Link ABOVE Button)
+                let videoGuideHtml = '';
+                if (item.videoGuide) {
+                    const videoText = data.labels.videoGuide || "Video Guide";
+                    videoGuideHtml = `<a href="${item.videoGuide}" target="_blank" class="video-guide-text-link">${videoText}</a>`;
+                }
+
+                card.innerHTML = `
+                    <div class="model-header">
+                        <h3 class="model-name">${item.name} ${starHtml}</h3>
+                        ${item.price === 'alwaysFree' || item.price === 'free' ? `<span class="badge badge-free">${data.prices.alwaysFree}</span>` : ''}
+                    </div>
+                    <p class="model-description">${descText}</p>
+                    <div class="card-actions">
+                        ${videoGuideHtml}
+                        <a href="${item.url}" target="_blank" class="model-link">${btnText} ↗</a>
                     </div>
                 `;
-            }).join('');
+                container.appendChild(card);
+            });
         }
 
-        function changeLanguage() {
-            const select = document.getElementById('language-select');
-            currentLang = select.value;
-            localStorage.setItem('selectedLanguage', currentLang);
-            
-            const t = translations[currentLang];
-            
-            document.getElementById('main-title').textContent = t.title;
-            document.getElementById('main-subtitle').textContent = t.subtitle;
-            document.getElementById('cat-personal').textContent = t.catPersonal;
-            document.getElementById('badge-curated').textContent = t.badgeCurated;
-            document.getElementById('cat-conversational').textContent = t.catConversational;
-            document.getElementById('cat-free-creative').textContent = t.catFreeCreative;
-            document.getElementById('badge-nocost').textContent = t.badgeNoCost;
-            document.getElementById('cat-premium-creative').textContent = t.catPremiumCreative;
-            document.getElementById('cat-developer').textContent = t.catDeveloper;
-            
-            renderModels('grid-personal', modelsData.personal);
-            renderModels('grid-conversational', modelsData.conversational);
-            renderModels('grid-free-creative', modelsData.freeCreative);
-            renderModels('grid-premium-creative', modelsData.premiumCreative);
-            renderModels('grid-developer', modelsData.developer);
+        function getDesc(key, lang) {
+            if (t[lang] && t[lang].desc && t[lang].desc[key]) return t[lang].desc[key];
+            if (t['en'].desc[key]) return t['en'].desc[key];
+            return key;
         }
 
+        function renderQuote() {
+            // Simple daily quote based on date
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const quoteIndex = dayOfYear % quotesBase.length;
+            const quote = quotesBase[quoteIndex];
+            
+            document.getElementById('daily-quote').textContent = `"${quote.text}"`;
+            document.getElementById('quote-author').textContent = `- ${quote.author}`;
+        }
+
+        // Init
         document.getElementById('language-select').addEventListener('change', changeLanguage);
-        document.getElementById('language-select').value = currentLang;
-        changeLanguage();
-    </script>
+        const storedLang = localStorage.getItem('selectedLanguage');
+        if (storedLang) {
+            document.getElementById('language-select').value = storedLang;
+        }
+        
+        renderQuote();
+        changeLanguage(); // Initial render
 
+    </script>
 </body>
 </html>
