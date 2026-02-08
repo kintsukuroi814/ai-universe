@@ -1,1989 +1,1016 @@
 <!DOCTYPE html>
-
 <html lang="sl">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AI Universe - Collection & Tips</title>
-
     
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
 
-
-
     <style>
-
         /* BASE STYLES & ANIMATIONS */
-
         body {
-
             margin: 0;
-
             padding: 0;
-
             font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
             color: #fff;
-
             background-color: #000;
-
             overflow-x: hidden;
-
             min-height: 100vh;
-
             scroll-behavior: smooth;
-
             font-weight: 300;
-
         }
-
-
 
         .universe-bg {
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             z-index: -1;
-
             overflow: hidden;
-
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-
         }
-
-
 
         .nebula {
-
             position: absolute;
-
             top: -50%;
-
             left: -50%;
-
             width: 200%;
-
             height: 200%;
-
             background: 
-
                 radial-gradient(circle at 50% 50%, rgba(76, 29, 149, 0.5), transparent 60%),
-
                 radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.4), transparent 50%),
-
                 radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.4), transparent 50%);
-
             filter: blur(80px);
-
             animation: rotateSpace 60s linear infinite, colorShift 30s ease-in-out infinite alternate;
-
         }
-
-
 
         @keyframes rotateSpace {
-
             0% { transform: rotate(0deg); }
-
             100% { transform: rotate(360deg); }
-
         }
-
-
 
         @keyframes colorShift {
-
             0% { filter: blur(80px) hue-rotate(0deg); }
-
             100% { filter: blur(80px) hue-rotate(90deg); }
-
         }
-
-
 
         .stars {
-
             width: 100%;
-
             height: 100%;
-
             background-image: 
-
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-
                 radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-
             background-size: 550px 550px, 350px 350px, 250px 250px;
-
             opacity: 0.8;
-
             animation: twinkle 5s infinite alternate;
-
         }
-
-
 
         @keyframes twinkle {
-
             0% { opacity: 0.5; }
-
             100% { opacity: 1; }
-
         }
 
-
-
-        /* SHOOTING STAR ANIMATION - Runs Once */
-
+        /* SHOOTING STAR ANIMATION */
         .shooting-star {
-
             position: absolute;
-
             top: 50%;
-
             left: 50%;
-
             width: 4px;
-
             height: 4px;
-
             background: #fff;
-
             border-radius: 50%;
-
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
-
             animation: shoot 3s linear 1 forwards;
-
             opacity: 0;
-
             z-index: -1;
-
         }
-
-
 
         .shooting-star::before {
-
             content: '';
-
             position: absolute;
-
             top: 50%;
-
             transform: translateY(-50%);
-
             width: 300px;
-
             height: 1px;
-
             background: linear-gradient(90deg, #fff, transparent);
-
         }
-
-
 
         @keyframes shoot {
-
-            0% {
-
-                transform: rotate(315deg) translateX(0);
-
-                opacity: 1;
-
-            }
-
-            10% {
-
-                opacity: 1;
-
-            }
-
-            100% {
-
-                transform: rotate(315deg) translateX(-1000px);
-
-                opacity: 0;
-
-            }
-
+            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
+            10% { opacity: 1; }
+            100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; }
         }
-
         
-
-        /* POPRAVEK: Zamik animacij (delays) */
-
         .shooting-star:nth-child(1) { top: 10%; right: 10%; left: initial; animation-delay: 0.5s; animation-duration: 2.5s; }
-
         .shooting-star:nth-child(2) { top: 20%; right: 20%; left: initial; animation-delay: 1.5s; animation-duration: 3s; }
-
         .shooting-star:nth-child(3) { top: 15%; right: 5%; left: initial; animation-delay: 3s; animation-duration: 2s; }
 
 
-
-
-
         /* NAVIGATION */
-
         .nav-bar {
-
             position: sticky;
-
             top: 20px;
-
             z-index: 1000;
-
             display: flex;
-
             justify-content: center;
-
             flex-wrap: wrap;
-
             gap: 10px;
-
             padding: 10px;
-
-            margin-bottom: 20px;
-
+            margin-bottom: 20px; 
             background: rgba(0, 0, 0, 0.3);
-
             backdrop-filter: blur(10px);
-
             border-bottom: 1px solid rgba(255,255,255,0.1);
-
             transition: top 0.3s;
-
         }
-
-
 
         .nav-link {
-
             color: #cbd5e1;
-
             text-decoration: none;
-
             padding: 8px 16px;
-
             border-radius: 20px;
-
             background: rgba(255,255,255,0.05);
-
             font-size: 0.9rem;
-
             transition: all 0.3s ease;
-
             white-space: nowrap;
-
         }
-
-
 
         .nav-link:hover {
-
             background: #9d4edd;
-
             color: white;
-
             box-shadow: 0 0 15px #9d4edd;
-
         }
 
-
-
-        /* CONTAINER & HEADER */
-
-        .container {
-
-            max-width: 1400px;
-
-            margin: 0 auto;
-
-            padding: 2rem;
-
-            position: relative;
-
-            z-index: 10;
-
-        }
-
-
-
-        header {
-
-            text-align: center;
-
-            padding: 4rem 1rem 1rem;
-
-        }
-
-
-
-        /* MINIMALIST HEADER STYLE */
-
-        h1 {
-
-            font-family: 'Exo 2', sans-serif;
-
-            font-weight: 100;
-
-            font-size: 5rem;
-
-            margin: 0;
-
-            letter-spacing: 10px;
-
-            text-transform: uppercase;
-
-            background: linear-gradient(to right, #e9d5ff, #c084fc);
-
-            -webkit-background-clip: text;
-
-            background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-
-            color: #fff;
-
-            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
-
-        }
-
-
-
-        .subtitle {
-
-            font-family: 'Exo 2', sans-serif;
-
-            font-weight: 200;
-
-            font-size: 1.2rem;
-
-            color: #c4b5fd;
-
-            margin-top: 15px;
-
-            letter-spacing: 2px;
-
-            text-transform: uppercase;
-
-        }
-
-
-
-        /* DAILY QUOTE */
-
-        .daily-quote-container {
-
-            margin: 2rem auto;
-
-            max-width: 800px;
-
-            text-align: center;
-
-            padding: 1.5rem;
-
-            background: rgba(255, 255, 255, 0.02);
-
-            border-left: 2px solid #a855f7;
-
-            border-radius: 4px;
-
-            backdrop-filter: blur(5px);
-
-        }
-
-
-
-        .quote-text {
-
-            font-style: italic;
-
-            font-size: 1.1rem;
-
-            color: #e2e8f0;
-
-            font-weight: 200;
-
-        }
-
-
-
-        .quote-author {
-
-            display: block;
-
-            margin-top: 10px;
-
-            color: #a855f7;
-
-            font-weight: 400;
-
-            font-size: 0.9rem;
-
-        }
-
-
-
-        /* SECTIONS */
-
-        .category-section {
-
-            margin: 4rem 0;
-
-            scroll-margin-top: 100px;
-
-        }
-
-
-
-        .category-title {
-
-            font-family: 'Exo 2', sans-serif;
-
-            font-weight: 300;
-
-            font-size: 2rem;
-
-            margin-bottom: 1.5rem;
-
-            color: #fff;
-
-            border-left: 3px solid #d946ef;
-
-            padding-left: 1rem;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            text-shadow: 0 0 15px rgba(217, 70, 239, 0.3);
-
-        }
-
-
-
-        [dir="rtl"] .category-title {
-
-            border-left: none;
-
-            border-right: 3px solid #d946ef;
-
-            padding-left: 0;
-
-            padding-right: 1rem;
-
-        }
-
-        
-
-        [dir="rtl"] .model-header {
-
-             flex-direction: row-reverse;
-
-        }
-
-
-
-        /* BADGES */
-
-        .badge {
-
-            font-size: 0.6rem;
-
-            padding: 2px 8px;
-
-            border-radius: 4px;
-
-            background: transparent;
-
-            border: 1px solid #00ff88;
-
-            color: #00ff88;
-
-            font-weight: 400;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            margin-left: 10px;
-
-            vertical-align: middle;
-
-        }
-
-
-
-        /* GRID & CARDS */
-
-        .models-grid {
-
-            display: grid;
-
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-
-            gap: 1.5rem;
-
-        }
-
-
-
-        .model-card {
-
-            background: rgba(255, 255, 255, 0.02);
-
-            /* POPRAVEK: Glassmorphism */
-
-            backdrop-filter: blur(12px);
-
-            border: 1px solid rgba(255, 255, 255, 0.08);
-
-            border-radius: 12px;
-
-            padding: 1.5rem;
-
-            transition: all 0.3s ease;
-
-            position: relative; 
-
-            overflow: hidden;
-
-            display: flex;
-
-            flex-direction: column;
-
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-        }
-
-
-
-        .model-card:hover {
-
-            transform: translateY(-3px);
-
-            border-color: rgba(168, 85, 247, 0.5);
-
-            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
-
-            background: rgba(255, 255, 255, 0.04);
-
-        }
-
-
-
-        .model-header {
-
-            display: flex;
-
-            justify-content: flex-start;
-
-            align-items: center;
-
-            margin-bottom: 0.5rem;
-
-            flex-wrap: wrap;
-
-        }
-
-
-
-        .model-name {
-
-            font-family: 'Exo 2', sans-serif;
-
-            font-size: 1.4rem;
-
-            font-weight: 600;
-
-            color: #fff;
-
-            margin: 0;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 5px;
-
-        }
-
-
-
-        .star-icon {
-
-            color: #ffd700;
-
-            font-size: 1rem;
-
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-
-        }
-
-
-
-        .model-description {
-
-            color: #cbd5e1;
-
-            line-height: 1.5;
-
-            margin-bottom: 1rem;
-
-            font-size: 0.9rem;
-
-            flex-grow: 1;
-
-            font-weight: 300;
-
-        }
-
-
-
-        /* BUTTONS */
-
-        .card-actions {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 10px;
-
-            width: 100%;
-
-            margin-top: auto;
-
-        }
-
-
-
-        .model-link {
-
-            display: block;
-
-            text-align: center;
-
-            width: 100%;
-
-            padding: 10px 0;
-
-            background: rgba(255, 255, 255, 0.05);
-
-            color: #fff;
-
-            text-decoration: none;
-
-            border-radius: 6px;
-
-            border: 1px solid rgba(255, 255, 255, 0.1);
-
-            transition: all 0.3s ease;
-
-            box-sizing: border-box;
-
-            cursor: pointer;
-
-            font-weight: 400;
-
-            font-size: 0.9rem;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-        }
-
-
-
-        .model-link:hover {
-
-            background: rgba(255, 255, 255, 0.1);
-
-            border-color: #d8b4fe;
-
-            color: #d8b4fe;
-
-        }
-
-
-
-        /* POPRAVEK: Video Guide link s stilom */
-
-        .video-guide-text-link {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 5px;
-
-            text-align: center;
-
-            color: #d8b4fe;
-
-            text-decoration: none;
-
-            font-size: 0.8rem;
-
-            font-weight: 500;
-
-            background: rgba(168, 85, 247, 0.1);
-
-            padding: 5px 10px;
-
-            border-radius: 15px;
-
-            border: 1px solid rgba(168, 85, 247, 0.2);
-
-            transition: all 0.3s ease;
-
-            margin-bottom: 0;
-
-        }
-
-
-
-        .video-guide-text-link:hover {
-
-            background: rgba(168, 85, 247, 0.25);
-
-            color: #fff;
-
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
-
-            border-color: rgba(168, 85, 247, 0.5);
-
-        }
-
-
-
-        /* SPECIAL SECTIONS */
-
-        .ethics-container {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 20px;
-
-            background: rgba(220, 38, 38, 0.05);
-
-            padding: 2rem;
-
-            border-radius: 12px;
-
-            border: 1px solid rgba(220, 38, 38, 0.2);
-
-            text-align: center;
-
-        }
-
-        
-
-        /* POPRAVEK: Vrstica za dva gumba */
-
-        .ethics-buttons-row {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            justify-content: center;
-
-            gap: 15px;
-
-            margin-bottom: 10px;
-
-        }
-
-
-
-        .ethics-button {
-
-            display: inline-block;
-
-            text-align: center;
-
-            width: auto;
-
-            padding: 10px 30px;
-
-            background: rgba(255, 255, 255, 0.05);
-
-            color: #fff;
-
-            text-decoration: none;
-
-            border-radius: 6px;
-
-            border: 1px solid rgba(255, 255, 255, 0.1);
-
-            transition: all 0.3s ease;
-
-            box-sizing: border-box;
-
-            cursor: pointer;
-
-            font-weight: 600;
-
-            font-size: 1rem;
-
-        }
-
-
-
-        .ethics-button:hover {
-
-            background: rgba(255, 255, 255, 0.1);
-
-            border-color: #fca5a5;
-
-            color: #fca5a5;
-
-        }
-
-
-
-        /* LANGUAGE SELECTOR */
-
-        .language-selector {
-
+        /* --- LANGUAGE SELECTOR (FIXED BOTTOM RIGHT) --- */
+        .language-wrapper {
             position: fixed;
-
-            top: 20px;
-
+            bottom: 20px;
             right: 20px;
-
+            z-index: 9999;
             display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            background: rgba(0, 0, 0, 0.6);
-
-            backdrop-filter: blur(5px);
-
-            border: 1px solid rgba(255, 255, 255, 0.1);
-
-            padding: 8px 16px;
-
-            border-radius: 50px;
-
-            z-index: 2000;
-
+            justify-content: flex-end;
         }
 
+        .language-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.8); /* Darker background for readability */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px; /* Fully rounded pill */
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
 
+        .language-pill:hover {
+            background: rgba(0, 0, 0, 0.95);
+            border-color: #a855f7; /* Purple glow on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .globe-icon {
+            font-size: 1.1rem;
+            filter: grayscale(0%);
+            opacity: 1;
+        }
 
         #language-select {
-
             background: transparent;
-
-            color: #cbd5e1;
-
+            color: #fff;
             border: none;
-
             font-size: 0.85rem;
-
             cursor: pointer;
-
             outline: none;
-
             font-family: 'Exo 2', sans-serif;
-
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            padding-right: 5px;
         }
-
-
 
         #language-select option {
-
-            background: #000;
-
+            background: #090a0f;
+            color: #fff;
+            font-size: 0.9rem;
         }
 
+        /* CONTAINER & HEADER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
 
+        header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
 
-        /* POPRAVEK: Mobilna navigacija (horizontal scroll) */
+        /* MINIMALIST HEADER STYLE */
+        h1 {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 100;
+            font-size: 5rem;
+            margin: 0;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #e9d5ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #fff;
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+        }
 
+        .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 200;
+            font-size: 1.2rem;
+            color: #c4b5fd;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* DAILY QUOTE */
+        .daily-quote-container {
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid #a855f7;
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            font-weight: 200;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 10px;
+            color: #a855f7;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        /* SECTIONS */
+        .category-section {
+            margin: 4rem 0;
+            scroll-margin-top: 100px;
+        }
+
+        .category-title {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 300;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            border-left: 3px solid #d946ef;
+            padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 15px rgba(217, 70, 239, 0.3);
+        }
+
+        [dir="rtl"] .category-title {
+            border-left: none;
+            border-right: 3px solid #d946ef;
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+        
+        [dir="rtl"] .model-header {
+             flex-direction: row-reverse;
+        }
+
+        /* BADGES */
+        .badge {
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        /* GRID & CARDS */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .model-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .model-name {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .star-icon {
+            color: #ffd700;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .model-description {
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            flex-grow: 1;
+            font-weight: 300;
+        }
+
+        /* BUTTONS */
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .model-link {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .model-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #d8b4fe;
+            color: #d8b4fe;
+        }
+
+        .video-guide-text-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
+            color: #d8b4fe;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(168, 85, 247, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+        }
+
+        .video-guide-text-link:hover {
+            background: rgba(168, 85, 247, 0.25);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        /* SPECIAL SECTIONS */
+        .ethics-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(220, 38, 38, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            text-align: center;
+        }
+        
+        .ethics-buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .ethics-button {
+            display: inline-block;
+            text-align: center;
+            width: auto;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .ethics-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fca5a5;
+            color: #fca5a5;
+        }
+
+        /* MEDIA QUERIES */
         @media (max-width: 768px) {
-
             h1 { font-size: 3rem; letter-spacing: 5px; }
-
             .models-grid { grid-template-columns: 1fr; }
-
             
-
             .nav-bar {
-
+                top: 0; 
                 justify-content: flex-start;
-
                 overflow-x: auto;
-
                 padding-left: 20px;
-
                 padding-right: 20px;
-
                 flex-wrap: nowrap;
-
                 -webkit-overflow-scrolling: touch; 
-
-                scrollbar-width: none; /* Firefox */
-
-                -ms-overflow-style: none; /* IE */
-
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
-
-            .nav-bar::-webkit-scrollbar {
-
-                display: none; /* Chrome */
-
+            .nav-bar::-webkit-scrollbar { display: none; }
+            
+            /* On mobile, move the language pill a bit higher if needed, or keep it bottom right */
+            .language-wrapper {
+                bottom: 15px;
+                right: 15px;
             }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <div class="universe-bg">
-
         <div class="nebula"></div>
-
         <div class="stars"></div>
-
         <span class="shooting-star"></span>
-
         <span class="shooting-star"></span>
-
         <span class="shooting-star"></span>
-
     </div>
-
-
-
-    <div class="language-selector">
-
-        <span>🌐</span>
-
-        <select id="language-select">
-
-            <option value="sl">Slovenščina</option>
-
-            <option value="hr">Hrvatski</option>
-
-            <option value="sr">Srpski</option>
-
-            <option value="mk">Македонски</option>
-
-            <option value="sq">Shqip</option>
-
-            <option value="en">English</option>
-
-            <option value="de">Deutsch</option>
-
-            <option value="no">Norsk</option>
-
-            <option value="fi">Suomi</option>
-
-            <option value="se">Svenska</option>
-
-            <option value="it">Italiano</option>
-
-            <option value="pt">Português</option>
-
-            <option value="es">Español</option>
-
-            <option value="ru">Русский</option>
-
-            <option value="ua">Українська</option>
-
-            <option value="cn">中文</option>
-
-            <option value="ja">日本語</option>
-
-            <option value="tr">Türkçe</option>
-
-            <option value="ar">العربية</option>
-
-            <option value="is">Íslenska</option>
-
-        </select>
-
-    </div>
-
-
 
     <nav class="nav-bar" id="main-nav">
-
         </nav>
 
-
+    <div class="language-wrapper">
+        <div class="language-pill">
+            <span class="globe-icon">🌐</span>
+            <select id="language-select">
+                <option value="sl">SLOVENŠČINA</option>
+                <option value="hr">HRVATSKI</option>
+                <option value="sr">SRPSKI</option>
+                <option value="mk">Македонски</option>
+                <option value="sq">SHQIP</option>
+                <option value="en">ENGLISH</option>
+                <option value="de">DEUTSCH</option>
+                <option value="no">NORSK</option>
+                <option value="fi">SUOMI</option>
+                <option value="se">SVENSKA</option>
+                <option value="it">ITALIANO</option>
+                <option value="pt">PORTUGUÊS</option>
+                <option value="es">ESPAÑOL</option>
+                <option value="ru">РУССКИЙ</option>
+                <option value="ua">УКРАЇНСЬКА</option>
+                <option value="cn">中文</option>
+                <option value="ja">日本語</option>
+                <option value="tr">TÜRKÇE</option>
+                <option value="ar">العربية</option>
+                <option value="is">ÍSLENSKA</option>
+            </select>
+        </div>
+    </div>
 
     <div class="container">
-
         <header>
-
             <h1 id="main-title">AI VESOLJE</h1>
-
             <p class="subtitle" id="main-subtitle">Mala zbirka uporabnih AI modelov in nasvetov</p>
-
             
-
             <div class="daily-quote-container">
-
                 <p id="daily-quote" class="quote-text">Loading quote...</p>
-
                 <span id="quote-author" class="quote-author"></span>
-
             </div>
-
         </header>
 
-
-
         <section class="category-section" id="sec-personal">
-
             <h2 class="category-title">
-
                 <span id="cat-personal">Osebni izbor</span>
-
             </h2>
-
             <div class="models-grid" id="grid-personal"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-local">
-
             <h2 class="category-title" id="cat-local">Lokalni AI</h2>
-
             <div class="models-grid" id="grid-local"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-tools">
-
             <h2 class="category-title" id="cat-tools">Uporabna orodja (Web/Audio/Video)</h2>
-
             <div class="models-grid" id="grid-tools"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-creative">
-
             <h2 class="category-title" id="cat-creative">Kreativni Studio</h2>
-
             <div class="models-grid" id="grid-creative"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-dev">
-
             <h2 class="category-title" id="cat-dev">Razvijalci & Avtomatizacija</h2>
-
             <div class="models-grid" id="grid-dev"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-prompts">
-
             <h2 class="category-title" id="cat-prompts">Knjižnica promptov</h2>
-
             <div style="margin-top: 20px;">
-
                 <div class="models-grid" id="grid-prompt-resources"></div>
-
             </div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-youtubers">
-
             <h2 class="category-title" id="cat-youtubers">Inspiracijski YouTuberji</h2>
-
             <div class="models-grid" id="grid-youtubers"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-sites">
-
             <h2 class="category-title" id="cat-sites">Priporočene spletne strani</h2>
-
             <div class="models-grid" id="grid-sites"></div>
-
         </section>
-
-
 
         <section class="category-section" id="sec-ethics">
-
             <h2 class="category-title" style="border-color: #ff3333; color: #ff9999;">
-
                 <span id="cat-ethics">AI Etika & Varnost</span>
-
             </h2>
-
             <div class="ethics-container">
-
                 <div class="ethics-buttons-row">
-
                     <a href="https://youtu.be/BFU1OCkhBwo?si=LnL-eOkJZSQSOlvq" target="_blank" class="ethics-button">
-
                         ▶ <span id="btn-watch">Oglej si video: The A.I. Dilemma</span>
-
                     </a>
-
                     <a href="https://www.youtube.com/results?search_query=tristan+harris" target="_blank" class="ethics-button">
-
                         🔍 <span id="btn-search-harris">Tristan Harris (YouTube)</span>
-
                     </a>
-
                 </div>
-
                 <div>
-
                     <h3 style="margin-top:0; font-weight:400;">Tristan Harris</h3>
-
                     <p id="ethics-desc">Tristan Harris je soustanovitelj Centra za humano tehnologijo. Raziskuje, kako današnja tehnologija ugrablja našo pozornost in destabilizira družbo.</p>
-
                 </div>
-
             </div>
-
         </section>
-
-
 
     </div>
 
-
-
     <script>
-
         // --- DATA ---
-
         
-
         const models = {
-
             personal: [
-
                 { name: 'Flow', url: 'https://labs.google/flow/about', price: '', desc: 'flow', star: true },
-
                 { 
-
                     name: 'Perplexity', 
-
                     url: 'https://www.perplexity.ai/', 
-
                     videoGuide: 'https://youtu.be/p8eYHO07o6E?si=N1YiUcaJQgs9sYhq',
-
                     price: '', 
-
                     desc: 'perplexity', 
-
                     star: true 
-
                 },
-
                 { 
-
                     name: 'NotebookLM', 
-
                     url: 'https://notebooklm.google.com/', 
-
                     videoGuide: 'https://youtu.be/8Jw5Wa_8K0Y?si=IOiP2HCb7KCfhhu3',
-
                     price: 'alwaysFree', 
-
                     desc: 'notebooklm', 
-
                     star: true 
-
                 },
-
                 { name: 'Gemini', url: 'https://gemini.google.com/', price: '', desc: 'gemini', star: true },
-
                 { name: 'DeepSeek', url: 'https://chat.deepseek.com/', price: 'alwaysFree', desc: 'deepseek' },
-
                 { name: 'ChatGPT', url: 'https://chat.openai.com/', price: '', desc: 'chatgpt' },
-
                 { name: 'Claude', url: 'https://claude.ai/', price: '', desc: 'claude' }
-
             ],
-
             local: [
-
                 { name: 'LM Studio', url: 'https://lmstudio.ai/', price: '', desc: 'lmstudio' }
-
             ],
-
             tools: [
-
                 { name: 'DeepL', url: 'https://www.deepl.com/', price: '', desc: 'deepl' },
-
                 { name: 'Amebis Besana', url: 'https://besana.amebis.si/preverjanje/', price: '', desc: 'besana' },
-
                 { name: 'Povejmo.si', url: 'https://povejmo.si/', price: '', desc: 'povejmo' },
-
                 { name: 'ElevenLabs', url: 'https://elevenlabs.io/', price: '', desc: 'elevenlabs' },
-
                 { name: 'Sonix', url: 'https://sonix.ai/', price: 'paid', desc: 'sonix' },
-
                 { name: 'DeepAI Proofreader', url: 'https://deepai.org/chat/proofreader', price: '', desc: 'deepai' },
-
                 { name: 'Opus Clip', url: 'https://www.opus.pro/', price: 'paid', desc: 'opus' }
-
             ],
-
             creative: [
-
                 { name: 'Midjourney', url: 'https://www.midjourney.com/', price: 'paid', desc: 'midjourney' },
-
                 { name: 'Leonardo.ai', url: 'https://leonardo.ai/', price: '', desc: 'leonardo' },
-
                 { name: 'Flux AI', url: 'https://flux-ai.io/', price: '', desc: 'flux' },
-
                 { name: 'Higgsfield', url: 'https://higgsfield.ai/', price: 'paid', desc: 'higgsfield' },
-
                 { name: 'Topaz Labs', url: 'https://www.topazlabs.com/', price: 'paid', desc: 'topaz' },
-
                 { name: 'Krea AI', url: 'https://www.krea.ai/app', price: '', desc: 'krea' },
-
                 { name: 'Suno', url: 'https://suno.com/', price: '', desc: 'suno' }
-
             ],
-
             dev: [
-
                 { name: 'n8n', url: 'https://n8n.io/', price: '', desc: 'n8n' },
-
                 { name: 'Google AI Studio', url: 'https://aistudio.google.com/', price: '', desc: 'aistudio' },
-
                 { name: 'Hugging Face', url: 'https://huggingface.co/', price: '', desc: 'huggingface' }
-
             ],
-
             youtubers: [
-
                 { name: 'Matt Wolfe', url: 'https://www.youtube.com/@mreflow', desc: 'yt_mattwolfe' },
-
                 { name: 'AI Advantage', url: 'https://www.youtube.com/@aiadvantage', desc: 'yt_aiadvantage' },
-
                 { name: 'Two Minute Papers', url: 'https://www.youtube.com/@TwoMinutePapers', desc: 'yt_2min' },
-
                 { name: 'NetworkChuck', url: 'https://www.youtube.com/@NetworkChuck', desc: 'yt_chuck' }
-
             ],
-
             sites: [
-
                 { name: 'Future Tools', url: 'https://www.futuretools.io/', desc: 'site_future' },
-
                 { name: 'Matt Wolfe', url: 'https://mattwolfe.com/', desc: 'site_matt' },
-
                 { name: 'Tracking AI', url: 'https://www.trackingai.org/', desc: 'site_tracking' },
-
                 { name: 'HSF Kramer', url: 'https://www.hsfkramer.com/insights/reports/ai-tracker', desc: 'site_hsf' }
-
             ]
-
         };
-
-
 
         const promptResources = [
-
             { name: 'Anthropic Prompt Library', url: 'https://docs.anthropic.com/en/prompt-library/library', desc: 'res_anthropic' }
-
         ];
-
-
 
         const quotesBase = [
-
             { text: "With artificial intelligence, we are summoning the demon.", author: "Elon Musk" },
-
             { text: "AI is likely to be either the best or worst thing to happen to humanity.", author: "Stephen Hawking" },
-
             { text: "The real danger is not that computers will begin to think like men, but that men will begin to think like computers.", author: "Sydney J. Harris" },
-
             { text: "We have to figure out how to have a human-centered technology.", author: "Tristan Harris" },
-
             { text: "AI will not replace you. A person using AI will.", author: "Unknown" },
-
             { text: "The saddest aspect of life right now is that science gathers knowledge faster than society gathers wisdom.", author: "Isaac Asimov" }
-
         ];
 
-
-
         // --- TRANSLATIONS (Full support for 18 languages) ---
-
         const t = {
-
             // SL - Slovenian
-
             sl: {
-
                 title: "AI VESOLJE",
-
                 subtitle: "Mala zbirka uporabnih AI modelov in nasvetov",
-
                 nav: { home: "Domov", personal: "Izbrano", tools: "Orodja", creative: "Kreativno", prompts: "Prompti", ethics: "Etika" },
-
                 cat: { personal: "Osebni izbor", local: "Lokalni AI", tools: "Uporabna orodja", creative: "Kreativni Studio", dev: "Razvijalci", prompts: "Knjižnica promptov", youtubers: "Inspiracija", sites: "Priporočeno", ethics: "AI Etika" },
-
                 badges: { curated: "Izbrano", free: "Brezplačno" },
-
                 prices: { alwaysFree: "Brezplačno" },
-
                 labels: { view: "Oglej si", videoGuide: "▶ Video vodič", watch: "Oglej si: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
-
                 desc: {
-
                     flow: "Ustvarjanje videa iz opisa, slik.",
-
                     perplexity: "Iskalnik z viri v realnem času.",
-
                     notebooklm: "Pametna beležka za vaše dokumente.",
-
                     deepseek: "Odličen model za kodiranje in logiko.",
-
                     gemini: "Googlov pametni pomočnik.",
-
                     chatgpt: "Najbolj popularen AI.",
-
                     claude: "Naraven in varen sogovornik.",
-
                     lmstudio: "Poganjanje AI modelov lokalno na vašem računalniku.",
-
                     deepl: "Najboljši prevajalnik.",
-
                     besana: "Slovenska slovnica.",
-
                     povejmo: "Slovenski govorni sintetizator.",
-
                     elevenlabs: "Kloniranje glasov.",
-
                     sonix: "Transkripcija in podnapisi.",
-
                     deepai: "Urejanje besedil.",
-
                     opus: "Iz dolgih videov v kratke.",
-
                     midjourney: "Vrhunske umetniške slike.",
-
                     leonardo: "Napredno ustvarjanje slik in sredstev.",
-
                     flux: "Realistične slike (open source).",
-
                     higgsfield: "Kontroliran video AI.",
-
                     topaz: "Izboljšava kvalitete slik/videa.",
-
                     krea: "Slikanje v realnem času.",
-
                     suno: "Ustvari glasbo.",
-
                     n8n: "Avtomatizacija procesov.",
-
                     aistudio: "Google razvojno okolje.",
-
                     huggingface: "Dom za AI modele.",
-
                     yt_mattwolfe: "AI novice in vadnice.",
-
                     yt_aiadvantage: "Praktični nasveti.",
-
                     yt_2min: "Znanstveni preboji.",
-
                     yt_chuck: "IT in AI hekanje.",
-
                     yt_wes: "Novice industrije.",
-
                     site_future: "Future Tools - velika zbirka AI modelov (Matt Wolfe).",
-
                     site_matt: "Blog Matta Wolfa.",
-
                     site_tracking: "AI sledilnik.",
-
                     site_hsf: "AI Poročila.",
-
                     ethics_text: "Tristan Harris o nevarnostih AI.",
-
                     res_anthropic: "Uradna knjižnica promptov.",
-
                 }
-
             },
-
             // EN - English
-
             en: {
-
                 title: "AI UNIVERSE",
-
                 subtitle: "Small collection of useful AI models and tips",
-
                 nav: { home: "Home", personal: "Picks", tools: "Tools", creative: "Creative", prompts: "Prompts", ethics: "Ethics" },
-
                 cat: { personal: "Personal Picks", local: "Local AI", tools: "Useful Tools", creative: "Creative Studio", dev: "Developers", prompts: "Prompt Library", youtubers: "Inspiration", sites: "Recommended", ethics: "AI Ethics" },
-
                 badges: { curated: "Curated", free: "Free" },
-
                 prices: { alwaysFree: "Free" },
-
                 labels: { view: "Visit", videoGuide: "▶ Video Guide", watch: "Watch: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
-
                 desc: {
-
                     flow: "Create video from text and images.",
-
                     perplexity: "Real-time search with citations.",
-
                     notebooklm: "Smart notebook for your docs.",
-
                     deepseek: "Great for coding and logic.",
-
                     gemini: "Google's smart assistant.",
-
                     chatgpt: "Most popular AI.",
-
                     claude: "Natural and safe AI.",
-
                     lmstudio: "Run AI models locally on your computer.",
-
                     deepl: "Best translator.",
-
                     besana: "Slovenian grammar check.",
-
                     povejmo: "Slovenian TTS.",
-
                     elevenlabs: "Voice cloning.",
-
                     sonix: "Transcription and subtitles.",
-
                     deepai: "Text editing.",
-
                     opus: "Long to short video.",
-
                     midjourney: "Top tier art generation.",
-
                     leonardo: "Advanced image and asset generation.",
-
                     flux: "Realistic open source images.",
-
                     higgsfield: "Controlled AI video.",
-
                     topaz: "Image/Video upscaling.",
-
                     krea: "Real-time painting.",
-
                     suno: "Create music.",
-
                     n8n: "Workflow automation.",
-
                     aistudio: "Google dev environment.",
-
                     huggingface: "Hub for AI models.",
-
                     yt_mattwolfe: "AI news and tutorials.",
-
                     yt_aiadvantage: "Practical tips.",
-
                     yt_2min: "Scientific breakthroughs.",
-
                     yt_chuck: "IT and AI hacking.",
-
                     yt_wes: "Industry news.",
-
                     site_future: "Future Tools - Large collection of AI models (Matt Wolfe).",
-
                     site_matt: "Matt Wolfe's blog.",
-
                     site_tracking: "AI Tracker.",
-
                     site_hsf: "AI Reports.",
-
                     ethics_text: "Tristan Harris on AI dangers.",
-
                     res_anthropic: "Official Prompt Library.",
-
                 }
-
             },
-
             // DE - Deutsch
-
             de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { home: "Start", personal: "Auswahl", tools: "Tools", creative: "Kreativ", prompts: "Prompts", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Video aus Text und Bildern erstellen.", perplexity: "Echtzeit-Suche.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", leonardo: "Fortschrittliche Bilderzeugung.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
-
             // HR - Croatian
-
             hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Izrada videa iz teksta i slika.", perplexity: "Pretraga u stvarnom vremenu.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
-
             // SR - Serbian
-
             sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Pravljenje videa iz teksta i slika.", perplexity: "Pretraga u realnom vremenu.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
-
              // MK - Macedonian
-
             mk: { title: "AI ВСЕЛЕНА", subtitle: "Мала збирка на корисни АИ модели", nav: { home: "Дома", personal: "Избор", tools: "Алатки", creative: "Креативно", prompts: "Промптови", ethics: "Етика" }, cat: { personal: "Личен избор", local: "Локален АИ", tools: "Корисни алатки", creative: "Креативно студио", dev: "Програмери", prompts: "Библиотека на промптови", youtubers: "Инспирација", sites: "Препорачано", ethics: "АИ Етика" }, badges: { curated: "Избрано", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Види", videoGuide: "▶ Видео Водич", watch: "Гледај: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Креирање видеа од текст и слики.", perplexity: "Пребарување во реално време.", notebooklm: "Паметна тетратка.", deepseek: "Одличен за кодирање.", gemini: "Google асистент.", chatgpt: "Најпопуларен АИ.", claude: "Природен разговор.", lmstudio: "Локално извршување на АИ модели.", deepl: "Најдобар преведувач.", besana: "Проверка на граматика.", povejmo: "Синтеза на говор.", elevenlabs: "Клонирање глас.", sonix: "Транскрипција.", deepai: "Уредување текст.", opus: "Кратки видеа.", midjourney: "Врвни слики.", leonardo: "Напредно креирање слики.", flux: "Реалистични слики.", higgsfield: "Видео контрола.", topaz: "Подобрување квалитет.", krea: "Цртање во живо.", suno: "Креирај музика.", n8n: "Автоматизација.", aistudio: "Google развој.", huggingface: "АИ модели.", ethics_text: "Опасности од АИ.", site_future: "Future Tools - Голема збирка АИ модели (Matt Wolfe)." } },
-
             // SQ - Albanian
-
             sq: { title: "AI UNIVERSI", subtitle: "Koleksion i vogël i modeleve AI", nav: { home: "Kreu", personal: "Zgjedhjet", tools: "Mjetet", creative: "Kreative", prompts: "Prompts", ethics: "Etika" }, cat: { personal: "Zgjedhjet Personale", local: "AI Lokale", tools: "Mjete të Dobishme", creative: "Studio Kreative", dev: "Zhvilluesit", prompts: "Biblioteka e Prompteve", youtubers: "Frymëzim", sites: "Rekomanduar", ethics: "Etika e AI" }, badges: { curated: "Zgjedhur", free: "Falas" }, prices: { alwaysFree: "Falas" }, labels: { view: "Shiko", videoGuide: "▶ Udhëzues Video", watch: "Shiko: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Krijimi i videos nga teksti dhe imazhet.", perplexity: "Kërkim në kohë reale.", notebooklm: "Fletore e zgjuar.", deepseek: "Mirë për kodim.", gemini: "Asistenti i Google.", chatgpt: "Më popullori.", claude: "Bisedë natyrale.", lmstudio: "Ekzekuto modele AI lokalisht.", deepl: "Përkthyesi më i mirë.", besana: "Gramatika.", povejmo: "Sintezë zëri.", elevenlabs: "Klonim zëri.", sonix: "Transkriptim.", deepai: "Redaktim teksti.", opus: "Video të shkurtra.", midjourney: "Art cilësor.", leonardo: "Krijim i avancuar i imazheve.", flux: "Imazhe realiste.", higgsfield: "Kontroll video.", topaz: "Përmirësim cilësie.", krea: "Pikturim live.", suno: "Krijo muzikë.", n8n: "Automatizim.", aistudio: "Zhvillim Google.", huggingface: "Modele AI.", ethics_text: "Rreziqet e AI.", site_future: "Future Tools - Koleksion i madh modelesh AI (Matt Wolfe)." } },
-
             // IT - Italian
-
             it: { title: "UNIVERSO AI", subtitle: "Piccola raccolta di modelli AI utili", nav: { home: "Home", personal: "Scelti", tools: "Strumenti", creative: "Creativo", prompts: "Prompt", ethics: "Etica" }, cat: { personal: "Scelte Personali", local: "AI Locale", tools: "Strumenti Utili", creative: "Studio Creativo", dev: "Sviluppatori", prompts: "Libreria Prompt", youtubers: "Ispirazione", sites: "Consigliati", ethics: "Etica AI" }, badges: { curated: "Scelto", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Vedi", videoGuide: "▶ Video Guida", watch: "Guarda: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Crea video da testo e immagini.", perplexity: "Ricerca in tempo reale.", notebooklm: "Taccuino intelligente.", deepseek: "Ottimo per il codice.", gemini: "Assistente Google.", chatgpt: "Il più popolare.", claude: "Conversazione naturale.", lmstudio: "Esegui modelli AI localmente.", deepl: "Miglior traduttore.", besana: "Grammatica.", povejmo: "Sintesi vocale.", elevenlabs: "Clonazione voce.", sonix: "Trascrizione.", deepai: "Editing testo.", opus: "Video brevi.", midjourney: "Arte top.", leonardo: "Generazione avanzata di immagini.", flux: "Immagini realistiche.", higgsfield: "Controllo video.", topaz: "Miglioramento qualità.", krea: "Pittura live.", suno: "Crea musica.", n8n: "Automazione.", aistudio: "Sviluppo Google.", huggingface: "Modelli AI.", ethics_text: "Pericoli dell'IA.", site_future: "Future Tools - Grande raccolta di modelli AI (Matt Wolfe)." } },
-
             // ES - Spanish
-
             es: { title: "UNIVERSO IA", subtitle: "Pequeña colección de modelos de IA útiles", nav: { home: "Inicio", personal: "Selección", tools: "Herramientas", creative: "Creativo", prompts: "Prompts", ethics: "Ética" }, cat: { personal: "Selección Personal", local: "IA Local", tools: "Herramientas Útiles", creative: "Estudio Creativo", dev: "Desarrolladores", prompts: "Biblioteca de Prompts", youtubers: "Inspiración", sites: "Recomendado", ethics: "Ética de la IA" }, badges: { curated: "Elegido", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ver", videoGuide: "▶ Guía en Video", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Crear video a partir de texto e imágenes.", perplexity: "Búsqueda en tiempo real.", notebooklm: "Cuaderno inteligente.", deepseek: "Genial para código.", gemini: "Asistente de Google.", chatgpt: "El más popular.", claude: "Conversación natural.", lmstudio: "Ejecutar modelos IA localmente.", deepl: "Mejor traductor.", besana: "Gramática.", povejmo: "Síntesis de voz.", elevenlabs: "Clonación de voz.", sonix: "Transcripción.", deepai: "Edición de texto.", opus: "Videos cortos.", midjourney: "Arte top.", leonardo: "Generación avanzada de imágenes.", flux: "Imágenes realistas.", higgsfield: "Control de video.", topaz: "Mejora de calidad.", krea: "Pintura en vivo.", suno: "Crear música.", n8n: "Automatización.", aistudio: "Desarrollo Google.", huggingface: "Modelos de IA.", ethics_text: "Peligros de la IA.", site_future: "Future Tools - Gran colección de modelos IA (Matt Wolfe)." } },
-
             // PT - Portuguese
-
             pt: { title: "UNIVERSO IA", subtitle: "Pequena coleção de modelos de IA úteis", nav: { home: "Início", personal: "Escolhas", tools: "Ferramentas", creative: "Criativo", prompts: "Prompts", ethics: "Ética" }, cat: { personal: "Escolhas Pessoais", local: "IA Local", tools: "Ferramentas Úteis", creative: "Estúdio Criativo", dev: "Desenvolvedores", prompts: "Biblioteca de Prompts", youtubers: "Inspiração", sites: "Recomendado", ethics: "Ética da IA" }, badges: { curated: "Escolhido", free: "Grátis" }, prices: { alwaysFree: "Grátis" }, labels: { view: "Ver", videoGuide: "▶ Guia de Vídeo", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Criar vídeo a partir de texto e imagens.", perplexity: "Busca em tempo real.", notebooklm: "Caderno inteligente.", deepseek: "Ótimo para código.", gemini: "Assistente Google.", chatgpt: "O mais popular.", claude: "Conversa natural.", lmstudio: "Executar modelos IA localmente.", deepl: "Melhor tradutor.", besana: "Gramática.", povejmo: "Síntese de voz.", elevenlabs: "Clonagem de voz.", sonix: "Transcrição.", deepai: "Edição de texto.", opus: "Vídeos curtos.", midjourney: "Arte top.", leonardo: "Geração avançada de imagens.", flux: "Imagens realistas.", higgsfield: "Controle de vídeo.", topaz: "Melhoria de qualidade.", krea: "Pintura ao vivo.", suno: "Criar música.", n8n: "Automação.", aistudio: "Desenvolvimento Google.", huggingface: "Modelos de IA.", ethics_text: "Perigos da IA.", site_future: "Future Tools - Grande coleção de modelos IA (Matt Wolfe)." } },
-
             // NO - Norwegian
-
             no: { title: "AI UNIVERSET", subtitle: "Liten samling av nyttige AI-modeller", nav: { home: "Hjem", personal: "Utvalg", tools: "Verktøy", creative: "Kreativt", prompts: "Prompter", ethics: "Etikk" }, cat: { personal: "Personlige Valg", local: "Lokal AI", tools: "Nyttige Verktøy", creative: "Kreativt Studio", dev: "Utviklere", prompts: "Prompt-bibliotek", youtubers: "Inspirasjon", sites: "Anbefalt", ethics: "AI Etikk" }, badges: { curated: "Utvalgt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Se", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Lag video fra tekst og bilder.", perplexity: "Sanntidssøk.", notebooklm: "Smart notatbok.", deepseek: "Bra for koding.", gemini: "Google-assistent.", chatgpt: "Mest populær.", claude: "Naturlig samtale.", lmstudio: "Kjør AI-modeller lokalt.", deepl: "Best oversetter.", besana: "Grammatikk.", povejmo: "Talesyntese.", elevenlabs: "Stemmekloning.", sonix: "Transkripsjon.", deepai: "Tekstredigering.", opus: "Korte videoer.", midjourney: "Topp kunst.", leonardo: "Avansert bildegenerering.", flux: "Realistiske bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsforbedring.", krea: "Live maling.", suno: "Lag musikk.", n8n: "Automasjon.", aistudio: "Google utvikling.", huggingface: "AI-modeller.", ethics_text: "Farer med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
-
             // FI - Finnish
-
             fi: { title: "TEKOÄLYUNIVERSUMI", subtitle: "Pieni kokoelma hyödyllisiä tekoälymalleja", nav: { home: "Koti", personal: "Valinnat", tools: "Työkalut", creative: "Luova", prompts: "Kehotteet", ethics: "Etiikka" }, cat: { personal: "Omat Valinnat", local: "Paikallinen AI", tools: "Hyödylliset Työkalut", creative: "Luova Studio", dev: "Kehittäjät", prompts: "Kehotekirjasto", youtubers: "Inspiraatio", sites: "Suositellut", ethics: "Tekoälyn Etiikka" }, badges: { curated: "Valittu", free: "Ilmainen" }, prices: { alwaysFree: "Ilmainen" }, labels: { view: "Katso", videoGuide: "▶ Video-opas", watch: "Katso: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Luo video tekstistä ja kuvista.", perplexity: "Reaaliaikainen haku.", notebooklm: "Älykäs muistikirja.", deepseek: "Hyvä koodaukseen.", gemini: "Google-avustaja.", chatgpt: "Suosituin.", claude: "Luonnollinen keskustelu.", lmstudio: "Aja tekoälymalleja paikallisesti.", deepl: "Paras kääntäjä.", besana: "Kielioppi.", povejmo: "Puhesynteesi.", elevenlabs: "Äänen kloonaus.", sonix: "Litterointi.", deepai: "Tekstin muokkaus.", opus: "Lyhytvideot.", midjourney: "Huipputaidetta.", leonardo: "Edistynyt kuvien luonti.", flux: "Realistiset kuvat.", higgsfield: "Videon hallinta.", topaz: "Laadun parannus.", krea: "Live-maalaus.", suno: "Luo musiikkia.", n8n: "Automaatio.", aistudio: "Google-kehitys.", huggingface: "AI-mallit.", ethics_text: "Tekoälyn vaarat.", site_future: "Future Tools - Suuri kokoelma AI-malleja (Matt Wolfe)." } },
-
             // SE - Swedish
-
             se: { title: "AI UNIVERSUM", subtitle: "Liten samling användbara AI-modeller", nav: { home: "Hem", personal: "Urval", tools: "Verktyg", creative: "Kreativt", prompts: "Prompts", ethics: "Etik" }, cat: { personal: "Personliga Val", local: "Lokal AI", tools: "Användbara Verktyg", creative: "Kreativ Studio", dev: "Utvecklare", prompts: "Promptbibliotek", youtubers: "Inspiration", sites: "Rekommenderat", ethics: "AI Etik" }, badges: { curated: "Utvalt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Visa", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Skapa video från text och bilder.", perplexity: "Sök i realtid.", notebooklm: "Smart anteckningsbok.", deepseek: "Bra för kodning.", gemini: "Google-assistent.", chatgpt: "Mest populär.", claude: "Naturligt samtal.", lmstudio: "Kör AI-modeller lokalt.", deepl: "Bästa översättaren.", besana: "Grammatik.", povejmo: "Talsyntes.", elevenlabs: "Röstkloning.", sonix: "Transkribering.", deepai: "Textredigering.", opus: "Korta videor.", midjourney: "Toppkonst.", leonardo: "Avancerad bildgenerering.", flux: "Realistiska bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsförbättring.", krea: "Live-målning.", suno: "Skapa musik.", n8n: "Automation.", aistudio: "Google-utveckling.", huggingface: "AI-modeller.", ethics_text: "Faror med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
-
             // RU - Russian
-
             ru: { title: "ВСЕЛЕННАЯ ИИ", subtitle: "Небольшая коллекция полезных моделей ИИ", nav: { home: "Главная", personal: "Выбор", tools: "Инструменты", creative: "Творчество", prompts: "Промпты", ethics: "Этика" }, cat: { personal: "Личный выбор", local: "Локальный ИИ", tools: "Полезные инструменты", creative: "Творческая студия", dev: "Разработчикам", prompts: "Библиотека промптов", youtubers: "Вдохновение", sites: "Рекомендуем", ethics: "Этика ИИ" }, badges: { curated: "Выбор", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Смотреть", videoGuide: "▶ Видео-гайд", watch: "Смотреть: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Создание видео из текста и изображений.", perplexity: "Поиск в реальном времени.", notebooklm: "Умный блокнот.", deepseek: "Отлично для кода.", gemini: "Ассистент Google.", chatgpt: "Самый популярный.", claude: "Естественный диалог.", lmstudio: "Запуск ИИ моделей локально.", deepl: "Лучший переводчик.", besana: "Грамматика.", povejmo: "Синтез речи.", elevenlabs: "Клонирование голоса.", sonix: "Транскрипция.", deepai: "Редактирование текста.", opus: "Короткие видео.", midjourney: "Топовые арты.", leonardo: "Продвинутая генерация изображений.", flux: "Реалистичные фото.", higgsfield: "Контроль видео.", topaz: "Улучшение качества.", krea: "Рисование в реальном времени.", suno: "Создание музыки.", n8n: "Автоматизация.", aistudio: "Google разработка.", huggingface: "Модели ИИ.", ethics_text: "Опасности ИИ.", site_future: "Future Tools - Большая коллекция ИИ моделей (Matt Wolfe)." } },
-
             // UA - Ukrainian
-
             ua: { title: "ВСЕСВІТ ШІ", subtitle: "Невелика колекція корисних моделей ШІ", nav: { home: "Головна", personal: "Вибір", tools: "Інструменти", creative: "Творчість", prompts: "Промпти", ethics: "Етика" }, cat: { personal: "Особистий вибір", local: "Локальний ШІ", tools: "Корисні інструменти", creative: "Творча студія", dev: "Розробникам", prompts: "Бібліотека промптів", youtubers: "Натхнення", sites: "Рекомендуємо", ethics: "Етика ШІ" }, badges: { curated: "Вибір", free: "Безкоштовно" }, prices: { alwaysFree: "Безкоштовно" }, labels: { view: "Дивитись", videoGuide: "▶ Відео-гайд", watch: "Дивитись: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Створення відео з тексту та зображень.", perplexity: "Пошук у реальному часі.", notebooklm: "Розумний записник.", deepseek: "Чудово для коду.", gemini: "Асистент Google.", chatgpt: "Найпопулярніший.", claude: "Природний діалог.", lmstudio: "Запуск ШІ моделей локально.", deepl: "Найкращий перекладач.", besana: "Граматика.", povejmo: "Синтез мовлення.", elevenlabs: "Клонування голосу.", sonix: "Транскрипція.", deepai: "Редагування тексту.", opus: "Короткі відео.", midjourney: "Топові арти.", leonardo: "Просунута генерація зображень.", flux: "Реалістичні фото.", higgsfield: "Контроль відео.", topaz: "Покращення якості.", krea: "Малювання в реальному часі.", suno: "Створення музики.", n8n: "Автоматизація.", aistudio: "Google розробка.", huggingface: "Моделі ШІ.", ethics_text: "Небезпеки ШІ.", site_future: "Future Tools - Велика колекція ШІ моделей (Matt Wolfe)." } },
-
             // CN - Chinese
-
             cn: { title: "AI 宇宙", subtitle: "精选实用 AI 模型合集", nav: { home: "首页", personal: "精选", tools: "工具", creative: "创意", prompts: "提示词", ethics: "伦理" }, cat: { personal: "个人精选", local: "本地 AI", tools: "实用工具", creative: "创意工作室", dev: "开发者", prompts: "提示词库", youtubers: "灵感", sites: "推荐网站", ethics: "AI 伦理" }, badges: { curated: "精选", free: "免费" }, prices: { alwaysFree: "免费" }, labels: { view: "查看", videoGuide: "▶ 视频指南", watch: "观看: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "从文本和图像创建视频。", perplexity: "实时搜索.", notebooklm: "智能笔记本.", deepseek: "代码利器.", gemini: "谷歌助手.", chatgpt: "最受欢迎.", claude: "自然对话.", lmstudio: "本地运行 AI 模型.", deepl: "最佳翻译.", besana: "语法检查.", povejmo: "语音合成.", elevenlabs: "声音克隆.", sonix: "转录字幕.", deepai: "文本编辑.", opus: "短视频制作.", midjourney: "顶级艺术.", leonardo: "高级图像生成.", flux: "逼真图像.", higgsfield: "视频控制.", topaz: "画质增强.", krea: "实时绘画.", suno: "创作音乐.", n8n: "自动化.", aistudio: "谷歌开发.", huggingface: "AI 模型库.", ethics_text: "AI 的危险.", site_future: "Future Tools - 大型 AI 模型集合 (Matt Wolfe)." } },
-
             // JA - Japanese
-
             ja: { title: "AI 宇宙", subtitle: "便利なAIモデルの小コレクション", nav: { home: "ホーム", personal: "厳選", tools: "ツール", creative: "クリエイティブ", prompts: "プロンプト", ethics: "倫理" }, cat: { personal: "個人的な選択", local: "ローカルAI", tools: "便利なツール", creative: "クリエイティブスタジオ", dev: "開発者", prompts: "プロンプトライブラリ", youtubers: "インスピレーション", sites: "おすすめ", ethics: "AI倫理" }, badges: { curated: "厳選", free: "無料" }, prices: { alwaysFree: "無料" }, labels: { view: "見る", videoGuide: "▶ 動画ガイド", watch: "見る: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "テキストと画像から動画を作成。", perplexity: "リアルタイム検索.", notebooklm: "スマートノート.", deepseek: "コーディングに最適.", gemini: "Googleアシスタント.", chatgpt: "最も人気.", claude: "自然な会話.", lmstudio: "AIモデルをローカルで実行。", deepl: "最高の翻訳.", besana: "文法チェック.", povejmo: "音声合成.", elevenlabs: "音声クローン.", sonix: "文字起こし.", deepai: "テキスト編集.", opus: "ショート動画.", midjourney: "最高のアート.", leonardo: "高度な画像生成。", flux: "リアルな画像.", higgsfield: "動画コントロール.", topaz: "画質向上.", krea: "リアルタイム描画.", suno: "音楽作成.", n8n: "自動化.", aistudio: "Google開発.", huggingface: "AIモデル.", ethics_text: "AIの危険性.", site_future: "Future Tools - AIモデルの大規模コレクション (Matt Wolfe)." } },
-
             // AR - Arabic
-
             ar: { dir: "rtl", title: "كون الذكاء الاصطناعي", subtitle: "مجموعة صغيرة من نماذج الذكاء الاصطناعي المفيدة", nav: { home: "الرئيسية", personal: "مختارات", tools: "أدوات", creative: "إبداع", prompts: "أوامر", ethics: "أخلاقيات" }, cat: { personal: "اختيارات شخصية", local: "ذكاء اصطناعي محلي", tools: "أدوات مفيدة", creative: "ستوديو الإبداع", dev: "المطورون", prompts: "مكتبة الأوامر", youtubers: "إلهام", sites: "موصى به", ethics: "أخلاقيات الذكاء الاصطناعي" }, badges: { curated: "مختار", free: "مجاني" }, prices: { alwaysFree: "مجاني" }, labels: { view: "شاهد", videoGuide: "▶ دليل الفيديو", watch: "شاهد: معضلة الذكاء الاصطناعي", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "إنشاء فيديو من النص والصور.", perplexity: "بحث في الوقت الفعلي.", notebooklm: "دفتر ملاحظات ذكي.", deepseek: "ممتاز للبرمجة.", gemini: "مساعد جوجل.", chatgpt: "الأكثر شهرة.", claude: "محادثة طبيعية.", lmstudio: "تشغيل نماذج الذكاء الاصطناعي محليًا.", deepl: "أفضل مترجم.", besana: "قواعد نحوية.", povejmo: "تحويل النص لكلام.", elevenlabs: "استنساخ الصوت.", sonix: "التفريغ الصوتي.", deepai: "تحرير النصوص.", opus: "فيديوهات قصيرة.", midjourney: "فن راقي.", leonardo: "توليد صور متقدم.", flux: "صور واقعية.", higgsfield: "تحكم بالفيديو.", topaz: "تحسين الجودة.", krea: "رسم مباشر.", suno: "إنشاء موسيقى.", n8n: "أتمتة.", aistudio: "تطوير جوجل.", huggingface: "نماذج الذكاء الاصطناعي.", ethics_text: "مخاطر الذكاء الاصطناعي.", site_future: "Future Tools - مجموعة كبيرة من نماذج الذكاء الاصطناعي (Matt Wolfe)." } },
-
             // IS - Icelandic
-
             is: { title: "Gervigreindarheimurinn", subtitle: "Lítið safn af nytsamlegum gervigreindartólum", nav: { home: "Heim", personal: "Val", tools: "Tól", creative: "Skapandi", prompts: "Skipanir", ethics: "Siðfræði" }, cat: { personal: "Persónulegt val", local: "Staðbundin gervigreind", tools: "Nytsamleg tól", creative: "Skapandi stúdíó", dev: "Forritarar", prompts: "Skipanasafn", youtubers: "Innblástur", sites: "Mælt með", ethics: "Siðfræði gervigreindar" }, badges: { curated: "Valið", free: "Ókeypis" }, prices: { alwaysFree: "Ókeypis" }, labels: { view: "Skoða", videoGuide: "▶ Myndbandsleiðbeiningar", watch: "Horfa: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Búa til myndband úr texta og myndum.", perplexity: "Leit í rauntíma.", notebooklm: "Snjöll minnisbók.", deepseek: "Frábært fyrir kóðun.", gemini: "Google aðstoðarmaður.", chatgpt: "Vinsælast.", claude: "Eðlilegt spjall.", lmstudio: "Keyra gervigreindarlíkön staðbundið.", deepl: "Besti þýðandinn.", besana: "Málfræði.", povejmo: "Talgerfll.", elevenlabs: "Raddklónun.", sonix: "Uppskrift.", deepai: "Textavinnsla.", opus: "Stutt myndbönd.", midjourney: "Topp list.", leonardo: "Ítarleg myndsköpun.", flux: "Raunverulegar myndir.", higgsfield: "Myndbandsstjórnun.", topaz: "Gæðabæting.", krea: "Teikna í rauntíma.", suno: "Búa til tónlist.", n8n: "Sjálfvirkni.", aistudio: "Google þróun.", huggingface: "Gervigreindarlíkön.", ethics_text: "Hættur gervigreindar.", site_future: "Future Tools - Stórt safn gervigreindarlíkana (Matt Wolfe)." } },
-
             // TR - Turkish
-
             tr: {
-
                 title: "YAPAY ZEKA EVRENİ",
-
                 subtitle: "Faydalı yapay zeka modelleri ve ipuçları koleksiyonu",
-
                 nav: { home: "Anasayfa", personal: "Seçimler", tools: "Araçlar", creative: "Yaratıcı", prompts: "Komutlar", ethics: "Etik" },
-
                 cat: { personal: "Kişisel Seçimler", local: "Yerel YZ", tools: "Faydalı Araçlar", creative: "Yaratıcı Stüdyo", dev: "Geliştiriciler", prompts: "Prompt Kütüphanesi", youtubers: "İlham", sites: "Önerilen", ethics: "YZ Etiği" },
-
                 badges: { curated: "Seçilmiş", free: "Ücretsiz" },
-
                 prices: { alwaysFree: "Ücretsiz" },
-
                 labels: { view: "Görüntüle", videoGuide: "▶ Video Rehberi", watch: "İzle: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
-
                 desc: {
-
                     flow: "Metin ve resimlerden video oluşturma.",
-
                     perplexity: "Gerçek zamanlı arama motoru.",
-
                     notebooklm: "Belgeleriniz için akıllı not defteri.",
-
                     deepseek: "Kodlama ve mantık için harika.",
-
                     gemini: "Google'ın akıllı asistanı.",
-
                     chatgpt: "En popüler yapay zeka.",
-
                     claude: "Doğal ve güvenli sohbet.",
-
                     lmstudio: "YZ modellerini yerel olarak çalıştırın.",
-
                     deepl: "En iyi çevirmen.",
-
                     besana: "Slovence dilbilgisi.",
-
                     povejmo: "Slovence ses sentezi.",
-
                     elevenlabs: "Ses klonlama.",
-
                     sonix: "Deşifre ve altyazı.",
-
                     deepai: "Metin düzenleme.",
-
                     opus: "Uzun videolardan kısalar.",
-
                     midjourney: "Üst düzey sanat üretimi.",
-
                     leonardo: "Gelişmiş görüntü oluşturma.",
-
                     flux: "Gerçekçi açık kaynak görseller.",
-
                     higgsfield: "Kontrollü video yapay zekası.",
-
                     topaz: "Görüntü/Video kalitesi artırma.",
-
                     krea: "Gerçek zamanlı çizim.",
-
                     suno: "Müzik oluştur.",
-
                     n8n: "İş akışı otomasyonu.",
-
                     aistudio: "Google geliştirme ortamı.",
-
                     huggingface: "Yapay zeka modelleri merkezi.",
-
                     yt_mattwolfe: "YZ haberleri ve dersleri.",
-
                     yt_aiadvantage: "Pratik ipuçları.",
-
                     yt_2min: "Bilimsel gelişmeler.",
-
                     yt_chuck: "BT ve YZ hackleme.",
-
                     yt_wes: "Endüstri haberleri.",
-
                     site_future: "Future Tools - Büyük YZ modeli koleksiyonu (Matt Wolfe).",
-
                     site_matt: "Matt Wolfe'un blogu.",
-
                     site_tracking: "YZ Takipçisi.",
-
                     site_hsf: "YZ Raporları.",
-
                     ethics_text: "Tristan Harris YZ tehlikeleri üzerine.",
-
                     res_anthropic: "Resmi Prompt Kütüphanesi.",
-
                 }
-
             }
-
         };
 
-
-
         // --- FUNCTIONS ---
-
         function changeLanguage() {
-
             const lang = document.getElementById('language-select').value;
-
             localStorage.setItem('selectedLanguage', lang);
-
             
-
             // Set RTL if needed
-
             if (t[lang].dir === "rtl") {
-
                 document.documentElement.setAttribute('dir', 'rtl');
-
             } else {
-
                 document.documentElement.removeAttribute('dir');
-
             }
-
             
-
             const data = t[lang] || t['sl']; // Fallback to SL
 
-
-
             // Update static text
-
             document.title = data.title;
-
             document.getElementById('main-title').textContent = data.title;
-
             document.getElementById('main-subtitle').textContent = data.subtitle;
 
-
-
             // Nav (re-render)
-
             renderNav(data);
-
-
 
             // Categories
-
             document.getElementById('cat-personal').textContent = data.cat.personal;
-
             document.getElementById('cat-local').textContent = data.cat.local;
-
             document.getElementById('cat-tools').textContent = data.cat.tools;
-
             document.getElementById('cat-creative').textContent = data.cat.creative;
-
             document.getElementById('cat-dev').textContent = data.cat.dev;
-
             document.getElementById('cat-prompts').textContent = data.cat.prompts;
-
             document.getElementById('cat-youtubers').textContent = data.cat.youtubers;
-
             document.getElementById('cat-sites').textContent = data.cat.sites;
-
             document.getElementById('cat-ethics').textContent = data.cat.ethics;
-
             document.getElementById('ethics-desc').textContent = getDesc('ethics_text', lang);
-
             document.getElementById('btn-watch').textContent = data.labels.watch;
-
             document.getElementById('btn-search-harris').textContent = data.labels.searchHarris;
 
-
-
             // Renders
-
             renderNav(data);
-
             renderModels('grid-personal', models.personal, lang);
-
             renderModels('grid-local', models.local, lang);
-
             renderModels('grid-tools', models.tools, lang);
-
             renderModels('grid-creative', models.creative, lang);
-
             renderModels('grid-dev', models.dev, lang);
-
             renderModels('grid-youtubers', models.youtubers, lang);
-
             renderModels('grid-sites', models.sites, lang);
-
             renderModels('grid-prompt-resources', promptResources, lang);
-
         }
-
-
 
         function renderNav(data) {
-
             const nav = document.getElementById('main-nav');
-
             nav.innerHTML = `
-
                 <a href="#sec-personal" class="nav-link">${data.nav.personal}</a>
-
                 <a href="#sec-tools" class="nav-link">${data.nav.tools}</a>
-
                 <a href="#sec-creative" class="nav-link">${data.nav.creative}</a>
-
                 <a href="#sec-prompts" class="nav-link">${data.nav.prompts}</a>
-
                 <a href="#sec-ethics" class="nav-link">${data.nav.ethics}</a>
-
             `;
-
         }
-
-
 
         function renderModels(elementId, items, lang) {
-
             const container = document.getElementById(elementId);
-
             if(!container) return;
-
             container.innerHTML = '';
-
             
-
             const data = t[lang] || t['sl'];
 
-
-
             items.forEach(item => {
-
                 const card = document.createElement('div');
-
                 card.className = 'model-card';
-
                 
-
                 // Description lookup
-
                 const descText = getDesc(item.desc, lang);
 
-
-
                 // Button text logic - Always "Visit"/Link
-
                 const btnText = data.labels.view || "Visit";
 
-
-
                 // Star logic
-
                 const starHtml = item.star ? '<span class="star-icon">★</span>' : '';
 
-
-
                 // Video Guide Logic (Text Link ABOVE Button)
-
                 let videoGuideHtml = '';
-
                 if (item.videoGuide) {
-
                     const videoText = data.labels.videoGuide || "Video Guide";
-
                     videoGuideHtml = `<a href="${item.videoGuide}" target="_blank" class="video-guide-text-link">${videoText}</a>`;
-
                 }
 
-
-
                 card.innerHTML = `
-
                     <div class="model-header">
-
                         <h3 class="model-name">${item.name} ${starHtml}</h3>
-
                         ${item.price === 'alwaysFree' || item.price === 'free' ? `<span class="badge badge-free">${data.prices.alwaysFree}</span>` : ''}
-
                     </div>
-
                     <p class="model-description">${descText}</p>
-
                     <div class="card-actions">
-
                         ${videoGuideHtml}
-
                         <a href="${item.url}" target="_blank" class="model-link">${btnText} ↗</a>
-
                     </div>
-
                 `;
-
                 container.appendChild(card);
-
             });
-
         }
-
-
 
         function getDesc(key, lang) {
-
             if (t[lang] && t[lang].desc && t[lang].desc[key]) return t[lang].desc[key];
-
             if (t['en'].desc[key]) return t['en'].desc[key];
-
             return key;
-
         }
-
-
 
         function renderQuote() {
-
             // Simple daily quote based on date
-
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-
             const quoteIndex = dayOfYear % quotesBase.length;
-
             const quote = quotesBase[quoteIndex];
-
             
-
             document.getElementById('daily-quote').textContent = `"${quote.text}"`;
-
             document.getElementById('quote-author').textContent = `- ${quote.author}`;
-
         }
-
-
 
         // Init
-
         document.getElementById('language-select').addEventListener('change', changeLanguage);
-
         const storedLang = localStorage.getItem('selectedLanguage');
-
         if (storedLang) {
-
             document.getElementById('language-select').value = storedLang;
-
         }
-
         
-
         renderQuote();
-
         changeLanguage(); // Initial render
 
-
-
     </script>
-
 </body>
-
 </html>
