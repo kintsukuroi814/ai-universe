@@ -159,10 +159,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.8); /* Darker background for readability */
+            background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 8px 16px;
-            border-radius: 50px; /* Fully rounded pill */
+            border-radius: 50px;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -170,7 +170,7 @@
 
         .language-pill:hover {
             background: rgba(0, 0, 0, 0.95);
-            border-color: #a855f7; /* Purple glow on hover */
+            border-color: #a855f7;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
         }
@@ -496,7 +496,6 @@
             }
             .nav-bar::-webkit-scrollbar { display: none; }
             
-            /* On mobile, move the language pill a bit higher if needed, or keep it bottom right */
             .language-wrapper {
                 bottom: 15px;
                 right: 15px;
@@ -708,7 +707,7 @@
             sl: {
                 title: "AI VESOLJE",
                 subtitle: "Mala zbirka uporabnih AI modelov in nasvetov",
-                nav: { home: "Domov", personal: "Izbrano", tools: "Orodja", creative: "Kreativno", prompts: "Prompti", ethics: "Etika" },
+                nav: { home: "Domov", personal: "Izbrano", tools: "Orodja", creative: "Kreativa & Prompti", ethics: "Etika" },
                 cat: { personal: "Osebni izbor", local: "Lokalni AI", tools: "Uporabna orodja", creative: "Kreativni Studio", dev: "Razvijalci", prompts: "Knjižnica promptov", youtubers: "Inspiracija", sites: "Priporočeno", ethics: "AI Etika" },
                 badges: { curated: "Izbrano", free: "Brezplačno" },
                 prices: { alwaysFree: "Brezplačno" },
@@ -756,7 +755,7 @@
             en: {
                 title: "AI UNIVERSE",
                 subtitle: "Small collection of useful AI models and tips",
-                nav: { home: "Home", personal: "Picks", tools: "Tools", creative: "Creative", prompts: "Prompts", ethics: "Ethics" },
+                nav: { home: "Home", personal: "Picks", tools: "Tools", creative: "Creative & Prompts", ethics: "Ethics" },
                 cat: { personal: "Personal Picks", local: "Local AI", tools: "Useful Tools", creative: "Creative Studio", dev: "Developers", prompts: "Prompt Library", youtubers: "Inspiration", sites: "Recommended", ethics: "AI Ethics" },
                 badges: { curated: "Curated", free: "Free" },
                 prices: { alwaysFree: "Free" },
@@ -801,11 +800,11 @@
                 }
             },
             // DE - Deutsch
-            de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { home: "Start", personal: "Auswahl", tools: "Tools", creative: "Kreativ", prompts: "Prompts", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Video aus Text und Bildern erstellen.", perplexity: "Echtzeit-Suche.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", leonardo: "Fortschrittliche Bilderzeugung.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
+            de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { home: "Start", personal: "Auswahl", tools: "Tools", creative: "Kreativ & Prompts", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Video aus Text und Bildern erstellen.", perplexity: "Echtzeit-Suche.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", leonardo: "Fortschrittliche Bilderzeugung.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
             // HR - Croatian
-            hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Izrada videa iz teksta i slika.", perplexity: "Pretraga u stvarnom vremenu.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+            hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativa & Promptovi", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Izrada videa iz teksta i slika.", perplexity: "Pretraga u stvarnom vremenu.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
             // SR - Serbian
-            sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativno", prompts: "Promptovi", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Pravljenje videa iz teksta i slika.", perplexity: "Pretraga u realnom vremenu.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+            sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { home: "Početna", personal: "Izbor", tools: "Alati", creative: "Kreativa & Promptovi", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Pravljenje videa iz teksta i slika.", perplexity: "Pretraga u realnom vremenu.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
              // MK - Macedonian
             mk: { title: "AI ВСЕЛЕНА", subtitle: "Мала збирка на корисни АИ модели", nav: { home: "Дома", personal: "Избор", tools: "Алатки", creative: "Креативно", prompts: "Промптови", ethics: "Етика" }, cat: { personal: "Личен избор", local: "Локален АИ", tools: "Корисни алатки", creative: "Креативно студио", dev: "Програмери", prompts: "Библиотека на промптови", youtubers: "Инспирација", sites: "Препорачано", ethics: "АИ Етика" }, badges: { curated: "Избрано", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Види", videoGuide: "▶ Видео Водич", watch: "Гледај: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Креирање видеа од текст и слики.", perplexity: "Пребарување во реално време.", notebooklm: "Паметна тетратка.", deepseek: "Одличен за кодирање.", gemini: "Google асистент.", chatgpt: "Најпопуларен АИ.", claude: "Природен разговор.", lmstudio: "Локално извршување на АИ модели.", deepl: "Најдобар преведувач.", besana: "Проверка на граматика.", povejmo: "Синтеза на говор.", elevenlabs: "Клонирање глас.", sonix: "Транскрипција.", deepai: "Уредување текст.", opus: "Кратки видеа.", midjourney: "Врвни слики.", leonardo: "Напредно креирање слики.", flux: "Реалистични слики.", higgsfield: "Видео контрола.", topaz: "Подобрување квалитет.", krea: "Цртање во живо.", suno: "Креирај музика.", n8n: "Автоматизација.", aistudio: "Google развој.", huggingface: "АИ модели.", ethics_text: "Опасности од АИ.", site_future: "Future Tools - Голема збирка АИ модели (Matt Wolfe)." } },
             // SQ - Albanian
@@ -934,11 +933,11 @@
 
         function renderNav(data) {
             const nav = document.getElementById('main-nav');
+            // POPRAVEK: Združena navigacija (samo 4 kategorije)
             nav.innerHTML = `
                 <a href="#sec-personal" class="nav-link">${data.nav.personal}</a>
                 <a href="#sec-tools" class="nav-link">${data.nav.tools}</a>
                 <a href="#sec-creative" class="nav-link">${data.nav.creative}</a>
-                <a href="#sec-prompts" class="nav-link">${data.nav.prompts}</a>
                 <a href="#sec-ethics" class="nav-link">${data.nav.ethics}</a>
             `;
         }
