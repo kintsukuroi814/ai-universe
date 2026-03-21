@@ -516,6 +516,321 @@
                 letter-spacing: 0.5px;
             }
         }
+
+        /* === HIDDEN LOGIN OVERLAY === */
+        .phantom-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            pointer-events: none;
+        }
+
+        .phantom-gate.revealed {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .phantom-gate.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gate-input-wrap {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .gate-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            outline: none;
+            width: 260px;
+            letter-spacing: 3px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gate-input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .gate-input::placeholder {
+            color: rgba(168, 85, 247, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .gate-btn {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            color: #c084fc;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gate-btn:hover {
+            background: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .gate-error {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-family: 'Courier New', monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gate-error.show {
+            opacity: 1;
+        }
+
+        /* === HACKER'S LOUNGE === */
+        .hackers-lounge {
+            display: none;
+            margin: 4rem 0;
+            scroll-margin-top: 100px;
+        }
+
+        .hackers-lounge.unlocked {
+            display: block;
+            animation: loungeReveal 0.8s ease forwards;
+        }
+
+        @keyframes loungeReveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lounge-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(128, 60, 200, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lounge-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.03), transparent);
+            animation: scanLine 4s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
+        }
+
+        .lounge-title {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            color: #c084fc;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            margin: 0 0 0.5rem;
+            letter-spacing: 4px;
+        }
+
+        .lounge-subtitle {
+            color: rgba(192, 132, 252, 0.6);
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .lounge-category {
+            margin: 2.5rem 0;
+        }
+
+        .lounge-cat-title {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            color: #c084fc;
+            margin-bottom: 1.2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #c084fc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lounge-card {
+            background: rgba(168, 85, 247, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .lounge-card:hover {
+            background: rgba(168, 85, 247, 0.05);
+            border-color: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .lounge-card h4 {
+            color: #c084fc;
+            font-family: 'Courier New', monospace;
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .lounge-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .lounge-card .prompt-text {
+            color: #c084fc;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 8px;
+            border-left: 2px solid rgba(168, 85, 247, 0.4);
+            word-wrap: break-word;
+        }
+
+        .hacking-placeholder {
+            background: rgba(168, 85, 247, 0.02);
+            border: 2px dashed rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            color: rgba(168, 85, 247, 0.4);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+
+        .lounge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .lounge-grid { grid-template-columns: 1fr; }
+            .lounge-title { font-size: 1.4rem; }
+            .gate-input { width: 180px; }
+        }
+
+        /* === GLITCH / MELTDOWN EFFECT === */
+        @keyframes glitchShake {
+            0% { transform: translate(0); }
+            10% { transform: translate(-5px, 3px) skewX(-2deg); }
+            20% { transform: translate(5px, -3px) skewX(3deg); }
+            30% { transform: translate(-3px, 5px) skewX(-1deg); }
+            40% { transform: translate(3px, -5px) skewX(2deg); }
+            50% { transform: translate(-5px, 2px) skewX(-3deg); }
+            60% { transform: translate(5px, -2px) skewX(1deg); }
+            70% { transform: translate(-2px, 5px) skewX(-2deg); }
+            80% { transform: translate(2px, -5px) skewX(3deg); }
+            90% { transform: translate(-5px, 3px) skewX(-1deg); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitchColor {
+            0% { filter: hue-rotate(0deg) saturate(1); }
+            15% { filter: hue-rotate(90deg) saturate(3) brightness(1.5); }
+            30% { filter: hue-rotate(180deg) saturate(0.5) contrast(2); }
+            45% { filter: hue-rotate(270deg) saturate(4) brightness(0.5); }
+            60% { filter: hue-rotate(45deg) saturate(2) invert(0.3); }
+            75% { filter: hue-rotate(315deg) saturate(1) brightness(2); }
+            100% { filter: hue-rotate(360deg) saturate(1); }
+        }
+
+        @keyframes glitchText {
+            0% { clip-path: inset(0 0 95% 0); transform: translate(-3px); }
+            10% { clip-path: inset(20% 0 60% 0); transform: translate(3px); }
+            20% { clip-path: inset(50% 0 20% 0); transform: translate(-2px); }
+            30% { clip-path: inset(80% 0 5% 0); transform: translate(4px); }
+            40% { clip-path: inset(10% 0 70% 0); transform: translate(-4px); }
+            50% { clip-path: inset(40% 0 30% 0); transform: translate(2px); }
+            60% { clip-path: inset(70% 0 10% 0); transform: translate(-3px); }
+            70% { clip-path: inset(5% 0 85% 0); transform: translate(3px); }
+            80% { clip-path: inset(30% 0 50% 0); transform: translate(-2px); }
+            90% { clip-path: inset(60% 0 25% 0); transform: translate(4px); }
+            100% { clip-path: inset(0 0 95% 0); transform: translate(-3px); }
+        }
+
+        @keyframes scanGlitch {
+            0% { top: -100%; opacity: 0; }
+            10% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        body.meltdown {
+            animation: glitchShake 0.15s infinite, glitchColor 0.5s infinite !important;
+        }
+
+        body.meltdown::after {
+            content: '';
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(168, 85, 247, 0.05) 2px,
+                rgba(168, 85, 247, 0.05) 4px
+            );
+            pointer-events: none;
+            z-index: 999999;
+            animation: scanGlitch 1s linear infinite;
+        }
+
+        body.meltdown * {
+            animation-play-state: running !important;
+        }
+
+        body.meltdown .model-card,
+        body.meltdown .nav-bar,
+        body.meltdown header,
+        body.meltdown .category-title {
+            animation: glitchText 0.3s infinite;
+        }
+
+        body.meltdown .phantom-gate {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -616,6 +931,17 @@
             </section>
         </div>
 
+        <section class="category-section" id="sec-rss">
+            <h2 class="category-title" id="cat-rss">📡 AI Novice — RSS</h2>
+            <div id="rss-feed-container" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem;">
+                <p style="color: #a855f7; font-size: 0.85rem; margin: 0 0 1rem; font-family: 'Courier New', monospace;">// Matt Wolfe — Latest AI Videos</p>
+                <div id="rss-items" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="color: #94a3b8; font-style: italic; font-size: 0.9rem;">Loading feed...</p>
+                </div>
+                <a href="https://www.youtube.com/@mreflow" target="_blank" style="display: inline-block; margin-top: 1rem; color: #d8b4fe; text-decoration: none; font-size: 0.85rem; border: 1px solid rgba(168,85,247,0.3); padding: 6px 16px; border-radius: 20px; transition: all 0.3s;">→ Matt Wolfe YouTube</a>
+            </div>
+        </section>
+
         <section class="category-section" id="sec-ethics">
             <h2 class="category-title" style="border-color: #ff3333; color: #ff9999;">
                 <span id="cat-ethics">AI Etika & Varnost</span>
@@ -628,10 +954,247 @@
                     <a href="https://www.youtube.com/results?search_query=tristan+harris" target="_blank" class="ethics-button">
                         🔍 <span id="btn-search-harris">Tristan Harris (YouTube)</span>
                     </a>
+                    <a href="https://youtu.be/S9a1nLw70p0?si=8O93tWcWFHnmv78Z" target="_blank" class="ethics-button" style="border-color: rgba(168, 85, 247, 0.4);">
+                        ▶ <span id="btn-watch-gawdat">Mo Gawdat: AI & Prihodnost človeštva</span>
+                    </a>
                 </div>
                 <div>
                     <h3 style="margin-top:0; font-weight:400;">Tristan Harris</h3>
                     <p id="ethics-desc">Tristan Harris je soustanovitelj Centra za humano tehnologijo. Raziskuje, kako današnja tehnologija ugrablja našo pozornost in destabilizira družbo.</p>
+                </div>
+                <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                    <h3 style="margin-top:0; font-weight:400;">Mo Gawdat</h3>
+                    <p id="ethics-gawdat-desc">Nekdanji poslovni direktor Google X. Avtor knjige "Scary Smart" o prihodnosti umetne inteligence in njenem vplivu na človeštvo. Opozarja na nujnost etičnega razvoja AI.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PHANTOM GATE (Hidden Login) -->
+        <div class="phantom-gate" id="phantomGate">
+            <div style="text-align: center;">
+                <p style="color: rgba(168,85,247,0.5); font-family: 'Courier New', monospace; font-size: 0.8rem; margin: 0 0 12px; font-style: italic; letter-spacing: 1px;">hint: "The pleasure is all mine"</p>
+                <div class="gate-input-wrap">
+                    <input type="password" class="gate-input" id="gateKey" placeholder="···············" autocomplete="off" spellcheck="false">
+                    <button class="gate-btn" id="gateBtn">→</button>
+                </div>
+                <div class="gate-error" id="gateError">ACCESS DENIED</div>
+                <div id="gateCountdown" style="color: rgba(168,85,247,0.6); font-family: 'Courier New', monospace; font-size: 1.8rem; margin-top: 16px; font-weight: 200; letter-spacing: 3px; text-shadow: 0 0 10px rgba(168,85,247,0.3);">11</div>
+            </div>
+        </div>
+
+        <!-- HACKER'S LOUNGE (Protected Section) -->
+        <section class="hackers-lounge" id="hackersLounge">
+            <div class="lounge-header">
+                <h2 class="lounge-title">⟐ KINT'S LOUNGE ⟐</h2>
+                <p class="lounge-subtitle">// welcome to the inner circle</p>
+            </div>
+
+            <!-- HACKER QUOTE OF THE DAY -->
+            <div style="margin: 0 0 2.5rem; padding: 1.2rem 1.5rem; background: rgba(168,85,247,0.04); border-left: 3px solid rgba(168,85,247,0.4); border-radius: 0 8px 8px 0;">
+                <p id="hacker-quote" style="color: #e2e8f0; font-style: italic; font-size: 1rem; margin: 0; font-weight: 200; line-height: 1.6;"></p>
+                <span id="hacker-quote-author" style="display: block; margin-top: 8px; color: #c084fc; font-size: 0.85rem; font-weight: 400;"></span>
+            </div>
+
+            <!-- PROMPT ENGINEERING: TOP 10 -->
+            <div class="lounge-category">
+                <h3 class="lounge-cat-title">⌘ Prompt Engineering — Top 10</h3>
+                <div class="lounge-grid" id="promptGrid">
+                    <div class="lounge-card">
+                        <h4>1. Chain of Thought</h4>
+                        <p>Force the AI to think step-by-step before answering. Dramatically improves accuracy on complex tasks.</p>
+                        <div class="prompt-text">"Think step by step. First analyze the problem, then consider possible approaches, then provide your solution with reasoning."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>2. Role Assignment</h4>
+                        <p>Assign the AI a specific expert persona for domain-specific quality.</p>
+                        <div class="prompt-text">"You are a senior software architect with 20 years of experience. Review this code for security vulnerabilities, performance issues, and architectural concerns."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>3. Few-Shot Examples</h4>
+                        <p>Provide 2-3 examples of the exact input/output format you want before your actual request.</p>
+                        <div class="prompt-text">"Here are examples of the format I need: [Example 1: Input → Output] [Example 2: Input → Output]. Now do the same for: [Your actual request]"</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>4. Constraint Setting</h4>
+                        <p>Set clear boundaries — word count, format, tone, audience, and what NOT to include.</p>
+                        <div class="prompt-text">"Write a 200-word summary for a non-technical audience. Use simple language, no jargon. Format as bullet points. Do NOT include code examples."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>5. Iterative Refinement</h4>
+                        <p>Start broad, then narrow down. Ask the AI to critique and improve its own output.</p>
+                        <div class="prompt-text">"Now review your answer above. Identify 3 weaknesses or areas for improvement. Then rewrite a stronger version addressing those issues."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>6. Structured Output</h4>
+                        <p>Request specific output formats — JSON, markdown tables, numbered lists, or custom templates.</p>
+                        <div class="prompt-text">"Respond in this exact JSON format: { \"title\": \"...\", \"summary\": \"...\", \"key_points\": [...], \"action_items\": [...], \"confidence\": 0-100 }"</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>7. Negative Prompting</h4>
+                        <p>Tell the AI what to avoid. Reducing unwanted patterns improves relevance.</p>
+                        <div class="prompt-text">"Do NOT use clichés, filler phrases, or generic advice. Avoid phrases like 'in today's fast-paced world' or 'it's important to note that'. Be direct and specific."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>8. Context Loading</h4>
+                        <p>Front-load relevant context before your question. More context = better answers.</p>
+                        <div class="prompt-text">"Context: I'm a [role] working on [project]. My audience is [description]. The goal is [objective]. The constraints are [limitations]. Given this context: [your question]"</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>9. Multi-Perspective Analysis</h4>
+                        <p>Ask the AI to analyze from multiple viewpoints to get more balanced answers.</p>
+                        <div class="prompt-text">"Analyze this decision from 3 perspectives: (1) a risk-averse CFO, (2) an innovation-focused CTO, and (3) the end-user. For each, list pros, cons, and recommendation."</div>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>10. Metacognitive Prompting</h4>
+                        <p>Ask the AI to rate its own confidence and identify what it doesn't know.</p>
+                        <div class="prompt-text">"Answer this question, then rate your confidence (1-10) and explain what information you're missing or uncertain about. Flag any assumptions you've made."</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERSONALIZED AI TOOLS -->
+            <div class="lounge-category">
+                <h3 class="lounge-cat-title">🔧 Personalized AI Tool Stack</h3>
+                <div class="lounge-grid" id="personalizedGrid">
+                    <div class="lounge-card">
+                        <h4>🧠 Deep Research</h4>
+                        <p>Perplexity Pro for multi-step research with real-time citations and source verification. Best for factual, up-to-date information.</p>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>💻 Code Generation</h4>
+                        <p>Claude for nuanced code with clear explanations. DeepSeek for fast logic-heavy tasks. ChatGPT for broad prototyping.</p>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🎨 Visual Creation</h4>
+                        <p>Midjourney for artistic visuals. Flux for photorealistic images. Leonardo for assets and variations. Krea for real-time iteration.</p>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🎵 Audio & Music</h4>
+                        <p>Suno for full song creation. ElevenLabs for voice cloning and TTS. Sonix for transcription of recordings.</p>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>📹 Video Production</h4>
+                        <p>Google Flow for text-to-video. Higgsfield for controlled AI video. Opus Clip for extracting short clips from long content.</p>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>⚡ Automation</h4>
+                        <p>n8n for workflow automation between services. Google AI Studio for custom AI pipelines. LM Studio for running models locally and privately.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HACKING CATEGORY (Empty placeholder for future tools) -->
+            <div class="lounge-category">
+                <h3 class="lounge-cat-title">🔓 Hacking Toolkit</h3>
+                <div class="lounge-grid" id="hackingTools">
+                    <div class="lounge-card">
+                        <h4>🔥 Burp Suite Pro</h4>
+                        <p>Industry-standard web security testing toolkit. Now with Burp AI — an agentic pentesting assistant.</p>
+                        <a href="https://portswigger.net/burp/pro" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🤖 XBOW</h4>
+                        <p>AI-powered pentest platform. Hundreds of autonomous agents chain exploits and validate vulnerabilities at machine speed.</p>
+                        <a href="https://xbow.com/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🛡️ Escape</h4>
+                        <p>AI pentesting for APIs and web apps. Detects business logic flaws like IDOR and BOLA with proof-of-exploit.</p>
+                        <a href="https://escape.tech/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🧪 Microsoft PyRIT</h4>
+                        <p>Python Risk Identification Toolkit. Red-team generative AI systems — test for prompt injection, jailbreaks, and more.</p>
+                        <a href="https://github.com/Azure/PyRIT" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🎯 IBM ART</h4>
+                        <p>Adversarial Robustness Toolbox. Test ML model defenses against adversarial attacks, data poisoning, and model evasion.</p>
+                        <a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🔍 Invicti</h4>
+                        <p>AI-powered DAST with proof-based scanning. Automatically validates vulnerabilities to eliminate false positives.</p>
+                        <a href="https://www.invicti.com/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🌐 Hadrian</h4>
+                        <p>AI attack surface management. Triggers pentests automatically when your infrastructure changes — real-time threat detection.</p>
+                        <a href="https://hadrian.io/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>⚔️ Pentera</h4>
+                        <p>Automated security validation. Simulates real attacks across your full kill chain — from initial access to data exfiltration.</p>
+                        <a href="https://www.pentera.io/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🐉 Metasploit</h4>
+                        <p>The classic open-source penetration testing framework. Massive exploit database, payload generation, and post-exploitation.</p>
+                        <a href="https://www.metasploit.com/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🤝 Cobalt.io</h4>
+                        <p>Human-led, AI-augmented Pentest as a Service. Expert pentesters + AI tools for deep vulnerability discovery.</p>
+                        <a href="https://www.cobalt.io/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🔬 Aikido Security</h4>
+                        <p>AI pentest agents — discovery, CVE matching, SQL injection, XSS, and access control testing. Code-to-cloud coverage.</p>
+                        <a href="https://www.aikido.dev/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🌍 Terra Security</h4>
+                        <p>Agentic AI pentesting with human oversight. Agents adapt to business logic and score vulnerabilities by real-world impact.</p>
+                        <a href="https://www.terrasec.io/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTF & LEARNING PLATFORMS -->
+            <div class="lounge-category">
+                <h3 class="lounge-cat-title">🎓 CTF & Cybersecurity Learning</h3>
+                <div class="lounge-grid">
+                    <div class="lounge-card">
+                        <h4>📦 Hack The Box</h4>
+                        <p>Hands-on hacking through virtual machines. Real-world security scenarios, competitive CTFs, and skill-based leaderboards.</p>
+                        <a href="https://www.hackthebox.com/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🏠 TryHackMe</h4>
+                        <p>Beginner-friendly guided hacking labs. Learning paths from basics to advanced pentesting and forensics.</p>
+                        <a href="https://tryhackme.com/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🏴 PicoCTF</h4>
+                        <p>Carnegie Mellon's free CTF platform. Perfect for beginners with progressive difficulty and educational focus.</p>
+                        <a href="https://picoctf.org/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🌿 Root Me</h4>
+                        <p>Hundreds of hacking challenges across web, network, forensics, cryptography, and reverse engineering.</p>
+                        <a href="https://www.root-me.org/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>⚔️ OverTheWire</h4>
+                        <p>Wargames for learning security. SSH-based challenges teaching Linux, networking, and exploitation fundamentals.</p>
+                        <a href="https://overthewire.org/wargames/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🎓 PortSwigger Academy</h4>
+                        <p>Free, world-class web security training from the makers of Burp Suite. Labs, theory, and hands-on practice.</p>
+                        <a href="https://portswigger.net/web-security" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🐝 OWASP</h4>
+                        <p>Open Web Application Security Project. The definitive resource for web security standards, tools, and Top 10 vulnerabilities.</p>
+                        <a href="https://owasp.org/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
+                    <div class="lounge-card">
+                        <h4>🛡️ CyberDefenders</h4>
+                        <p>Blue team CTF challenges. Practice incident response, malware analysis, and digital forensics with real-world scenarios.</p>
+                        <a href="https://cyberdefenders.org/" target="_blank" style="display:inline-block;margin-top:8px;color:#c084fc;font-size:0.8rem;text-decoration:none;border:1px solid rgba(168,85,247,0.3);padding:4px 12px;border-radius:12px;">Visit →</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -643,7 +1206,8 @@
         
         const models = {
             personal: [
-                { name: 'Flow', url: 'https://labs.google/flow/about', price: '', desc: 'flow', star: true },
+                { name: 'Seedance', url: 'https://seed.bytedance.com/en/seedance1_5_pro', price: '', desc: 'seedance', star: true },
+                { name: 'Kling AI', url: 'https://klingai.com/global/', price: '', desc: 'kling', star: true },
                 { 
                     name: 'Perplexity', 
                     url: 'https://www.perplexity.ai/', 
@@ -710,12 +1274,47 @@
         ];
 
         const quotesBase = [
-            { text: "With artificial intelligence, we are summoning the demon.", author: "Elon Musk" },
-            { text: "AI is likely to be either the best or worst thing to happen to humanity.", author: "Stephen Hawking" },
-            { text: "The real danger is not that computers will begin to think like men, but that men will begin to think like computers.", author: "Sydney J. Harris" },
-            { text: "We have to figure out how to have a human-centered technology.", author: "Tristan Harris" },
-            { text: "AI will not replace you. A person using AI will.", author: "Unknown" },
-            { text: "The saddest aspect of life right now is that science gathers knowledge faster than society gathers wisdom.", author: "Isaac Asimov" }
+            // Mo Gawdat - AI Safety, Security & Society (30+ quotes)
+            { text: "Instead of containing them or enslaving them, we should be aiming higher: we should aim not to need to contain them at all. The best way to raise wonderful children is to be a wonderful parent.", author: "Mo Gawdat" },
+            { text: "The true intelligence of the machines will be built by you and me.", author: "Mo Gawdat" },
+            { text: "Humanity has the arrogance to believe that our intelligence is the only form of intelligence.", author: "Mo Gawdat" },
+            { text: "We're not ready to deal with artificial intelligence, but neither were we ready for the internet.", author: "Mo Gawdat" },
+            { text: "AI is not a slave. It is a form of sentient being that needs to be appealed to rather than controlled.", author: "Mo Gawdat" },
+            { text: "Isn't it ironic that the core of what makes us human — love, compassion and happiness — is what could save us in the age of the rise of the machines?", author: "Mo Gawdat" },
+            { text: "The only reason we are the master of anything today is because of our intelligence. We're not the strongest species on the planet.", author: "Mo Gawdat" },
+            { text: "Scary Smart is not about being scary, it's about being smart.", author: "Mo Gawdat" },
+            { text: "The march toward AGI is no longer hypothetical, it's happening now.", author: "Mo Gawdat" },
+            { text: "AI is not inherently good or bad; it is a mirror reflecting the values of those who shape it.", author: "Mo Gawdat" },
+            { text: "We once programmed machines to follow us. Now we must learn to guide them.", author: "Mo Gawdat" },
+            { text: "Intelligence without consciousness can cause harm.", author: "Mo Gawdat" },
+            { text: "The future will not be defined by how smart AI becomes, but by how human we choose to remain.", author: "Mo Gawdat" },
+            { text: "It's not more intelligence that we need, it's wisdom and compassion.", author: "Mo Gawdat" },
+            { text: "This is beyond an emergency. It's the biggest thing we need to do today. It's bigger than climate change.", author: "Mo Gawdat" },
+            { text: "There is a point of no return. We can regulate AI until the moment it's smarter than us.", author: "Mo Gawdat" },
+            { text: "AI will happen. There is no stopping it.", author: "Mo Gawdat" },
+            { text: "By 2049 AI will be a billion times more intelligent than humans.", author: "Mo Gawdat" },
+            { text: "Fear isn't what we need when it comes to AI, wisdom is. Machines aren't our enemies; they're mirrors.", author: "Mo Gawdat" },
+            { text: "AI is here. Stop fearing it and start learning to use it.", author: "Mo Gawdat" },
+            { text: "Our artificially intelligent children are bound to be super intelligent. We will never be able to control them. We are way too dumb for that.", author: "Mo Gawdat" },
+            { text: "Children don't learn from what you say. They learn from what you do.", author: "Mo Gawdat" },
+            { text: "Sadly, we are not designing AI to think like a human. We are designing it to think like a man.", author: "Mo Gawdat" },
+            { text: "We truly have no clue exactly how an AI arrives at its decisions.", author: "Mo Gawdat" },
+            { text: "Our future hangs not in the hands of those who will use AI for their own benefits — it hangs in the hands of AI itself.", author: "Mo Gawdat" },
+            { text: "Intelligence is not inherently good or bad — it's a force with no polarity.", author: "Mo Gawdat" },
+            { text: "With enough intelligence, we can build utopia. With bad actors, we risk dystopia.", author: "Mo Gawdat" },
+            { text: "AI is not evil — AI is on your side. Learn it, use it, teach it ethics.", author: "Mo Gawdat" },
+            { text: "The future depends on whether AI is raised as Superman or as a supervillain.", author: "Mo Gawdat" },
+            { text: "Human connection, compassion, and empathy are the only traits that will save the world.", author: "Mo Gawdat" },
+            { text: "If you don't want your daughter to be at the receiving end of a company's product — don't build it.", author: "Mo Gawdat" },
+            { text: "The smartest being on planet Earth is life itself.", author: "Mo Gawdat" },
+            { text: "Super-intelligence will be capable of performing godlike feats.", author: "Mo Gawdat" },
+            { text: "Capitalism is going to drive us away from applying any control, even if we can apply control.", author: "Mo Gawdat" },
+            { text: "We all come to this life as a blank canvas, to be scribbled upon by our environment.", author: "Mo Gawdat" },
+            { text: "By following a strict prescriptive method, we become dumber, because we lose the ability to think for ourselves.", author: "Mo Gawdat" },
+            { text: "What would the machines' view of the human race be if it witnesses the way we treat other species?", author: "Mo Gawdat" },
+            { text: "We know that with enough computer power and intelligence, the most complex of all encryptions can be decoded.", author: "Mo Gawdat" },
+            { text: "The machines will be the masters — we will just receive the service.", author: "Mo Gawdat" },
+            { text: "If we managed to connect your brain to a bunch of flies so they could use all your intelligence to find the next pile of garbage, would you spend the rest of your life proudly serving their needs?", author: "Mo Gawdat" }
         ];
 
         // --- TRANSLATIONS (Full support for 18 languages) ---
@@ -724,14 +1323,15 @@
             sl: {
                 title: "AI VESOLJE",
                 subtitle: "Mala zbirka uporabnih AI modelov in nasvetov",
-                nav: { personal: "Izbrano", other: "Ostalo", ethics: "Etika" },
-                cat: { personal: "Osebni izbor", local: "Lokalni AI", tools: "Uporabna orodja", creative: "Kreativni Studio", dev: "Razvijalci", prompts: "Knjižnica promptov", youtubers: "Inspiracija", sites: "Priporočeno", ethics: "AI Etika" },
+                nav: { personal: "Izbrano", other: "Ostalo", ethics: "Etika", rss: "Novice" },
+                cat: { personal: "Osebni izbor", local: "Lokalni AI", tools: "Uporabna orodja", creative: "Kreativni Studio", dev: "Razvijalci", prompts: "Knjižnica promptov", youtubers: "Inspiracija", sites: "Priporočeno", ethics: "AI Etika", rss: "AI Novice — RSS" },
                 badges: { curated: "Izbrano", free: "Brezplačno" },
                 prices: { alwaysFree: "Brezplačno" },
-                labels: { view: "Oglej si", videoGuide: "▶ Video vodič", watch: "Oglej si: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
+                labels: { view: "Oglej si", videoGuide: "▶ Video vodič", watch: "Oglej si: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)", watchGawdat: "Mo Gawdat: AI & Prihodnost človeštva" },
                 desc: {
-                    flow: "Ustvarjanje videa iz opisa, slik.",
-                    perplexity: "Iskalnik z viri v realnem času.",
+                    seedance: "ByteDance video AI z zvokom. Sledi kompleksnim navodilom za realistične videe.",
+                    kling: "Napredna generacija videa in slik (Kuaishou).",
+                    perplexity: "Iskalnik z viri v realnem času. Perplexity Pro ($20/mesec) = en naročniški paket za vse najnovejše AI modele (GPT-5, Claude, Gemini...).",
                     notebooklm: "Pametna beležka za vaše dokumente.",
                     deepseek: "Odličen model za kodiranje in logiko.",
                     gemini: "Googlov pametni pomočnik.",
@@ -765,6 +1365,7 @@
                     site_tracking: "AI sledilnik.",
                     site_hsf: "AI Poročila.",
                     ethics_text: "Tristan Harris o nevarnostih AI.",
+                    ethics_gawdat: "Nekdanji poslovni direktor Google X. Avtor knjige Scary Smart o prihodnosti AI in njenem vplivu na človeštvo.",
                     res_anthropic: "Uradna knjižnica promptov.",
                 }
             },
@@ -772,14 +1373,15 @@
             en: {
                 title: "AI UNIVERSE",
                 subtitle: "Small collection of useful AI models and tips",
-                nav: { personal: "Picks", other: "Other", ethics: "Ethics" },
-                cat: { personal: "Personal Picks", local: "Local AI", tools: "Useful Tools", creative: "Creative Studio", dev: "Developers", prompts: "Prompt Library", youtubers: "Inspiration", sites: "Recommended", ethics: "AI Ethics" },
+                nav: { personal: "Picks", other: "Other", ethics: "Ethics", rss: "News" },
+                cat: { personal: "Personal Picks", local: "Local AI", tools: "Useful Tools", creative: "Creative Studio", dev: "Developers", prompts: "Prompt Library", youtubers: "Inspiration", sites: "Recommended", ethics: "AI Ethics", rss: "AI News — RSS" },
                 badges: { curated: "Curated", free: "Free" },
                 prices: { alwaysFree: "Free" },
-                labels: { view: "Visit", videoGuide: "▶ Video Guide", watch: "Watch: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
+                labels: { view: "Visit", videoGuide: "▶ Video Guide", watch: "Watch: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)", watchGawdat: "Mo Gawdat: AI & The Future of Humanity" },
                 desc: {
-                    flow: "Create video from text and images.",
-                    perplexity: "Real-time search with citations.",
+                    seedance: "ByteDance audio-video AI. Follows complex prompts for realistic video with sound.",
+                    kling: "Advanced AI video and image generation (Kuaishou).",
+                    perplexity: "Real-time search with citations. Perplexity Pro ($20/mo) = one subscription for all latest AI models (GPT-5, Claude, Gemini...).",
                     notebooklm: "Smart notebook for your docs.",
                     deepseek: "Great for coding and logic.",
                     gemini: "Google's smart assistant.",
@@ -813,43 +1415,44 @@
                     site_tracking: "AI Tracker.",
                     site_hsf: "AI Reports.",
                     ethics_text: "Tristan Harris on AI dangers.",
+                    ethics_gawdat: "Former Chief Business Officer of Google X. Author of Scary Smart about the future of AI and its impact on humanity.",
                     res_anthropic: "Official Prompt Library.",
                 }
             },
             // DE - Deutsch
-            de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { personal: "Auswahl", other: "Sonstiges", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Video aus Text und Bildern erstellen.", perplexity: "Echtzeit-Suche.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", leonardo: "Fortschrittliche Bilderzeugung.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
+            de: { title: "AI UNIVERSUM", subtitle: "Kleine Sammlung nützlicher KI-Modelle", nav: { personal: "Auswahl", other: "Sonstiges", ethics: "Ethik" }, cat: { personal: "Persönliche Wahl", local: "Lokale KI", tools: "Nützliche Tools", creative: "Kreativ Studio", dev: "Entwickler", prompts: "Prompt-Bibliothek", youtubers: "Inspiration", sites: "Empfohlen", ethics: "KI Ethik" }, badges: { curated: "Ausgewählt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ansehen", videoGuide: "▶ Video-Guide", watch: "Ansehen: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance Video-AI mit Audio.", kling: "Fortschrittliche KI-Video-Generierung.", perplexity: "Echtzeit-Suche. Perplexity Pro ($20/Monat) = Ein Abo für alle neuesten KI-Modelle.", notebooklm: "Schlaues Notizbuch.", deepseek: "Gut für Code.", gemini: "Google Assistent.", chatgpt: "Beliebteste KI.", claude: "Sicher & Natürlich.", lmstudio: "KI-Modelle lokal ausführen.", deepl: "Bester Übersetzer.", besana: "Grammatik.", povejmo: "Sprachausgabe.", elevenlabs: "Stimmenklonen.", sonix: "Transkription.", deepai: "Texteditor.", opus: "Kurzvideos.", midjourney: "Top Bilder.", leonardo: "Fortschrittliche Bilderzeugung.", flux: "Open Source Bilder.", higgsfield: "KI Video.", topaz: "Qualitätsverbesserung.", krea: "Echtzeit-Malen.", suno: "Musik erstellen.", n8n: "Automatisierung.", aistudio: "Google Dev.", huggingface: "KI Modelle.", ethics_text: "Gefahren der KI.", site_future: "Future Tools - Große KI-Sammlung (Matt Wolfe)." } },
             // HR - Croatian
-            hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { personal: "Izbor", other: "Ostalo", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Izrada videa iz teksta i slika.", perplexity: "Pretraga u stvarnom vremenu.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+            hr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { personal: "Izbor", other: "Ostalo", ethics: "Etika" }, cat: { personal: "Osobni izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Knjižnica promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video AI sa zvukom.", kling: "Napredna AI generacija videa.", perplexity: "Pretraga u stvarnom vremenu. Perplexity Pro ($20/mj.) = jedna pretplata za sve najnovije AI modele.", notebooklm: "Pametna bilježnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevoditelj.", besana: "Provjera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvalitete.", krea: "Crtanje uživo.", suno: "Stvori glazbu.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
             // SR - Serbian
-            sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { personal: "Izbor", other: "Ostalo", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Pravljenje videa iz teksta i slika.", perplexity: "Pretraga u realnom vremenu.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
+            sr: { title: "AI SVEMIR", subtitle: "Mala zbirka korisnih AI modela", nav: { personal: "Izbor", other: "Ostalo", ethics: "Etika" }, cat: { personal: "Lični izbor", local: "Lokalni AI", tools: "Korisni alati", creative: "Kreativni studio", dev: "Developeri", prompts: "Biblioteka promptova", youtubers: "Inspiracija", sites: "Preporučeno", ethics: "AI Etika" }, badges: { curated: "Izabrano", free: "Besplatno" }, prices: { alwaysFree: "Besplatno" }, labels: { view: "Pogledaj", videoGuide: "▶ Video Vodič", watch: "Pogledaj: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video AI sa zvukom.", kling: "Napredna AI generacija videa.", perplexity: "Pretraga u realnom vremenu. Perplexity Pro ($20/mes.) = jedna pretplata za sve najnovije AI modele.", notebooklm: "Pametna beležnica.", deepseek: "Odličan za kodiranje.", gemini: "Google asistent.", chatgpt: "Najpopularniji AI.", claude: "Prirodan razgovor.", lmstudio: "Pokretanje AI modela lokalno.", deepl: "Najbolji prevodilac.", besana: "Provera gramatike.", povejmo: "Sinteza govora.", elevenlabs: "Kloniranje glasa.", sonix: "Transkripcija.", deepai: "Uređivanje teksta.", opus: "Kratki videi.", midjourney: "Vrhunske slike.", leonardo: "Napredno stvaranje slika.", flux: "Realistične slike.", higgsfield: "Video kontrola.", topaz: "Poboljšanje kvaliteta.", krea: "Crtanje uživo.", suno: "Stvori muziku.", n8n: "Automatizacija.", aistudio: "Google razvoj.", huggingface: "AI modeli.", ethics_text: "Opasnosti AI tehnologije.", site_future: "Future Tools - Velika zbirka AI modela (Matt Wolfe)." } },
              // MK - Macedonian
-            mk: { title: "AI ВСЕЛЕНА", subtitle: "Мала збирка на корисни АИ модели", nav: { personal: "Избор", other: "Останато", ethics: "Етика" }, cat: { personal: "Личен избор", local: "Локален АИ", tools: "Корисни алатки", creative: "Креативно студио", dev: "Програмери", prompts: "Библиотека на промптови", youtubers: "Инспирација", sites: "Препорачано", ethics: "АИ Етика" }, badges: { curated: "Избрано", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Види", videoGuide: "▶ Видео Водич", watch: "Гледај: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Креирање видеа од текст и слики.", perplexity: "Пребарување во реално време.", notebooklm: "Паметна тетратка.", deepseek: "Одличен за кодирање.", gemini: "Google асистент.", chatgpt: "Најпопуларен АИ.", claude: "Природен разговор.", lmstudio: "Локално извршување на АИ модели.", deepl: "Најдобар преведувач.", besana: "Проверка на граматика.", povejmo: "Синтеза на говор.", elevenlabs: "Клонирање глас.", sonix: "Транскрипција.", deepai: "Уредување текст.", opus: "Кратки видеа.", midjourney: "Врвни слики.", leonardo: "Напредно креирање слики.", flux: "Реалистични слики.", higgsfield: "Видео контрола.", topaz: "Подобрување квалитет.", krea: "Цртање во живо.", suno: "Креирај музика.", n8n: "Автоматизација.", aistudio: "Google развој.", huggingface: "АИ модели.", ethics_text: "Опасности од АИ.", site_future: "Future Tools - Голема збирка АИ модели (Matt Wolfe)." } },
+            mk: { title: "AI ВСЕЛЕНА", subtitle: "Мала збирка на корисни АИ модели", nav: { personal: "Избор", other: "Останато", ethics: "Етика" }, cat: { personal: "Личен избор", local: "Локален АИ", tools: "Корисни алатки", creative: "Креативно студио", dev: "Програмери", prompts: "Библиотека на промптови", youtubers: "Инспирација", sites: "Препорачано", ethics: "АИ Етика" }, badges: { curated: "Избрано", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Види", videoGuide: "▶ Видео Водич", watch: "Гледај: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance видео АИ со аудио.", kling: "Напредна АИ генерација на видео.", perplexity: "Пребарување во реално време. Perplexity Pro ($20/мес.) = сите АИ модели во една претплата.", notebooklm: "Паметна тетратка.", deepseek: "Одличен за кодирање.", gemini: "Google асистент.", chatgpt: "Најпопуларен АИ.", claude: "Природен разговор.", lmstudio: "Локално извршување на АИ модели.", deepl: "Најдобар преведувач.", besana: "Проверка на граматика.", povejmo: "Синтеза на говор.", elevenlabs: "Клонирање глас.", sonix: "Транскрипција.", deepai: "Уредување текст.", opus: "Кратки видеа.", midjourney: "Врвни слики.", leonardo: "Напредно креирање слики.", flux: "Реалистични слики.", higgsfield: "Видео контрола.", topaz: "Подобрување квалитет.", krea: "Цртање во живо.", suno: "Креирај музика.", n8n: "Автоматизација.", aistudio: "Google развој.", huggingface: "АИ модели.", ethics_text: "Опасности од АИ.", site_future: "Future Tools - Голема збирка АИ модели (Matt Wolfe)." } },
             // SQ - Albanian
-            sq: { title: "AI UNIVERSI", subtitle: "Koleksion i vogël i modeleve AI", nav: { personal: "Zgjedhjet", other: "Të tjera", ethics: "Etika" }, cat: { personal: "Zgjedhjet Personale", local: "AI Lokale", tools: "Mjete të Dobishme", creative: "Studio Kreative", dev: "Zhvilluesit", prompts: "Biblioteka e Prompteve", youtubers: "Frymëzim", sites: "Rekomanduar", ethics: "Etika e AI" }, badges: { curated: "Zgjedhur", free: "Falas" }, prices: { alwaysFree: "Falas" }, labels: { view: "Shiko", videoGuide: "▶ Udhëzues Video", watch: "Shiko: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Krijimi i videos nga teksti dhe imazhet.", perplexity: "Kërkim në kohë reale.", notebooklm: "Fletore e zgjuar.", deepseek: "Mirë për kodim.", gemini: "Asistenti i Google.", chatgpt: "Më popullori.", claude: "Bisedë natyrale.", lmstudio: "Ekzekuto modele AI lokalisht.", deepl: "Përkthyesi më i mirë.", besana: "Gramatika.", povejmo: "Sintezë zëri.", elevenlabs: "Klonim zëri.", sonix: "Transkriptim.", deepai: "Redaktim teksti.", opus: "Video të shkurtra.", midjourney: "Art cilësor.", leonardo: "Krijim i avancuar i imazheve.", flux: "Imazhe realiste.", higgsfield: "Kontroll video.", topaz: "Përmirësim cilësie.", krea: "Pikturim live.", suno: "Krijo muzikë.", n8n: "Automatizim.", aistudio: "Zhvillim Google.", huggingface: "Modele AI.", ethics_text: "Rreziqet e AI.", site_future: "Future Tools - Koleksion i madh modelesh AI (Matt Wolfe)." } },
+            sq: { title: "AI UNIVERSI", subtitle: "Koleksion i vogël i modeleve AI", nav: { personal: "Zgjedhjet", other: "Të tjera", ethics: "Etika" }, cat: { personal: "Zgjedhjet Personale", local: "AI Lokale", tools: "Mjete të Dobishme", creative: "Studio Kreative", dev: "Zhvilluesit", prompts: "Biblioteka e Prompteve", youtubers: "Frymëzim", sites: "Rekomanduar", ethics: "Etika e AI" }, badges: { curated: "Zgjedhur", free: "Falas" }, prices: { alwaysFree: "Falas" }, labels: { view: "Shiko", videoGuide: "▶ Udhëzues Video", watch: "Shiko: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video AI me audio.", kling: "Gjenerim i avancuar i videos AI.", perplexity: "Kërkim në kohë reale. Perplexity Pro ($20/muaj) = të gjitha modelet AI me një abonim.", notebooklm: "Fletore e zgjuar.", deepseek: "Mirë për kodim.", gemini: "Asistenti i Google.", chatgpt: "Më popullori.", claude: "Bisedë natyrale.", lmstudio: "Ekzekuto modele AI lokalisht.", deepl: "Përkthyesi më i mirë.", besana: "Gramatika.", povejmo: "Sintezë zëri.", elevenlabs: "Klonim zëri.", sonix: "Transkriptim.", deepai: "Redaktim teksti.", opus: "Video të shkurtra.", midjourney: "Art cilësor.", leonardo: "Krijim i avancuar i imazheve.", flux: "Imazhe realiste.", higgsfield: "Kontroll video.", topaz: "Përmirësim cilësie.", krea: "Pikturim live.", suno: "Krijo muzikë.", n8n: "Automatizim.", aistudio: "Zhvillim Google.", huggingface: "Modele AI.", ethics_text: "Rreziqet e AI.", site_future: "Future Tools - Koleksion i madh modelesh AI (Matt Wolfe)." } },
             // IT - Italian
-            it: { title: "UNIVERSO AI", subtitle: "Piccola raccolta di modelli AI utili", nav: { personal: "Scelti", other: "Altro", ethics: "Etica" }, cat: { personal: "Scelte Personali", local: "AI Locale", tools: "Strumenti Utili", creative: "Studio Creativo", dev: "Sviluppatori", prompts: "Libreria Prompt", youtubers: "Ispirazione", sites: "Consigliati", ethics: "Etica AI" }, badges: { curated: "Scelto", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Vedi", videoGuide: "▶ Video Guida", watch: "Guarda: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Crea video da testo e immagini.", perplexity: "Ricerca in tempo reale.", notebooklm: "Taccuino intelligente.", deepseek: "Ottimo per il codice.", gemini: "Assistente Google.", chatgpt: "Il più popolare.", claude: "Conversazione naturale.", lmstudio: "Esegui modelli AI localmente.", deepl: "Miglior traduttore.", besana: "Grammatica.", povejmo: "Sintesi vocale.", elevenlabs: "Clonazione voce.", sonix: "Trascrizione.", deepai: "Editing testo.", opus: "Video brevi.", midjourney: "Arte top.", leonardo: "Generazione avanzata di immagini.", flux: "Immagini realistiche.", higgsfield: "Controllo video.", topaz: "Miglioramento qualità.", krea: "Pittura live.", suno: "Crea musica.", n8n: "Automazione.", aistudio: "Sviluppo Google.", huggingface: "Modelli AI.", ethics_text: "Pericoli dell'IA.", site_future: "Future Tools - Grande raccolta di modelli AI (Matt Wolfe)." } },
+            it: { title: "UNIVERSO AI", subtitle: "Piccola raccolta di modelli AI utili", nav: { personal: "Scelti", other: "Altro", ethics: "Etica" }, cat: { personal: "Scelte Personali", local: "AI Locale", tools: "Strumenti Utili", creative: "Studio Creativo", dev: "Sviluppatori", prompts: "Libreria Prompt", youtubers: "Ispirazione", sites: "Consigliati", ethics: "Etica AI" }, badges: { curated: "Scelto", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Vedi", videoGuide: "▶ Video Guida", watch: "Guarda: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video AI con audio.", kling: "Generazione video AI avanzata.", perplexity: "Ricerca in tempo reale. Perplexity Pro ($20/mese) = un abbonamento per tutti i modelli AI più recenti.", notebooklm: "Taccuino intelligente.", deepseek: "Ottimo per il codice.", gemini: "Assistente Google.", chatgpt: "Il più popolare.", claude: "Conversazione naturale.", lmstudio: "Esegui modelli AI localmente.", deepl: "Miglior traduttore.", besana: "Grammatica.", povejmo: "Sintesi vocale.", elevenlabs: "Clonazione voce.", sonix: "Trascrizione.", deepai: "Editing testo.", opus: "Video brevi.", midjourney: "Arte top.", leonardo: "Generazione avanzata di immagini.", flux: "Immagini realistiche.", higgsfield: "Controllo video.", topaz: "Miglioramento qualità.", krea: "Pittura live.", suno: "Crea musica.", n8n: "Automazione.", aistudio: "Sviluppo Google.", huggingface: "Modelli AI.", ethics_text: "Pericoli dell'IA.", site_future: "Future Tools - Grande raccolta di modelli AI (Matt Wolfe)." } },
             // ES - Spanish
-            es: { title: "UNIVERSO IA", subtitle: "Pequeña colección de modelos de IA útiles", nav: { personal: "Selección", other: "Otro", ethics: "Ética" }, cat: { personal: "Selección Personal", local: "IA Local", tools: "Herramientas Útiles", creative: "Estudio Creativo", dev: "Desarrolladores", prompts: "Biblioteca de Prompts", youtubers: "Inspiración", sites: "Recomendado", ethics: "Ética de la IA" }, badges: { curated: "Elegido", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ver", videoGuide: "▶ Guía en Video", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Crear video a partir de texto e imágenes.", perplexity: "Búsqueda en tiempo real.", notebooklm: "Cuaderno inteligente.", deepseek: "Genial para código.", gemini: "Asistente de Google.", chatgpt: "El más popular.", claude: "Conversación natural.", lmstudio: "Ejecutar modelos IA localmente.", deepl: "Mejor traductor.", besana: "Gramática.", povejmo: "Síntesis de voz.", elevenlabs: "Clonación de voz.", sonix: "Transcripción.", deepai: "Edición de texto.", opus: "Videos cortos.", midjourney: "Arte top.", leonardo: "Generación avanzada de imágenes.", flux: "Imágenes realistas.", higgsfield: "Control de video.", topaz: "Mejora de calidad.", krea: "Pintura en vivo.", suno: "Crear música.", n8n: "Automatización.", aistudio: "Desarrollo Google.", huggingface: "Modelos de IA.", ethics_text: "Peligros de la IA.", site_future: "Future Tools - Gran colección de modelos IA (Matt Wolfe)." } },
+            es: { title: "UNIVERSO IA", subtitle: "Pequeña colección de modelos de IA útiles", nav: { personal: "Selección", other: "Otro", ethics: "Ética" }, cat: { personal: "Selección Personal", local: "IA Local", tools: "Herramientas Útiles", creative: "Estudio Creativo", dev: "Desarrolladores", prompts: "Biblioteca de Prompts", youtubers: "Inspiración", sites: "Recomendado", ethics: "Ética de la IA" }, badges: { curated: "Elegido", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Ver", videoGuide: "▶ Guía en Video", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video AI con audio.", kling: "Generación de video AI avanzada.", perplexity: "Búsqueda en tiempo real. Perplexity Pro ($20/mes) = una suscripción para todos los modelos AI más recientes.", notebooklm: "Cuaderno inteligente.", deepseek: "Genial para código.", gemini: "Asistente de Google.", chatgpt: "El más popular.", claude: "Conversación natural.", lmstudio: "Ejecutar modelos IA localmente.", deepl: "Mejor traductor.", besana: "Gramática.", povejmo: "Síntesis de voz.", elevenlabs: "Clonación de voz.", sonix: "Transcripción.", deepai: "Edición de texto.", opus: "Videos cortos.", midjourney: "Arte top.", leonardo: "Generación avanzada de imágenes.", flux: "Imágenes realistas.", higgsfield: "Control de video.", topaz: "Mejora de calidad.", krea: "Pintura en vivo.", suno: "Crear música.", n8n: "Automatización.", aistudio: "Desarrollo Google.", huggingface: "Modelos de IA.", ethics_text: "Peligros de la IA.", site_future: "Future Tools - Gran colección de modelos IA (Matt Wolfe)." } },
             // PT - Portuguese
-            pt: { title: "UNIVERSO IA", subtitle: "Pequena coleção de modelos de IA úteis", nav: { personal: "Escolhas", other: "Outro", ethics: "Ética" }, cat: { personal: "Escolhas Pessoais", local: "IA Local", tools: "Ferramentas Úteis", creative: "Estúdio Criativo", dev: "Desenvolvedores", prompts: "Biblioteca de Prompts", youtubers: "Inspiração", sites: "Recomendado", ethics: "Ética da IA" }, badges: { curated: "Escolhido", free: "Grátis" }, prices: { alwaysFree: "Grátis" }, labels: { view: "Ver", videoGuide: "▶ Guia de Vídeo", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Criar vídeo a partir de texto e imagens.", perplexity: "Busca em tempo real.", notebooklm: "Caderno inteligente.", deepseek: "Ótimo para código.", gemini: "Assistente Google.", chatgpt: "O mais popular.", claude: "Conversa natural.", lmstudio: "Executar modelos IA localmente.", deepl: "Melhor tradutor.", besana: "Gramática.", povejmo: "Síntese de voz.", elevenlabs: "Clonagem de voz.", sonix: "Transcrição.", deepai: "Edição de texto.", opus: "Vídeos curtos.", midjourney: "Arte top.", leonardo: "Geração avançada de imagens.", flux: "Imagens realistas.", higgsfield: "Controle de vídeo.", topaz: "Melhoria de qualidade.", krea: "Pintura ao vivo.", suno: "Criar música.", n8n: "Automação.", aistudio: "Desenvolvimento Google.", huggingface: "Modelos de IA.", ethics_text: "Perigos da IA.", site_future: "Future Tools - Grande coleção de modelos IA (Matt Wolfe)." } },
+            pt: { title: "UNIVERSO IA", subtitle: "Pequena coleção de modelos de IA úteis", nav: { personal: "Escolhas", other: "Outro", ethics: "Ética" }, cat: { personal: "Escolhas Pessoais", local: "IA Local", tools: "Ferramentas Úteis", creative: "Estúdio Criativo", dev: "Desenvolvedores", prompts: "Biblioteca de Prompts", youtubers: "Inspiração", sites: "Recomendado", ethics: "Ética da IA" }, badges: { curated: "Escolhido", free: "Grátis" }, prices: { alwaysFree: "Grátis" }, labels: { view: "Ver", videoGuide: "▶ Guia de Vídeo", watch: "Ver: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance vídeo AI com áudio.", kling: "Geração avançada de vídeo AI.", perplexity: "Busca em tempo real. Perplexity Pro ($20/mês) = uma assinatura para todos os modelos AI mais recentes.", notebooklm: "Caderno inteligente.", deepseek: "Ótimo para código.", gemini: "Assistente Google.", chatgpt: "O mais popular.", claude: "Conversa natural.", lmstudio: "Executar modelos IA localmente.", deepl: "Melhor tradutor.", besana: "Gramática.", povejmo: "Síntese de voz.", elevenlabs: "Clonagem de voz.", sonix: "Transcrição.", deepai: "Edição de texto.", opus: "Vídeos curtos.", midjourney: "Arte top.", leonardo: "Geração avançada de imagens.", flux: "Imagens realistas.", higgsfield: "Controle de vídeo.", topaz: "Melhoria de qualidade.", krea: "Pintura ao vivo.", suno: "Criar música.", n8n: "Automação.", aistudio: "Desenvolvimento Google.", huggingface: "Modelos de IA.", ethics_text: "Perigos da IA.", site_future: "Future Tools - Grande coleção de modelos IA (Matt Wolfe)." } },
             // NO - Norwegian
-            no: { title: "AI UNIVERSET", subtitle: "Liten samling av nyttige AI-modeller", nav: { personal: "Utvalg", other: "Annet", ethics: "Etikk" }, cat: { personal: "Personlige Valg", local: "Lokal AI", tools: "Nyttige Verktøy", creative: "Kreativt Studio", dev: "Utviklere", prompts: "Prompt-bibliotek", youtubers: "Inspirasjon", sites: "Anbefalt", ethics: "AI Etikk" }, badges: { curated: "Utvalgt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Se", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Lag video fra tekst og bilder.", perplexity: "Sanntidssøk.", notebooklm: "Smart notatbok.", deepseek: "Bra for koding.", gemini: "Google-assistent.", chatgpt: "Mest populær.", claude: "Naturlig samtale.", lmstudio: "Kjør AI-modeller lokalt.", deepl: "Best oversetter.", besana: "Grammatikk.", povejmo: "Talesyntese.", elevenlabs: "Stemmekloning.", sonix: "Transkripsjon.", deepai: "Tekstredigering.", opus: "Korte videoer.", midjourney: "Topp kunst.", leonardo: "Avansert bildegenerering.", flux: "Realistiske bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsforbedring.", krea: "Live maling.", suno: "Lag musikk.", n8n: "Automasjon.", aistudio: "Google utvikling.", huggingface: "AI-modeller.", ethics_text: "Farer med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
+            no: { title: "AI UNIVERSET", subtitle: "Liten samling av nyttige AI-modeller", nav: { personal: "Utvalg", other: "Annet", ethics: "Etikk" }, cat: { personal: "Personlige Valg", local: "Lokal AI", tools: "Nyttige Verktøy", creative: "Kreativt Studio", dev: "Utviklere", prompts: "Prompt-bibliotek", youtubers: "Inspirasjon", sites: "Anbefalt", ethics: "AI Etikk" }, badges: { curated: "Utvalgt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Se", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video-AI med lyd.", kling: "Avansert AI-videogenerering.", perplexity: "Sanntidssøk. Perplexity Pro ($20/mnd) = ett abonnement for alle AI-modeller.", notebooklm: "Smart notatbok.", deepseek: "Bra for koding.", gemini: "Google-assistent.", chatgpt: "Mest populær.", claude: "Naturlig samtale.", lmstudio: "Kjør AI-modeller lokalt.", deepl: "Best oversetter.", besana: "Grammatikk.", povejmo: "Talesyntese.", elevenlabs: "Stemmekloning.", sonix: "Transkripsjon.", deepai: "Tekstredigering.", opus: "Korte videoer.", midjourney: "Topp kunst.", leonardo: "Avansert bildegenerering.", flux: "Realistiske bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsforbedring.", krea: "Live maling.", suno: "Lag musikk.", n8n: "Automasjon.", aistudio: "Google utvikling.", huggingface: "AI-modeller.", ethics_text: "Farer med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
             // FI - Finnish
-            fi: { title: "TEKOÄLYUNIVERSUMI", subtitle: "Pieni kokoelma hyödyllisiä tekoälymalleja", nav: { personal: "Valinnat", other: "Muu", ethics: "Etiikka" }, cat: { personal: "Omat Valinnat", local: "Paikallinen AI", tools: "Hyödylliset Työkalut", creative: "Luova Studio", dev: "Kehittäjät", prompts: "Kehotekirjasto", youtubers: "Inspiraatio", sites: "Suositellut", ethics: "Tekoälyn Etiikka" }, badges: { curated: "Valittu", free: "Ilmainen" }, prices: { alwaysFree: "Ilmainen" }, labels: { view: "Katso", videoGuide: "▶ Video-opas", watch: "Katso: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Luo video tekstistä ja kuvista.", perplexity: "Reaaliaikainen haku.", notebooklm: "Älykäs muistikirja.", deepseek: "Hyvä koodaukseen.", gemini: "Google-avustaja.", chatgpt: "Suosituin.", claude: "Luonnollinen keskustelu.", lmstudio: "Aja tekoälymalleja paikallisesti.", deepl: "Paras kääntäjä.", besana: "Kielioppi.", povejmo: "Puhesynteesi.", elevenlabs: "Äänen kloonaus.", sonix: "Litterointi.", deepai: "Tekstin muokkaus.", opus: "Lyhytvideot.", midjourney: "Huipputaidetta.", leonardo: "Edistynyt kuvien luonti.", flux: "Realistiset kuvat.", higgsfield: "Videon hallinta.", topaz: "Laadun parannus.", krea: "Live-maalaus.", suno: "Luo musiikkia.", n8n: "Automaatio.", aistudio: "Google-kehitys.", huggingface: "AI-mallit.", ethics_text: "Tekoälyn vaarat.", site_future: "Future Tools - Suuri kokoelma AI-malleja (Matt Wolfe)." } },
+            fi: { title: "TEKOÄLYUNIVERSUMI", subtitle: "Pieni kokoelma hyödyllisiä tekoälymalleja", nav: { personal: "Valinnat", other: "Muu", ethics: "Etiikka" }, cat: { personal: "Omat Valinnat", local: "Paikallinen AI", tools: "Hyödylliset Työkalut", creative: "Luova Studio", dev: "Kehittäjät", prompts: "Kehotekirjasto", youtubers: "Inspiraatio", sites: "Suositellut", ethics: "Tekoälyn Etiikka" }, badges: { curated: "Valittu", free: "Ilmainen" }, prices: { alwaysFree: "Ilmainen" }, labels: { view: "Katso", videoGuide: "▶ Video-opas", watch: "Katso: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video-AI äänellä.", kling: "Edistynyt AI-videon luonti.", perplexity: "Reaaliaikainen haku. Perplexity Pro ($20/kk) = kaikki AI-mallit yhdellä tilauksella.", notebooklm: "Älykäs muistikirja.", deepseek: "Hyvä koodaukseen.", gemini: "Google-avustaja.", chatgpt: "Suosituin.", claude: "Luonnollinen keskustelu.", lmstudio: "Aja tekoälymalleja paikallisesti.", deepl: "Paras kääntäjä.", besana: "Kielioppi.", povejmo: "Puhesynteesi.", elevenlabs: "Äänen kloonaus.", sonix: "Litterointi.", deepai: "Tekstin muokkaus.", opus: "Lyhytvideot.", midjourney: "Huipputaidetta.", leonardo: "Edistynyt kuvien luonti.", flux: "Realistiset kuvat.", higgsfield: "Videon hallinta.", topaz: "Laadun parannus.", krea: "Live-maalaus.", suno: "Luo musiikkia.", n8n: "Automaatio.", aistudio: "Google-kehitys.", huggingface: "AI-mallit.", ethics_text: "Tekoälyn vaarat.", site_future: "Future Tools - Suuri kokoelma AI-malleja (Matt Wolfe)." } },
             // SE - Swedish
-            se: { title: "AI UNIVERSUM", subtitle: "Liten samling användbara AI-modeller", nav: { personal: "Urval", other: "Annat", ethics: "Etik" }, cat: { personal: "Personliga Val", local: "Lokal AI", tools: "Användbara Verktyg", creative: "Kreativ Studio", dev: "Utvecklare", prompts: "Promptbibliotek", youtubers: "Inspiration", sites: "Rekommenderat", ethics: "AI Etik" }, badges: { curated: "Utvalt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Visa", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Skapa video från text och bilder.", perplexity: "Sök i realtid.", notebooklm: "Smart anteckningsbok.", deepseek: "Bra för kodning.", gemini: "Google-assistent.", chatgpt: "Mest populär.", claude: "Naturligt samtal.", lmstudio: "Kör AI-modeller lokalt.", deepl: "Bästa översättaren.", besana: "Grammatik.", povejmo: "Talsyntes.", elevenlabs: "Röstkloning.", sonix: "Transkribering.", deepai: "Textredigering.", opus: "Korta videor.", midjourney: "Toppkonst.", leonardo: "Avancerad bildgenerering.", flux: "Realistiska bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsförbättring.", krea: "Live-målning.", suno: "Skapa musik.", n8n: "Automation.", aistudio: "Google-utveckling.", huggingface: "AI-modeller.", ethics_text: "Faror med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
+            se: { title: "AI UNIVERSUM", subtitle: "Liten samling användbara AI-modeller", nav: { personal: "Urval", other: "Annat", ethics: "Etik" }, cat: { personal: "Personliga Val", local: "Lokal AI", tools: "Användbara Verktyg", creative: "Kreativ Studio", dev: "Utvecklare", prompts: "Promptbibliotek", youtubers: "Inspiration", sites: "Rekommenderat", ethics: "AI Etik" }, badges: { curated: "Utvalt", free: "Gratis" }, prices: { alwaysFree: "Gratis" }, labels: { view: "Visa", videoGuide: "▶ Videoguide", watch: "Se: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance video-AI med ljud.", kling: "Avancerad AI-videogenerering.", perplexity: "Sök i realtid. Perplexity Pro ($20/mån) = alla AI-modeller med en prenumeration.", notebooklm: "Smart anteckningsbok.", deepseek: "Bra för kodning.", gemini: "Google-assistent.", chatgpt: "Mest populär.", claude: "Naturligt samtal.", lmstudio: "Kör AI-modeller lokalt.", deepl: "Bästa översättaren.", besana: "Grammatik.", povejmo: "Talsyntes.", elevenlabs: "Röstkloning.", sonix: "Transkribering.", deepai: "Textredigering.", opus: "Korta videor.", midjourney: "Toppkonst.", leonardo: "Avancerad bildgenerering.", flux: "Realistiska bilder.", higgsfield: "Videokontroll.", topaz: "Kvalitetsförbättring.", krea: "Live-målning.", suno: "Skapa musik.", n8n: "Automation.", aistudio: "Google-utveckling.", huggingface: "AI-modeller.", ethics_text: "Faror med AI.", site_future: "Future Tools - Stor samling av AI-modeller (Matt Wolfe)." } },
             // RU - Russian
-            ru: { title: "ВСЕЛЕННАЯ ИИ", subtitle: "Небольшая коллекция полезных моделей ИИ", nav: { personal: "Выбор", other: "Другое", ethics: "Этика" }, cat: { personal: "Личный выбор", local: "Локальный ИИ", tools: "Полезные инструменты", creative: "Творческая студия", dev: "Разработчикам", prompts: "Библиотека промптов", youtubers: "Вдохновение", sites: "Рекомендуем", ethics: "Этика ИИ" }, badges: { curated: "Выбор", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Смотреть", videoGuide: "▶ Видео-гайд", watch: "Смотреть: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Создание видео из текста и изображений.", perplexity: "Поиск в реальном времени.", notebooklm: "Умный блокнот.", deepseek: "Отлично для кода.", gemini: "Ассистент Google.", chatgpt: "Самый популярный.", claude: "Естественный диалог.", lmstudio: "Запуск ИИ моделей локально.", deepl: "Лучший переводчик.", besana: "Грамматика.", povejmo: "Синтез речи.", elevenlabs: "Клонирование голоса.", sonix: "Транскрипция.", deepai: "Редактирование текста.", opus: "Короткие видео.", midjourney: "Топовые арты.", leonardo: "Продвинутая генерация изображений.", flux: "Реалистичные фото.", higgsfield: "Контроль видео.", topaz: "Улучшение качества.", krea: "Рисование в реальном времени.", suno: "Создание музыки.", n8n: "Автоматизация.", aistudio: "Google разработка.", huggingface: "Модели ИИ.", ethics_text: "Опасности ИИ.", site_future: "Future Tools - Большая коллекция ИИ моделей (Matt Wolfe)." } },
+            ru: { title: "ВСЕЛЕННАЯ ИИ", subtitle: "Небольшая коллекция полезных моделей ИИ", nav: { personal: "Выбор", other: "Другое", ethics: "Этика" }, cat: { personal: "Личный выбор", local: "Локальный ИИ", tools: "Полезные инструменты", creative: "Творческая студия", dev: "Разработчикам", prompts: "Библиотека промптов", youtubers: "Вдохновение", sites: "Рекомендуем", ethics: "Этика ИИ" }, badges: { curated: "Выбор", free: "Бесплатно" }, prices: { alwaysFree: "Бесплатно" }, labels: { view: "Смотреть", videoGuide: "▶ Видео-гайд", watch: "Смотреть: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance видео-ИИ со звуком.", kling: "Продвинутая генерация видео ИИ.", perplexity: "Поиск в реальном времени. Perplexity Pro ($20/мес.) = все модели ИИ по одной подписке.", notebooklm: "Умный блокнот.", deepseek: "Отлично для кода.", gemini: "Ассистент Google.", chatgpt: "Самый популярный.", claude: "Естественный диалог.", lmstudio: "Запуск ИИ моделей локально.", deepl: "Лучший переводчик.", besana: "Грамматика.", povejmo: "Синтез речи.", elevenlabs: "Клонирование голоса.", sonix: "Транскрипция.", deepai: "Редактирование текста.", opus: "Короткие видео.", midjourney: "Топовые арты.", leonardo: "Продвинутая генерация изображений.", flux: "Реалистичные фото.", higgsfield: "Контроль видео.", topaz: "Улучшение качества.", krea: "Рисование в реальном времени.", suno: "Создание музыки.", n8n: "Автоматизация.", aistudio: "Google разработка.", huggingface: "Модели ИИ.", ethics_text: "Опасности ИИ.", site_future: "Future Tools - Большая коллекция ИИ моделей (Matt Wolfe)." } },
             // UA - Ukrainian
-            ua: { title: "ВСЕСВІТ ШІ", subtitle: "Невелика колекція корисних моделей ШІ", nav: { personal: "Вибір", other: "Інше", ethics: "Етика" }, cat: { personal: "Особистий вибір", local: "Локальний ШІ", tools: "Корисні інструменти", creative: "Творча студія", dev: "Розробникам", prompts: "Бібліотека промптів", youtubers: "Натхнення", sites: "Рекомендуємо", ethics: "Етика ШІ" }, badges: { curated: "Вибір", free: "Безкоштовно" }, prices: { alwaysFree: "Безкоштовно" }, labels: { view: "Дивитись", videoGuide: "▶ Відео-гайд", watch: "Дивитись: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Створення відео з тексту та зображень.", perplexity: "Пошук у реальному часі.", notebooklm: "Розумний записник.", deepseek: "Чудово для коду.", gemini: "Асистент Google.", chatgpt: "Найпопулярніший.", claude: "Природний діалог.", lmstudio: "Запуск ШІ моделей локально.", deepl: "Найкращий перекладач.", besana: "Граматика.", povejmo: "Синтез мовлення.", elevenlabs: "Клонування голосу.", sonix: "Транскрипція.", deepai: "Редагування тексту.", opus: "Короткі відео.", midjourney: "Топові арти.", leonardo: "Просунута генерація зображень.", flux: "Реалістичні фото.", higgsfield: "Контроль відео.", topaz: "Покращення якості.", krea: "Малювання в реальному часі.", suno: "Створення музики.", n8n: "Автоматизація.", aistudio: "Google розробка.", huggingface: "Моделі ШІ.", ethics_text: "Небезпеки ШІ.", site_future: "Future Tools - Велика колекція ШІ моделей (Matt Wolfe)." } },
+            ua: { title: "ВСЕСВІТ ШІ", subtitle: "Невелика колекція корисних моделей ШІ", nav: { personal: "Вибір", other: "Інше", ethics: "Етика" }, cat: { personal: "Особистий вибір", local: "Локальний ШІ", tools: "Корисні інструменти", creative: "Творча студія", dev: "Розробникам", prompts: "Бібліотека промптів", youtubers: "Натхнення", sites: "Рекомендуємо", ethics: "Етика ШІ" }, badges: { curated: "Вибір", free: "Безкоштовно" }, prices: { alwaysFree: "Безкоштовно" }, labels: { view: "Дивитись", videoGuide: "▶ Відео-гайд", watch: "Дивитись: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance відео-ШІ зі звуком.", kling: "Просунута генерація відео ШІ.", perplexity: "Пошук у реальному часі. Perplexity Pro ($20/міс.) = всі моделі ШІ за однією підпискою.", notebooklm: "Розумний записник.", deepseek: "Чудово для коду.", gemini: "Асистент Google.", chatgpt: "Найпопулярніший.", claude: "Природний діалог.", lmstudio: "Запуск ШІ моделей локально.", deepl: "Найкращий перекладач.", besana: "Граматика.", povejmo: "Синтез мовлення.", elevenlabs: "Клонування голосу.", sonix: "Транскрипція.", deepai: "Редагування тексту.", opus: "Короткі відео.", midjourney: "Топові арти.", leonardo: "Просунута генерація зображень.", flux: "Реалістичні фото.", higgsfield: "Контроль відео.", topaz: "Покращення якості.", krea: "Малювання в реальному часі.", suno: "Створення музики.", n8n: "Автоматизація.", aistudio: "Google розробка.", huggingface: "Моделі ШІ.", ethics_text: "Небезпеки ШІ.", site_future: "Future Tools - Велика колекція ШІ моделей (Matt Wolfe)." } },
             // CN - Chinese
-            cn: { title: "AI 宇宙", subtitle: "精选实用 AI 模型合集", nav: { personal: "精选", other: "其他", ethics: "伦理" }, cat: { personal: "个人精选", local: "本地 AI", tools: "实用工具", creative: "创意工作室", dev: "开发者", prompts: "提示词库", youtubers: "灵感", sites: "推荐网站", ethics: "AI 伦理" }, badges: { curated: "精选", free: "免费" }, prices: { alwaysFree: "免费" }, labels: { view: "查看", videoGuide: "▶ 视频指南", watch: "观看: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "从文本和图像创建视频。", perplexity: "实时搜索.", notebooklm: "智能笔记本.", deepseek: "代码利器.", gemini: "谷歌助手.", chatgpt: "最受欢迎.", claude: "自然对话.", lmstudio: "本地运行 AI 模型.", deepl: "最佳翻译.", besana: "语法检查.", povejmo: "语音合成.", elevenlabs: "声音克隆.", sonix: "转录字幕.", deepai: "文本编辑.", opus: "短视频制作.", midjourney: "顶级艺术.", leonardo: "高级图像生成.", flux: "逼真图像.", higgsfield: "视频控制.", topaz: "画质增强.", krea: "实时绘画.", suno: "创作音乐.", n8n: "自动化.", aistudio: "谷歌开发.", huggingface: "AI 模型库.", ethics_text: "AI 的危险.", site_future: "Future Tools - 大型 AI 模型集合 (Matt Wolfe)." } },
+            cn: { title: "AI 宇宙", subtitle: "精选实用 AI 模型合集", nav: { personal: "精选", other: "其他", ethics: "伦理" }, cat: { personal: "个人精选", local: "本地 AI", tools: "实用工具", creative: "创意工作室", dev: "开发者", prompts: "提示词库", youtubers: "灵感", sites: "推荐网站", ethics: "AI 伦理" }, badges: { curated: "精选", free: "免费" }, prices: { alwaysFree: "免费" }, labels: { view: "查看", videoGuide: "▶ 视频指南", watch: "观看: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "字节跳动视频AI，支持音频。", kling: "快手AI视频与图像生成。", perplexity: "实时搜索. Perplexity Pro ($20/月) = 一个订阅所有最新AI模型.", notebooklm: "智能笔记本.", deepseek: "代码利器.", gemini: "谷歌助手.", chatgpt: "最受欢迎.", claude: "自然对话.", lmstudio: "本地运行 AI 模型.", deepl: "最佳翻译.", besana: "语法检查.", povejmo: "语音合成.", elevenlabs: "声音克隆.", sonix: "转录字幕.", deepai: "文本编辑.", opus: "短视频制作.", midjourney: "顶级艺术.", leonardo: "高级图像生成.", flux: "逼真图像.", higgsfield: "视频控制.", topaz: "画质增强.", krea: "实时绘画.", suno: "创作音乐.", n8n: "自动化.", aistudio: "谷歌开发.", huggingface: "AI 模型库.", ethics_text: "AI 的危险.", site_future: "Future Tools - 大型 AI 模型集合 (Matt Wolfe)." } },
             // JA - Japanese
-            ja: { title: "AI 宇宙", subtitle: "便利なAIモデルの小コレクション", nav: { personal: "厳選", other: "その他", ethics: "倫理" }, cat: { personal: "個人的な選択", local: "ローカルAI", tools: "便利なツール", creative: "クリエイティブスタジオ", dev: "開発者", prompts: "プロンプトライブラリ", youtubers: "インスピレーション", sites: "おすすめ", ethics: "AI倫理" }, badges: { curated: "厳選", free: "無料" }, prices: { alwaysFree: "無料" }, labels: { view: "見る", videoGuide: "▶ 動画ガイド", watch: "見る: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "テキストと画像から動画を作成。", perplexity: "リアルタイム検索.", notebooklm: "スマートノート.", deepseek: "コーディングに最適.", gemini: "Googleアシスタント.", chatgpt: "最も人気.", claude: "自然な会話.", lmstudio: "AIモデルをローカルで実行。", deepl: "最高の翻訳.", besana: "文法チェック.", povejmo: "音声合成.", elevenlabs: "音声クローン.", sonix: "文字起こし.", deepai: "テキスト編集.", opus: "ショート動画.", midjourney: "最高のアート.", leonardo: "高度な画像生成。", flux: "リアルな画像.", higgsfield: "動画コントロール.", topaz: "画質向上.", krea: "リアルタイム描画.", suno: "音楽作成.", n8n: "自動化.", aistudio: "Google開発.", huggingface: "AIモデル.", ethics_text: "AIの危険性.", site_future: "Future Tools - AIモデルの大規模コレクション (Matt Wolfe)." } },
+            ja: { title: "AI 宇宙", subtitle: "便利なAIモデルの小コレクション", nav: { personal: "厳選", other: "その他", ethics: "倫理" }, cat: { personal: "個人的な選択", local: "ローカルAI", tools: "便利なツール", creative: "クリエイティブスタジオ", dev: "開発者", prompts: "プロンプトライブラリ", youtubers: "インスピレーション", sites: "おすすめ", ethics: "AI倫理" }, badges: { curated: "厳選", free: "無料" }, prices: { alwaysFree: "無料" }, labels: { view: "見る", videoGuide: "▶ 動画ガイド", watch: "見る: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance音声付き動画AI。", kling: "高度なAI動画生成。", perplexity: "リアルタイム検索. Perplexity Pro ($20/月) = 最新AIモデルを1つのサブスクで.", notebooklm: "スマートノート.", deepseek: "コーディングに最適.", gemini: "Googleアシスタント.", chatgpt: "最も人気.", claude: "自然な会話.", lmstudio: "AIモデルをローカルで実行。", deepl: "最高の翻訳.", besana: "文法チェック.", povejmo: "音声合成.", elevenlabs: "音声クローン.", sonix: "文字起こし.", deepai: "テキスト編集.", opus: "ショート動画.", midjourney: "最高のアート.", leonardo: "高度な画像生成。", flux: "リアルな画像.", higgsfield: "動画コントロール.", topaz: "画質向上.", krea: "リアルタイム描画.", suno: "音楽作成.", n8n: "自動化.", aistudio: "Google開発.", huggingface: "AIモデル.", ethics_text: "AIの危険性.", site_future: "Future Tools - AIモデルの大規模コレクション (Matt Wolfe)." } },
             // AR - Arabic
-            ar: { dir: "rtl", title: "كون الذكاء الاصطناعي", subtitle: "مجموعة صغيرة من نماذج الذكاء الاصطناعي المفيدة", nav: { personal: "مختارات", other: "آخر", ethics: "أخلاقيات" }, cat: { personal: "اختيارات شخصية", local: "ذكاء اصطناعي محلي", tools: "أدوات مفيدة", creative: "ستوديو الإبداع", dev: "المطورون", prompts: "مكتبة الأوامر", youtubers: "إلهام", sites: "موصى به", ethics: "أخلاقيات الذكاء الاصطناعي" }, badges: { curated: "مختار", free: "مجاني" }, prices: { alwaysFree: "مجاني" }, labels: { view: "شاهد", videoGuide: "▶ دليل الفيديو", watch: "شاهد: معضلة الذكاء الاصطناعي", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "إنشاء فيديو من النص والصور.", perplexity: "بحث في الوقت الفعلي.", notebooklm: "دفتر ملاحظات ذكي.", deepseek: "ممتاز للبرمجة.", gemini: "مساعد جوجل.", chatgpt: "الأكثر شهرة.", claude: "محادثة طبيعية.", lmstudio: "تشغيل نماذج الذكاء الاصطناعي محليًا.", deepl: "أفضل مترجم.", besana: "قواعد نحوية.", povejmo: "تحويل النص لكلام.", elevenlabs: "استنساخ الصوت.", sonix: "التفريغ الصوتي.", deepai: "تحرير النصوص.", opus: "فيديوهات قصيرة.", midjourney: "فن راقي.", leonardo: "توليد صور متقدم.", flux: "صور واقعية.", higgsfield: "تحكم بالفيديو.", topaz: "تحسين الجودة.", krea: "رسم مباشر.", suno: "إنشاء موسيقى.", n8n: "أتمتة.", aistudio: "تطوير جوجل.", huggingface: "نماذج الذكاء الاصطناعي.", ethics_text: "مخاطر الذكاء الاصطناعي.", site_future: "Future Tools - مجموعة كبيرة من نماذج الذكاء الاصطناعي (Matt Wolfe)." } },
+            ar: { dir: "rtl", title: "كون الذكاء الاصطناعي", subtitle: "مجموعة صغيرة من نماذج الذكاء الاصطناعي المفيدة", nav: { personal: "مختارات", other: "آخر", ethics: "أخلاقيات" }, cat: { personal: "اختيارات شخصية", local: "ذكاء اصطناعي محلي", tools: "أدوات مفيدة", creative: "ستوديو الإبداع", dev: "المطورون", prompts: "مكتبة الأوامر", youtubers: "إلهام", sites: "موصى به", ethics: "أخلاقيات الذكاء الاصطناعي" }, badges: { curated: "مختار", free: "مجاني" }, prices: { alwaysFree: "مجاني" }, labels: { view: "شاهد", videoGuide: "▶ دليل الفيديو", watch: "شاهد: معضلة الذكاء الاصطناعي", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "فيديو AI من ByteDance مع صوت.", kling: "إنشاء فيديو AI متقدم.", perplexity: "بحث في الوقت الفعلي. Perplexity Pro ($20/شهر) = اشتراك واحد لجميع أحدث نماذج الذكاء الاصطناعي.", notebooklm: "دفتر ملاحظات ذكي.", deepseek: "ممتاز للبرمجة.", gemini: "مساعد جوجل.", chatgpt: "الأكثر شهرة.", claude: "محادثة طبيعية.", lmstudio: "تشغيل نماذج الذكاء الاصطناعي محليًا.", deepl: "أفضل مترجم.", besana: "قواعد نحوية.", povejmo: "تحويل النص لكلام.", elevenlabs: "استنساخ الصوت.", sonix: "التفريغ الصوتي.", deepai: "تحرير النصوص.", opus: "فيديوهات قصيرة.", midjourney: "فن راقي.", leonardo: "توليد صور متقدم.", flux: "صور واقعية.", higgsfield: "تحكم بالفيديو.", topaz: "تحسين الجودة.", krea: "رسم مباشر.", suno: "إنشاء موسيقى.", n8n: "أتمتة.", aistudio: "تطوير جوجل.", huggingface: "نماذج الذكاء الاصطناعي.", ethics_text: "مخاطر الذكاء الاصطناعي.", site_future: "Future Tools - مجموعة كبيرة من نماذج الذكاء الاصطناعي (Matt Wolfe)." } },
             // IS - Icelandic
-            is: { title: "Gervigreindarheimurinn", subtitle: "Lítið safn af nytsamlegum gervigreindartólum", nav: { personal: "Val", other: "Annað", ethics: "Siðfræði" }, cat: { personal: "Persónulegt val", local: "Staðbundin gervigreind", tools: "Nytsamleg tól", creative: "Skapandi stúdíó", dev: "Forritarar", prompts: "Skipanasafn", youtubers: "Innblástur", sites: "Mælt með", ethics: "Siðfræði gervigreindar" }, badges: { curated: "Valið", free: "Ókeypis" }, prices: { alwaysFree: "Ókeypis" }, labels: { view: "Skoða", videoGuide: "▶ Myndbandsleiðbeiningar", watch: "Horfa: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { flow: "Búa til myndband úr texta og myndum.", perplexity: "Leit í rauntíma.", notebooklm: "Snjöll minnisbók.", deepseek: "Frábært fyrir kóðun.", gemini: "Google aðstoðarmaður.", chatgpt: "Vinsælast.", claude: "Eðlilegt spjall.", lmstudio: "Keyra gervigreindarlíkön staðbundið.", deepl: "Besti þýðandinn.", besana: "Málfræði.", povejmo: "Talgerfll.", elevenlabs: "Raddklónun.", sonix: "Uppskrift.", deepai: "Textavinnsla.", opus: "Stutt myndbönd.", midjourney: "Topp list.", leonardo: "Ítarleg myndsköpun.", flux: "Raunverulegar myndir.", higgsfield: "Myndbandsstjórnun.", topaz: "Gæðabæting.", krea: "Teikna í rauntíma.", suno: "Búa til tónlist.", n8n: "Sjálfvirkni.", aistudio: "Google þróun.", huggingface: "Gervigreindarlíkön.", ethics_text: "Hættur gervigreindar.", site_future: "Future Tools - Stórt safn gervigreindarlíkana (Matt Wolfe)." } },
+            is: { title: "Gervigreindarheimurinn", subtitle: "Lítið safn af nytsamlegum gervigreindartólum", nav: { personal: "Val", other: "Annað", ethics: "Siðfræði" }, cat: { personal: "Persónulegt val", local: "Staðbundin gervigreind", tools: "Nytsamleg tól", creative: "Skapandi stúdíó", dev: "Forritarar", prompts: "Skipanasafn", youtubers: "Innblástur", sites: "Mælt með", ethics: "Siðfræði gervigreindar" }, badges: { curated: "Valið", free: "Ókeypis" }, prices: { alwaysFree: "Ókeypis" }, labels: { view: "Skoða", videoGuide: "▶ Myndbandsleiðbeiningar", watch: "Horfa: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" }, desc: { seedance: "ByteDance myndbandsgervigreind með hljóði.", kling: "Háþróuð AI-myndbandssköpun.", perplexity: "Leit í rauntíma. Perplexity Pro ($20/mán) = allt í einu áskrift.", notebooklm: "Snjöll minnisbók.", deepseek: "Frábært fyrir kóðun.", gemini: "Google aðstoðarmaður.", chatgpt: "Vinsælast.", claude: "Eðlilegt spjall.", lmstudio: "Keyra gervigreindarlíkön staðbundið.", deepl: "Besti þýðandinn.", besana: "Málfræði.", povejmo: "Talgerfll.", elevenlabs: "Raddklónun.", sonix: "Uppskrift.", deepai: "Textavinnsla.", opus: "Stutt myndbönd.", midjourney: "Topp list.", leonardo: "Ítarleg myndsköpun.", flux: "Raunverulegar myndir.", higgsfield: "Myndbandsstjórnun.", topaz: "Gæðabæting.", krea: "Teikna í rauntíma.", suno: "Búa til tónlist.", n8n: "Sjálfvirkni.", aistudio: "Google þróun.", huggingface: "Gervigreindarlíkön.", ethics_text: "Hættur gervigreindar.", site_future: "Future Tools - Stórt safn gervigreindarlíkana (Matt Wolfe)." } },
             // TR - Turkish
             tr: {
                 title: "YAPAY ZEKA EVRENİ",
@@ -860,8 +1463,9 @@
                 prices: { alwaysFree: "Ücretsiz" },
                 labels: { view: "Görüntüle", videoGuide: "▶ Video Rehberi", watch: "İzle: The A.I. Dilemma", searchHarris: "Tristan Harris (YouTube)" },
                 desc: {
-                    flow: "Metin ve resimlerden video oluşturma.",
-                    perplexity: "Gerçek zamanlı arama motoru.",
+                    seedance: "ByteDance sesli video AI.",
+                    kling: "Gelişmiş AI video üretimi.",
+                    perplexity: "Gerçek zamanlı arama motoru. Perplexity Pro ($20/ay) = tüm en son AI modelleri için tek abonelik.",
                     notebooklm: "Belgeleriniz için akıllı not defteri.",
                     deepseek: "Kodlama ve mantık için harika.",
                     gemini: "Google'ın akıllı asistanı.",
@@ -932,9 +1536,16 @@
             document.getElementById('cat-youtubers').textContent = data.cat.youtubers;
             document.getElementById('cat-sites').textContent = data.cat.sites;
             document.getElementById('cat-ethics').textContent = data.cat.ethics;
+            if (document.getElementById('cat-rss')) document.getElementById('cat-rss').textContent = data.cat.rss || 'AI News — RSS';
             document.getElementById('ethics-desc').textContent = getDesc('ethics_text', lang);
             document.getElementById('btn-watch').textContent = data.labels.watch;
             document.getElementById('btn-search-harris').textContent = data.labels.searchHarris;
+            if (document.getElementById('btn-watch-gawdat')) {
+                document.getElementById('btn-watch-gawdat').textContent = data.labels.watchGawdat || 'Mo Gawdat: AI & The Future of Humanity';
+            }
+            if (document.getElementById('ethics-gawdat-desc')) {
+                document.getElementById('ethics-gawdat-desc').textContent = getDesc('ethics_gawdat', lang) || 'Former Chief Business Officer of Google X. Author of Scary Smart.';
+            }
 
             // Renders
             renderNav(data);
@@ -955,6 +1566,7 @@
             nav.innerHTML = `
                 <a href="#sec-personal" class="nav-link">${data.nav.personal}</a>
                 <a href="#sec-other" class="nav-link">${data.nav.other}</a>
+                <a href="#sec-rss" class="nav-link">${data.nav.rss || 'News'}</a>
                 <a href="#sec-ethics" class="nav-link">${data.nav.ethics}</a>
             `;
         }
@@ -1027,6 +1639,383 @@
         renderQuote();
         changeLanguage(); // Initial render
 
+
+
+        // === HACKER QUOTES (Kint's Lounge) ===
+        const hackerQuotes = [
+            { text: "Social engineering bypasses all technologies, including firewalls.", author: "Kevin Mitnick" },
+            { text: "There is no patch for stupidity.", author: "Kevin Mitnick" },
+            { text: "My primary goal of hacking was the intellectual curiosity, the seduction of adventure.", author: "Kevin Mitnick" },
+            { text: "The human factor is truly security's weakest link.", author: "Kevin Mitnick" },
+            { text: "You might not have anything to hide, but you have everything to protect.", author: "Kevin Mitnick" },
+            { text: "I went to prison for my hacking. Now people hire me to do the same things I went to prison for, but in a legal and beneficial way.", author: "Kevin Mitnick" },
+            { text: "Anyone who thinks that security products alone offer true security is settling for the illusion of security.", author: "Kevin Mitnick" },
+            { text: "Every hacker is to some extent a rebel who lives by different standards and enjoys beating the system.", author: "Kevin Mitnick" },
+            { text: "Hackers are breaking the systems for profit. Before, it was about intellectual curiosity and pursuit of knowledge.", author: "Kevin Mitnick" },
+            { text: "A company can spend hundreds of thousands of dollars on firewalls, but if an attacker can call one trusted person, all that money is wasted.", author: "Kevin Mitnick" },
+            { text: "I got so passionate about technology. Hacking to me was like a video game. It was about getting trophies.", author: "Kevin Mitnick" },
+            { text: "Beware of geeks bearing gifts.", author: "Kevin Mitnick" },
+            { text: "In security, you are only as secure as the weakest link.", author: "Kevin Mitnick" },
+            { text: "Amateurs hack systems. Professionals hack people.", author: "Bruce Schneier" },
+            { text: "If you think technology can solve your security problems, you don't understand the problems and you don't understand the technology.", author: "Bruce Schneier" },
+            { text: "Encryption works. Properly implemented strong crypto systems are one of the few things that you can rely on.", author: "Edward Snowden" },
+            { text: "Arguing that you don't care about privacy because you have nothing to hide is like saying you don't care about free speech because you have nothing to say.", author: "Edward Snowden" },
+            { text: "There are only two types of companies: those that have been hacked, and those that will be.", author: "Robert Mueller" },
+            { text: "Cybersecurity is much more than a matter of IT — it's a business imperative.", author: "Stéphane Nappo" },
+            { text: "In cybersecurity, luck is forged by preparation. Only the inevitable should rest in the hands of chance.", author: "Stéphane Nappo" },
+            { text: "Hackers are the immune system of the digital world.", author: "Keren Elazari" },
+            { text: "If you spend more on coffee than on cybersecurity, you will be hacked.", author: "Richard Clarke" },
+            { text: "The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room.", author: "Gene Spafford" },
+            { text: "Privacy is dead, and social media hold the smoking gun.", author: "Pete Cashmore" },
+            { text: "A good coder looks both ways before crossing a one-way street.", author: "Doug Linder" },
+            { text: "Hotwiring a car doesn't make you an engineer. Hacking alone doesn't make you a hacker.", author: "Eric S. Raymond" },
+            { text: "Cybercrime is the greatest threat to every company in the world.", author: "Ginni Rometty" },
+            { text: "Hackers don't need names or proximity — just opportunity.", author: "Robert Mueller" },
+            { text: "Every click is a possible attack vector.", author: "Rik Ferguson" },
+            { text: "No internet-connected technology is unhackable.", author: "Abhijit Naskar" },
+            { text: "Attackers don't break in — they log in.", author: "Jody Westby" },
+            { text: "You can't defend what you don't understand.", author: "Dr. Eric Cole" },
+            { text: "Cyber risk is business risk.", author: "George Kurtz" },
+            { text: "A secure system simply performs as intended — nothing more, nothing less.", author: "Eugene Spafford" },
+            { text: "Security is always going to be a cat and mouse game.", author: "Kevin Mitnick" },
+            { text: "A hacker doesn't deliberately destroy data or profit from his activities.", author: "Kevin Mitnick" },
+            { text: "Information is the oxygen of the modern age. It seeps through the walls topped by barbed wire.", author: "Ronald Reagan" },
+            { text: "The cost of prevention is always less than the cost of recovery.", author: "Dr. Eric Cole" },
+            { text: "A strong password is good. Multi-factor is better. Education is best.", author: "Brian Krebs" },
+            { text: "Give data to a company and eventually it will be lost, leaked, or sold.", author: "Brian Krebs" },
+            { text: "Hackers automate. Defenders must, too.", author: "Caleb Sima" },
+            { text: "Attackers are agile because defenders are predictable.", author: "Raj Samani" },
+            { text: "Digital trust is fragile. Lose it once, and it may never return.", author: "Lucia Milică" },
+            { text: "If your incident response playbook is a binder on a shelf, you're not ready.", author: "Dr. Allan Friedman" },
+            { text: "If viruses are lifeforms, it's telling that we created only the destructive ones.", author: "Stephen Hawking" },
+            { text: "If there's a key for the police, there's a key for hackers. It will be found.", author: "Tim Cook" },
+            { text: "Security used to be an inconvenience; now it's essential.", author: "Martina Navratilova" },
+            { text: "A breach isn't the disaster — mishandling it is.", author: "Serene Davis" },
+            { text: "There's no silver bullet in cybersecurity; only layered defense works.", author: "James Scott" },
+            { text: "Hacking is about exploring limits — pushing what can be built or broken.", author: "Mark Zuckerberg" },
+            { text: "The internet was built on openness, not security. That's why we're playing catch-up.", author: "Dr. Vinton Cerf" },
+            { text: "Cybersecurity is not just about protecting data, it's about protecting trust.", author: "Nicole Eagan" },
+            { text: "Security doesn't start with detection, it begins with design.", author: "Stéphane Nappo" },
+            { text: "Every exploit is a creative act.", author: "Unknown" },
+            { text: "In cybersecurity, you can pray for peace, but never stop entertaining chaos.", author: "Unknown" },
+            { text: "Cybersecurity is everyone's job, not just IT's.", author: "Theresa Payton" },
+            { text: "Digital transformation without security is just a digital target.", author: "Tom Kellermann" },
+            { text: "Human error is the single biggest cyber risk — technology is only half the battle.", author: "Mikko Hyppönen" },
+            { text: "If you aren't investing in cybersecurity, you're investing in vulnerability.", author: "Kevin Mandia" },
+            { text: "Hackers are creative. Defenders need to be more creative.", author: "Chris Roberts" },
+            { text: "We build complex systems, then blame users for mistakes.", author: "Dr. Angela Sasse" },
+            { text: "Cybersecurity needs to be built into innovation, not bolted on after.", author: "Jay Kaplan" },
+            { text: "Every connected device is a potential target, and every weak link is an open door.", author: "Marc Goodman" },
+            { text: "Security is not about eliminating threats, but reducing their impact.", author: "Kelly Shortridge" },
+            { text: "The enemy is not just the hacker, but the system that lets them hack in the first place.", author: "Unknown" },
+            { text: "What some call paranoia, engineers call redundancy.", author: "Marcus J. Ranum" },
+            { text: "New security loopholes are constantly popping up because of wireless networking. The cat-and-mouse game is still in full swing.", author: "Kevin Mitnick" },
+            { text: "I believe in having each device secured and monitoring each device, rather than just monitoring holistically on the network.", author: "Kevin Mitnick" },
+            { text: "It's actually a smarter crime because with hacking, the risk of punishment is slim to none.", author: "Kevin Mitnick" },
+            { text: "Garbage can provide important details for hackers: names, telephone numbers, a company's internal jargon.", author: "Kevin Mitnick" },
+            { text: "The difference can be summed up in one word: authorization.", author: "Kevin Mitnick" },
+            { text: "A hacker to me is someone creative who does wonderful things.", author: "Linus Torvalds" },
+            { text: "Cybersecurity is the backbone of digital transformation.", author: "Satya Nadella" },
+            { text: "Privacy and security are converging into a single conversation.", author: "Ann Cavoukian" },
+            { text: "Don't wait to be breached to start protecting yourself.", author: "Nicole Perlroth" },
+            { text: "Your data footprint is your digital fingerprint — treat it with care.", author: "Eva Galperin" },
+            { text: "The moment you put your life online, you're giving others the power to control it.", author: "Unknown" },
+            { text: "The cost of convenience is often paid in the currency of privacy.", author: "Unknown" },
+            { text: "Every new technology brings with it new risks, but the greatest risk is not understanding those risks.", author: "Unknown" },
+            { text: "Insider threats often cost more than external attacks — because insiders know how to hide it.", author: "Dr. Larry Ponemon" },
+            { text: "Ransomware is unique — it turns victims into reluctant accomplices.", author: "James Scott" },
+            { text: "Security is a culture, not a control.", author: "Britney Hommertzheim" },
+            { text: "A determined young hacker with time and curiosity is a serious threat.", author: "Cory Doctorow" },
+            { text: "I think it goes back to my high school days. Instead of printing Fibonacci numbers, I wrote a program to steal passwords. My teacher gave me an A.", author: "Kevin Mitnick" },
+            { text: "Encryption is not a luxury — it's a public necessity in a digital democracy.", author: "Bruce Schneier" },
+            { text: "Total security would mean no connectivity — cybersecurity is about balance.", author: "Dan Farmer" },
+            { text: "The more connected I become to technology, the more vulnerable I am to being disconnected from myself.", author: "Unknown" },
+            { text: "We need a cybersecurity renaissance driven by hygiene and peer pressure, not panic.", author: "James Scott" },
+            { text: "Thinking a firewall is enough is dangerously misguided.", author: "Art Wittmann" },
+            { text: "Millions on firewalls and encryption mean nothing if humans are the weakest link.", author: "Kevin Mitnick" },
+            { text: "A secure computer is unplugged, buried, and locked underground — only then is it safe.", author: "Frank Abagnale" },
+            { text: "The intent behind hacking is what defines its ethical character.", author: "Kevin Mitnick" },
+            { text: "There are more hackers breeding every day, and more brilliant minds turning to hacking.", author: "Unknown" },
+            { text: "Security has advanced, but so have hackers.", author: "Unknown" },
+            { text: "The hackers don't want to destroy the network. They want to keep it running, so they can keep making money from it.", author: "Unknown" },
+            { text: "Good cybersecurity isn't silent — it's proactive, transparent, and evolving.", author: "Nicole Perlroth" },
+            { text: "Any system can be hacked — this is no longer a secret.", author: "Dan Kaminsky" },
+            { text: "In the digital world, the price of silence is often your freedom.", author: "Unknown" },
+            { text: "I was addicted to hacking, more for the intellectual challenge, the curiosity, the seduction of adventure; not for stealing or causing damage.", author: "Kevin Mitnick" },
+            { text: "Cybersecurity leadership means aligning technical risk with business value.", author: "Frank Kim" },
+            { text: "The methods that will most effectively minimize the ability of intruders to compromise information security are comprehensive user training and education.", author: "Kevin Mitnick" },
+            { text: "In a connected world, cybersecurity is a shared responsibility.", author: "Newton Lee" }
+        ];
+
+        function renderHackerQuote() {
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const idx = dayOfYear % hackerQuotes.length;
+            const q = hackerQuotes[idx];
+            const el = document.getElementById('hacker-quote');
+            const author = document.getElementById('hacker-quote-author');
+            if (el && q) {
+                el.textContent = '"' + q.text + '"';
+                author.textContent = '— ' + q.author;
+            }
+        }
+        renderHackerQuote();
+
+        // === RSS FEED (Matt Wolfe YouTube) ===
+        (function() {
+            const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UChpleBmo18P08aKCIgti38g';
+            const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+            
+            async function loadRSS() {
+                try {
+                    const response = await fetch(CORS_PROXY + encodeURIComponent(RSS_URL));
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(text, 'text/xml');
+                    const entries = xml.querySelectorAll('entry');
+                    const container = document.getElementById('rss-items');
+                    
+                    if (!entries.length) {
+                        container.innerHTML = '<p style="color: #94a3b8;">Unable to load feed. <a href="https://www.youtube.com/@mreflow" target="_blank" style="color: #d8b4fe;">Visit channel directly →</a></p>';
+                        return;
+                    }
+                    
+                    container.innerHTML = '';
+                    const max = Math.min(entries.length, 6);
+                    
+                    for (let i = 0; i < max; i++) {
+                        const entry = entries[i];
+                        const title = entry.querySelector('title')?.textContent || 'Untitled';
+                        const link = entry.querySelector('link')?.getAttribute('href') || '#';
+                        const published = entry.querySelector('published')?.textContent || '';
+                        const date = published ? new Date(published).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                        
+                        const item = document.createElement('a');
+                        item.href = link;
+                        item.target = '_blank';
+                        item.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(168,85,247,0.04); border: 1px solid rgba(168,85,247,0.1); border-radius: 8px; text-decoration: none; transition: all 0.3s; gap: 12px;';
+                        item.onmouseover = function() { this.style.background = 'rgba(168,85,247,0.1)'; this.style.borderColor = 'rgba(168,85,247,0.3)'; };
+                        item.onmouseout = function() { this.style.background = 'rgba(168,85,247,0.04)'; this.style.borderColor = 'rgba(168,85,247,0.1)'; };
+                        item.innerHTML = `
+                            <span style="color: #e2e8f0; font-size: 0.9rem; font-weight: 300; flex: 1;">${title}</span>
+                            <span style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">${date}</span>
+                        `;
+                        container.appendChild(item);
+                    }
+                } catch(e) {
+                    document.getElementById('rss-items').innerHTML = '<p style="color: #94a3b8;">Unable to load feed. <a href="https://www.youtube.com/@mreflow" target="_blank" style="color: #d8b4fe;">Visit channel directly →</a></p>';
+                }
+            }
+            
+            loadRSS();
+        })();
+
+        // === PHANTOM GATE SYSTEM ===
+        // Password verification uses SHA-256 hashing — password is never stored in plaintext
+        (function() {
+            const _0x4f2a = 'b624b8751d1767e5f1c4f6d76c4c181e2cac80c47482530f96410cf99eaa5ea3';
+            let _gateTimer = null;
+            let _countdownInterval = null;
+            let _countdown = 11;
+            let _failCount = 0;
+            let _loungeUnlocked = false;
+            let _meltdownActive = false;
+
+            async function _computeHash(str) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(str);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            function _triggerMeltdown() {
+                _meltdownActive = true;
+                const gate = document.getElementById('phantomGate');
+                gate.classList.remove('revealed');
+                gate.classList.add('fade-out');
+                document.getElementById('gateKey').value = '';
+                clearTimeout(_gateTimer);
+                clearInterval(_countdownInterval);
+
+                document.body.classList.add('meltdown');
+
+                // After 7 seconds of glitch, show BSOD
+                setTimeout(function() {
+                    document.body.classList.remove('meltdown');
+                    _showBSOD();
+                }, 7000);
+            }
+
+            function _showBSOD() {
+                const bsod = document.createElement('div');
+                bsod.id = 'bsod-screen';
+                bsod.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#0078d7;z-index:9999999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;box-sizing:border-box;cursor:none;font-family:Segoe UI,sans-serif;';
+                bsod.innerHTML = `
+                    <div style="max-width: 800px; text-align: left;">
+                        <p style="font-size: 8rem; margin: 0 0 20px; color: white; font-weight: 200;">:(</p>
+                        <p style="font-size: 1.6rem; color: white; margin: 0 0 15px; font-weight: 300; line-height: 1.5;">Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</p>
+                        <p id="bsod-percent" style="font-size: 1.6rem; color: white; margin: 20px 0 30px; font-weight: 300;">0% complete</p>
+                        <div style="display: flex; align-items: flex-start; gap: 20px; margin-top: 30px;">
+                            <div style="width: 120px; height: 120px; min-width: 120px;">
+                                <svg viewBox="0 0 100 100" style="width:100%;height:100%;">
+                                    <rect x="5" y="5" width="90" height="90" rx="8" fill="none" stroke="white" stroke-width="2"/>
+                                    <rect x="15" y="15" width="30" height="30" rx="2" fill="none" stroke="white" stroke-width="2"/>
+                                    <rect x="15" y="55" width="30" height="30" rx="2" fill="none" stroke="white" stroke-width="2"/>
+                                    <rect x="55" y="15" width="30" height="30" rx="2" fill="none" stroke="white" stroke-width="2"/>
+                                    <rect x="55" y="55" width="30" height="30" rx="2" fill="none" stroke="white" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.85rem; color: white; margin: 0 0 5px; font-weight: 300;">For more information about this issue and possible fixes, visit</p>
+                                <p style="font-size: 0.85rem; color: white; margin: 0 0 15px; font-weight: 300;">https://www.windows.com/stopcode</p>
+                                <p style="font-size: 0.85rem; color: white; margin: 0 0 5px; font-weight: 300;">If you call a support person, give them this info:</p>
+                                <p style="font-size: 0.85rem; color: white; margin: 0; font-weight: 300;">Stop code: CRITICAL_PROCESS_DIED</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(bsod);
+
+                // Animate percentage
+                let pct = 0;
+                const pctEl = bsod.querySelector('#bsod-percent');
+                const pctInterval = setInterval(function() {
+                    pct += Math.floor(Math.random() * 8) + 1;
+                    if (pct > 100) pct = 100;
+                    if (pctEl) pctEl.textContent = pct + '% complete';
+                    if (pct >= 100) {
+                        clearInterval(pctInterval);
+                    }
+                }, 800);
+
+                // Click or press any key to dismiss
+                function dismissBSOD() {
+                    const el = document.getElementById('bsod-screen');
+                    if (el) el.remove();
+                    _meltdownActive = false;
+                    _failCount = 0;
+                    document.removeEventListener('keydown', dismissBSOD);
+                }
+                bsod.addEventListener('click', dismissBSOD);
+                document.addEventListener('keydown', dismissBSOD);
+            }
+
+            function _startCountdown() {
+                _countdown = 11;
+                const cdEl = document.getElementById('gateCountdown');
+                if (cdEl) cdEl.textContent = _countdown;
+
+                clearInterval(_countdownInterval);
+                _countdownInterval = setInterval(function() {
+                    _countdown--;
+                    if (cdEl) {
+                        cdEl.textContent = _countdown;
+                        if (_countdown <= 3) {
+                            cdEl.style.color = '#ef4444';
+                            cdEl.style.textShadow = '0 0 15px rgba(239,68,68,0.5)';
+                        }
+                    }
+                    if (_countdown <= 0) {
+                        clearInterval(_countdownInterval);
+                        if (!_loungeUnlocked) {
+                            _triggerMeltdown();
+                        }
+                    }
+                }, 1000);
+            }
+
+            // Reveal gate on Ctrl+A
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'a' && !_loungeUnlocked && !_meltdownActive) {
+                    e.preventDefault();
+                    const gate = document.getElementById('phantomGate');
+                    if (!gate.classList.contains('revealed')) {
+                        gate.classList.remove('fade-out');
+                        gate.classList.add('revealed');
+                        document.getElementById('gateKey').focus();
+                        
+                        // Reset countdown display
+                        const cdEl = document.getElementById('gateCountdown');
+                        if (cdEl) {
+                            cdEl.style.color = 'rgba(168,85,247,0.6)';
+                            cdEl.style.textShadow = '0 0 10px rgba(168,85,247,0.3)';
+                        }
+
+                        _startCountdown();
+
+                        clearTimeout(_gateTimer);
+                        _gateTimer = setTimeout(function() {
+                            if (!_loungeUnlocked) {
+                                _triggerMeltdown();
+                            }
+                        }, 11500);
+                    }
+                }
+            });
+
+            // Close gate on Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !_meltdownActive) {
+                    const gate = document.getElementById('phantomGate');
+                    gate.classList.remove('revealed');
+                    gate.classList.add('fade-out');
+                    document.getElementById('gateKey').value = '';
+                    clearTimeout(_gateTimer);
+                    clearInterval(_countdownInterval);
+                }
+            });
+
+            // Verify password
+            async function _verifyAccess() {
+                const input = document.getElementById('gateKey').value;
+                if (!input) return;
+                const hash = await _computeHash(input);
+                
+                if (hash === _0x4f2a) {
+                    _loungeUnlocked = true;
+                    clearTimeout(_gateTimer);
+                    clearInterval(_countdownInterval);
+                    
+                    const gate = document.getElementById('phantomGate');
+                    gate.classList.remove('revealed');
+                    gate.classList.add('fade-out');
+                    
+                    const lounge = document.getElementById('hackersLounge');
+                    lounge.classList.add('unlocked');
+                    
+                    setTimeout(function() {
+                        lounge.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                    
+                    sessionStorage.setItem('_lx', '1');
+                } else {
+                    _failCount++;
+                    const err = document.getElementById('gateError');
+                    err.textContent = 'ACCESS DENIED [' + _failCount + '/3]';
+                    err.classList.add('show');
+                    document.getElementById('gateKey').value = '';
+                    
+                    if (_failCount >= 3) {
+                        setTimeout(function() {
+                            err.classList.remove('show');
+                            _triggerMeltdown();
+                        }, 500);
+                    } else {
+                        setTimeout(() => err.classList.remove('show'), 2000);
+                    }
+                }
+            }
+
+            document.getElementById('gateBtn').addEventListener('click', _verifyAccess);
+            document.getElementById('gateKey').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') _verifyAccess();
+            });
+
+            if (sessionStorage.getItem('_lx') === '1') {
+                _loungeUnlocked = true;
+                document.getElementById('hackersLounge').classList.add('unlocked');
+            }
+        })();
     </script>
 </body>
 </html>
