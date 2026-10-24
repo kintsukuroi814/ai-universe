@@ -1,0 +1,61 @@
+IGOR PLOHL — PREDLOG PRENOVE
+Pripravljeno: 24. oktober 2026
+
+1. PREDOGLED
+Odprite index.html v sodobnem spletnem brskalniku. Stran je celovita:
+HTML, CSS, JavaScript in nova SVG-ilustracija so vključeni v eni datoteki.
+Za lokalni predogled ni potrebna namestitev, gradnja ali internet.
+Povezave na izvirno stran in e-pošto seveda potrebujejo ustrezno povezavo
+ali nastavljen e-poštni odjemalec.
+
+2. KAJ JE VKLJUČENO
+- nov avtorski vizualni slog, uredniška postavitev in odzivni mobilni meni;
+- 9 predstavljenih knjig, filtri, iskanje brez razlikovanja šumnikov;
+- pogovorna okna s podatki o knjigah in povezavami na izvirnik;
+- biografija, predstavitve, izbor treh preverjenih objav, e-poštni kontakt;
+- preskok na vsebino, vidno označen fokus, povečanje besedila,
+  upoštevanje zmanjšanega gibanja in slog za tisk;
+- brez analitike, zunanjih pisav, knjižnic in piškotkov v tej datoteki.
+
+3. OMEJITVE — POMEMBNO
+To je nov statični predlog, ne popoln prenos ali nadomestek WordPressa.
+Izvirnih fotografij in naslovnic ni bilo mogoče prenesti. Nova SVG-ilustracija
+je samostojen oblikovni element, ne izvirna ilustracija leva Rogija.
+Tipografski prikazi knjig niso dejanske naslovnice; to označuje tudi stran.
+Besedila so uredniško povzeta iz javnih strani; avtor naj potrdi končno
+besedilo. Bibliografija in novice so izbor, ne celoten arhiv.
+Novice so statične in se ne osvežujejo samodejno. Vključene napovedi
+oktobrskih dogodkov niso označene kot prihodnji dogodki.
+E-poštni gumbi odprejo poštni program; obrazca in zalednega pošiljanja ni.
+
+4. PRENOS JAVNEGA IZVIRNIKA
+Priložena skripta prenesi-izvirnik.sh uporabi wget za ogledalo javnih strani
+in pripadajočih datotek. NI bila zagnana v tem okolju.
+Na Linuxu z nameščenim wget jo zaženite v terminalu:
+
+bash prenesi-izvirnik.sh
+
+Prenos lahko traja dalj časa in uporabi prostor na disku. Skripta počaka
+med zahtevki, spoštuje robots.txt po privzetih pravilih wget in se omeji
+na domeno igor-plohl.info. Dostopnost, robots.txt, dinamična vsebina in
+zunanji viri lahko omejijo popolnost ogledala. Ne prenese WordPress baze,
+PHP-kode strežnika, zasebnih podatkov ali administracije. Za pravo varnostno
+kopijo WordPressa potrebujete dostop do gostovanja in podatkovne baze.
+
+5. OBJAVA
+Obstoječa objavljena stran ni bila spremenjena.
+Za testiranje uporabite ločeno mapo ali testno poddomeno. Ne prepisujte
+WordPress datotek brez varnostne kopije. Za vključitev v WordPress je
+potrebna ločena predloga/tema in povezava z njegovim upravljanjem vsebin.
+Pred javno objavo: pridobite izvirne medije in ustrezne pravice, preverite
+povezave, vsebino in delovanje na telefonih, zamenjajte ali odstranite
+opombo o predlogu ter meta robots noindex,nofollow.
+Ker gre za osnutek, iskalniki dobijo navodilo, naj ga ne indeksirajo.
+Zasebnostne in druge potrebne pravne informacije preverite pred objavo.
+
+6. PREVERJANJE
+Programatično preverjeni: enoličnost ID-jev, notranje sidrne povezave,
+število knjižnih kartic in samostojnost HTML brez zunanjih skript/medijev.
+JavaScript: Preverjeno z node --check brez napak.
+Vizualni preizkus v brskalniku in celovit pregled dostopnosti nista bila
+izvedena; to ni potrdilo o skladnosti WCAG.

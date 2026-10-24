@@ -1,0 +1,118 @@
+{
+  "snapshot_date": "2026-10-24",
+  "note": "Uredniški izbor in povzetki javnih vsebin. Izvirnik ni v celoti prenesen.",
+  "pages": [
+    {
+      "url": "https://igor-plohl.info/",
+      "role": "Domača stran, opisi in izbor novic"
+    },
+    {
+      "url": "https://igor-plohl.info/?page_id=1",
+      "role": "Biografija, letnice in prevodi"
+    },
+    {
+      "url": "https://igor-plohl.info/?page_id=10",
+      "role": "Predavanja in predstavitve"
+    },
+    {
+      "url": "https://igor-plohl.info/?page_id=24",
+      "role": "Javni e-poštni naslov"
+    },
+    {
+      "url": "https://igor-plohl.info/?page_id=1422",
+      "role": "Naročilo knjig"
+    }
+  ],
+  "books": [
+    {
+      "title": "Lev Rogi: sreča v nesreči",
+      "type": "slikanice",
+      "label": "Slikanica · 2009",
+      "color": "#b54f30",
+      "bg": "#f7d5a2",
+      "mark": "01",
+      "desc": "Prva avtobiografska slikanica o levu Rogiju, njegovi nesreči in okrevanju. Nastala je z ilustracijami nekdanjih učencev. Izvirna izdaja je razprodana.",
+      "url": "https://igor-plohl.info/?page_id=1"
+    },
+    {
+      "title": "Lev Rogi najde srečo",
+      "type": "slikanice",
+      "label": "Slikanica · 2014",
+      "color": "#224e58",
+      "bg": "#dae8d3",
+      "mark": "02",
+      "desc": "Rogi odkriva nove poti do samostojnosti. Znova se nauči skrbeti zase, voziti avto in opravljati svoj poklic. Zgodba o življenju na invalidskem vozičku, prijateljstvu in iskanju sreče.",
+      "url": "https://igor-plohl.info/?page_id=114"
+    },
+    {
+      "title": "Rogi in Edi na paraolimpijskih igrah",
+      "type": "slikanice",
+      "label": "Slikanica · 2018",
+      "color": "#343e7e",
+      "bg": "#e2e3fa",
+      "mark": "03",
+      "desc": "Leposlovno-izobraževalna slikanica otrokom približa paraolimpijske igre in šport invalidov.",
+      "url": "https://igor-plohl.info/?page_id=1"
+    },
+    {
+      "title": "Lev Rogi v Afriki",
+      "type": "slikanice",
+      "label": "Slikanica · 2020",
+      "color": "#7a4429",
+      "bg": "#f1dbad",
+      "mark": "04",
+      "desc": "Avtobiografska slikanica, ki je nastala po nepozabnem potovanju na safari v severno Tanzanijo.",
+      "url": "https://igor-plohl.info/?page_id=1"
+    },
+    {
+      "title": "Lev Rogi premaguje ovire",
+      "type": "slikanice",
+      "label": "Slikanica",
+      "color": "#3c6356",
+      "bg": "#d8e5dc",
+      "mark": "05",
+      "desc": "Avtobiografska slikanica o arhitektonskih ovirah in pomenu parkirnih mest, rezerviranih za invalide.",
+      "url": "https://igor-plohl.info/?page_id=256"
+    },
+    {
+      "title": "Lev Rogi in krila v srcu",
+      "type": "slikanice",
+      "label": "Slikanica",
+      "color": "#6e4361",
+      "bg": "#eedce8",
+      "mark": "06",
+      "desc": "Medved Maj po nesreči izgubi voljo do druženja in šole. Lev Rogi ga obišče ter mu pomaga iskati novo pot. Slikanica o notranji moči, podpori in volji do življenja.",
+      "url": "https://igor-plohl.info/?page_id=316"
+    },
+    {
+      "title": "Brezzobi tiger",
+      "type": "slikanice",
+      "label": "Slikanica · 2021",
+      "color": "#8c492b",
+      "bg": "#f7cf90",
+      "mark": "07",
+      "desc": "Slikanica o moči argumentiranega ugovora in izzivih podnebnih sprememb.",
+      "url": "https://igor-plohl.info/?page_id=1"
+    },
+    {
+      "title": "Pustolovščine v Prlekiji",
+      "type": "mladina",
+      "label": "Mladinski roman · 2017",
+      "color": "#2b5e54",
+      "bg": "#d9e3c4",
+      "mark": "08",
+      "desc": "Trije prijatelji z Gorenjske preživljajo počitnice v Prlekiji. Med raziskovanjem pokrajine, legend in preteklosti spoznajo, kako pomembna sta sodelovanje in prijateljstvo.",
+      "url": "https://igor-plohl.info/?page_id=115"
+    },
+    {
+      "title": "Ne domišljaj si!",
+      "type": "odrasli",
+      "label": "Avtobiografski roman · 2012",
+      "color": "#e7d9bd",
+      "bg": "#233e48",
+      "mark": "09",
+      "desc": "Avtobiografski roman o dveh letih življenja po usodnem padcu. Iskrena pripoved o soočanju z invalidnostjo, rehabilitaciji in iskanju novih življenjskih poti.",
+      "url": "https://igor-plohl.info/?page_id=7"
+    }
+  ]
+}
