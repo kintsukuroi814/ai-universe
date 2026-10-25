@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Open Cosmos — A Universe of Free Knowledge</title>
+<meta name="description" content="Navigate a living galaxy simulation. Each galaxy holds a free tool for learning: NotebookLM, Omarchy, Khan Academy — and a sealed vault.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#03030a;
+  --ink:#ece9f5;
+  --muted:#9a97ad;
+  --faint:#5d5a70;
+  --glass:rgba(14,14,30,.58);
+  --glass-strong:rgba(10,10,24,.82);
+  --line:rgba(255,255,255,.09);
+  --line-strong:rgba(255,255,255,.18);
+  --gold:#f3c77a;
+  --teal:#5ee6c8;
+  --sky:#7fb6ff;
+  --rose:#ff6b8b;
+  --accent:var(--gold);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Manrope',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+canvas#space{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+canvas#space.dragging{cursor:grabbing}
+canvas#space.hovering{cursor:pointer}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:22px 28px;z-index:10;pointer-events:none}
+.brand{display:flex;align-items:center;gap:12px;pointer-events:auto}
+.brand-mark{width:30px;height:30px;color:var(--ink)}
+.brand-name{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:.02em}
+.brand-name em{font-style:italic;color:var(--gold)}
+.coords{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.08em;text-align:right;line-height:1.6}
+.home-btn{pointer-events:auto;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;border:1px solid var(--line-strong);border-radius:999px;background:var(--glass);backdrop-filter:blur(10px);opacity:0;transform:translateY(-6px);transition:.4s var(--ease);pointer-events:none}
+.home-btn.show{opacity:1;transform:none;pointer-events:auto}
+.home-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- intro ---------- */
+.intro{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:5;pointer-events:none;transition:opacity .9s var(--ease),transform .9s var(--ease);width:min(92vw,760px)}
+.intro.hide{opacity:0;transform:translate(-50%,-46%)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.intro h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7.4vw,96px);line-height:.95;letter-spacing:-.01em;text-shadow:0 0 60px rgba(0,0,0,.9)}
+.intro h1 em{font-style:italic;color:var(--gold)}
+.intro p{margin:24px auto 0;max-width:470px;color:var(--muted);font-size:15px;line-height:1.65;text-shadow:0 0 24px #000}
+.hint{margin-top:30px;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- galaxy dock ---------- */
+.dock{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:6px;border:1px solid var(--line);border-radius:999px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:10;max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}
+.dock::-webkit-scrollbar{display:none}
+.dock{transition:left .8s var(--ease)}
+body.panel-open .dock{left:calc((100vw - 520px)/2)}
+.dock button{display:flex;align-items:center;gap:9px;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;color:var(--muted);transition:.3s var(--ease)}
+.dock button:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+.dock button.active{color:var(--ink);background:rgba(255,255,255,.09)}
+.dock .dot{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+
+/* ---------- hover label ---------- */
+.label{position:fixed;z-index:6;pointer-events:none;transform:translate(-50%,-100%);text-align:center;opacity:0;transition:opacity .25s}
+.label.show{opacity:1}
+.label .n{font-family:var(--serif);font-size:24px;font-style:italic;text-shadow:0 0 20px #000}
+.label .k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- info panel ---------- */
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);z-index:20;background:linear-gradient(180deg,var(--glass-strong),rgba(6,6,16,.9));backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);border-left:1px solid var(--line);transform:translateX(104%);transition:transform .8s var(--ease);display:flex;flex-direction:column}
+.panel.open{transform:none}
+.panel-close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;z-index:2;transition:.3s}
+.panel-close:hover{border-color:var(--accent);color:var(--accent);transform:rotate(90deg)}
+.panel-body{overflow-y:auto;padding:64px 40px 120px;flex:1;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.p-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
+.p-kicker::before{content:"";width:26px;height:1px;background:var(--accent)}
+.p-title{font-family:var(--serif);font-size:clamp(40px,5vw,58px);font-weight:400;line-height:1;margin:18px 0 8px}
+.p-title em{font-style:italic;color:var(--accent)}
+.p-sub{font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:.04em}
+.p-lead{font-family:var(--serif);font-size:22px;line-height:1.4;margin:28px 0 18px;color:#f4f1fb}
+.p-text{color:#bdb9cf;font-size:15px;line-height:1.7;margin-bottom:16px}
+.p-text strong{color:var(--ink);font-weight:600}
+.features{list-style:none;margin:22px 0 28px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.features li{background:rgba(8,8,20,.85);padding:14px 16px;display:flex;gap:14px;font-size:14px;line-height:1.5;color:#cfcbe0}
+.features li b{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:500;padding-top:2px;min-width:22px}
+.video{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line-strong);background:#000 center/cover no-repeat;margin:10px 0 10px;box-shadow:0 30px 80px -30px var(--accent)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video .play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))}
+.video .play span{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:.35s var(--ease)}
+.video .play:hover span{transform:scale(1.08);background:var(--accent);color:#111}
+.v-cap{font-size:12px;color:var(--muted);margin-bottom:28px;font-family:var(--mono)}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;background:var(--accent);color:#0b0b14;text-decoration:none;font-weight:600;font-size:14px;transition:.3s var(--ease)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px var(--accent)}
+.cta.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong);margin-left:8px}
+.cta.ghost:hover{border-color:var(--accent);color:var(--accent);box-shadow:none}
+.install{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 28px}
+.install div{border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+.install h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.install p{font-size:12.5px;color:var(--muted);line-height:1.5}
+.note{font-size:12.5px;color:var(--faint);line-height:1.6;border-top:1px solid var(--line);padding-top:16px;margin-top:28px}
+.note a{color:var(--muted)}
+h3.p-h{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:30px 0 4px;font-weight:500}
+
+/* ---------- vault / login ---------- */
+.vault{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:radial-gradient(ellipse at center,rgba(40,8,30,.55),rgba(2,2,8,.92) 70%);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .7s var(--ease);perspective:1600px;padding:20px}
+.vault.open{opacity:1;pointer-events:auto}
+.card{position:relative;width:min(460px,100%);height:min(720px,94vh);transform-style:preserve-3d;transition:transform 1.4s var(--ease)}
+.card.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(160deg,rgba(28,18,40,.9),rgba(8,6,18,.94));box-shadow:0 40px 120px -20px rgba(255,80,140,.25),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}
+.face::before{content:"";position:absolute;inset:-1px;border-radius:24px;padding:1px;background:conic-gradient(from var(--ang,0deg),transparent 0 70%,rgba(255,107,139,.7) 80%,rgba(243,199,122,.8) 88%,transparent 96%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 6s linear infinite;pointer-events:none}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes spin{to{--ang:360deg}}
+.front{padding:44px 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.lock{width:62px;height:62px;border-radius:50%;border:1px solid rgba(255,255,255,.16);display:grid;place-items:center;color:var(--rose);margin-bottom:22px;background:radial-gradient(circle,rgba(255,107,139,.14),transparent 70%)}
+.front .eyebrow{color:var(--rose);margin-bottom:12px}
+.front h2{font-family:var(--serif);font-size:44px;font-weight:400;line-height:1}
+.front h2 em{font-style:italic;color:var(--gold)}
+.front p.desc{color:var(--muted);font-size:14px;line-height:1.6;margin:14px 0 26px;max-width:300px}
+.ring{position:relative;width:96px;height:96px;margin-bottom:26px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .track{stroke:rgba(255,255,255,.08)}
+.ring .bar{stroke:var(--gold);stroke-linecap:round;transition:stroke .3s}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:26px;font-weight:500}
+.ring.warn .bar{stroke:var(--rose)}
+.ring.warn .num{color:var(--rose);animation:pulse .5s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.12)}}
+.field{position:relative;width:100%}
+.field input{width:100%;padding:16px 50px 16px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.35);color:var(--ink);font-family:var(--mono);font-size:15px;letter-spacing:.12em;outline:none;transition:.3s}
+.field input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(243,199,122,.12)}
+.field input::placeholder{letter-spacing:.04em;color:var(--faint)}
+.field button{position:absolute;right:6px;top:6px;bottom:6px;width:44px;border-radius:10px;background:var(--gold);color:#140d06;display:grid;place-items:center;transition:.3s}
+.field button:hover{filter:brightness(1.1)}
+.status{min-height:20px;margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--faint)}
+.status.err{color:var(--rose)}
+.status.ok{color:var(--teal)}
+.cipher{margin-top:auto;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;display:flex;gap:8px;align-items:center}
+.cipher i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.shake{animation:shake .5s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.back{transform:rotateY(180deg);padding:32px 36px 26px;display:flex;flex-direction:column;background:radial-gradient(ellipse at top,rgba(243,199,122,.14),transparent 60%),linear-gradient(160deg,rgba(26,20,14,.96),rgba(8,6,12,.97))}
+.back .eyebrow{color:var(--gold);margin-bottom:8px;text-align:center}
+.back h2{font-family:var(--serif);font-style:italic;font-size:46px;font-weight:400;text-align:center;line-height:1;color:var(--gold)}
+.back .by{text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin:10px 0 20px}
+.poem{font-family:var(--serif);font-size:16px;line-height:1.42;color:#efe7d6;text-align:center;overflow-y:auto;flex:1;scrollbar-width:none}
+.poem .st{margin-bottom:11px}
+.poem span{display:block;opacity:0;transform:translateY(8px);filter:blur(6px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease)}
+.poem span.in{opacity:1;transform:none;filter:none}
+.poem .st:last-child span{color:#fff3d9}
+.back-close{margin:12px auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:9px 16px;border:1px solid var(--line-strong);border-radius:999px}
+.back-close:hover{color:var(--gold);border-color:var(--gold)}
+.vault-x{position:absolute;top:22px;right:22px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+
+/* ---------- chaos ---------- */
+body.chaos-1 #app{animation:quake .09s infinite}
+body.chaos-2 #app{animation:quake .05s infinite,hue 0.6s linear infinite}
+body.chaos-3 #app{animation:quake .03s infinite,hue .2s linear infinite,flick .13s steps(2) infinite}
+@keyframes quake{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-6px,4px) rotate(-.4deg)}50%{transform:translate(5px,-5px) rotate(.3deg)}75%{transform:translate(-4px,-3px) rotate(.5deg)}100%{transform:translate(3px,5px) rotate(-.2deg)}}
+@keyframes hue{to{filter:hue-rotate(360deg) saturate(2.4)}}
+@keyframes flick{50%{filter:invert(1) hue-rotate(90deg)}}
+#app{position:fixed;inset:0}
+.chaos-layer{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.err-win{position:absolute;width:330px;background:#f0f0f0;color:#111;font-family:'Segoe UI',Tahoma,system-ui,sans-serif;font-size:13px;border:1px solid #7a7a7a;box-shadow:4px 6px 18px rgba(0,0,0,.5);animation:pop .15s ease-out}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.err-win .tb{background:linear-gradient(90deg,#0a246a,#3a6ea5);color:#fff;padding:5px 8px;font-weight:600;font-size:12px;display:flex;justify-content:space-between}
+.err-win .tb span:last-child{background:#c0c0c0;color:#000;width:16px;text-align:center;font-size:11px;line-height:14px}
+.err-win .bd{padding:16px 14px;display:flex;gap:12px;align-items:flex-start}
+.err-win .ic{width:32px;height:32px;border-radius:50%;background:#d00;color:#fff;font-weight:700;display:grid;place-items:center;flex:none;font-size:18px}
+.err-win .ok{margin:0 14px 12px auto;display:block;padding:3px 22px;border:1px solid #555;background:#e1e1e1;font-size:12px}
+.glitch{position:fixed;inset:0;z-index:70;display:grid;place-items:center;pointer-events:none;opacity:0}
+.glitch.on{opacity:1}
+.glitch h1{font-family:var(--mono);font-size:clamp(34px,8vw,110px);font-weight:500;letter-spacing:-.02em;color:#fff;text-shadow:4px 0 #f0f,-4px 0 #0ff;animation:gl .12s steps(2) infinite}
+@keyframes gl{0%{clip-path:inset(10% 0 60% 0);transform:translate(-8px)}50%{clip-path:inset(50% 0 10% 0);transform:translate(8px)}100%{clip-path:inset(0 0 0 0);transform:none}}
+.scan{position:fixed;inset:0;z-index:65;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 2px,transparent 2px 4px);opacity:0;mix-blend-mode:multiply}
+body.chaos-2 .scan,body.chaos-3 .scan{opacity:1}
+
+/* ---------- BSOD ---------- */
+.bsod{position:fixed;inset:0;z-index:100;background:#0078d7;color:#fff;font-family:'Segoe UI','Segoe UI Variable',system-ui,-apple-system,sans-serif;display:none;cursor:none;padding:9vh 11vw}
+.bsod.on{display:block}
+.bsod .sad{font-size:clamp(90px,13vw,170px);line-height:1;margin-bottom:4vh;font-weight:300}
+.bsod .msg{font-size:clamp(18px,2.2vw,28px);line-height:1.4;max-width:900px;font-weight:300}
+.bsod .pct{font-size:clamp(18px,2.2vw,28px);margin:4vh 0;font-weight:300}
+.bsod .row{display:flex;gap:22px;align-items:flex-start}
+.bsod canvas{width:110px;height:110px;background:#fff;flex:none;image-rendering:pixelated}
+.bsod .small{font-size:clamp(12px,1.05vw,15px);line-height:1.6;font-weight:300}
+.bsod .small b{font-weight:400}
+.bsod .restart{margin-top:4vh;font-size:15px;opacity:0;transition:opacity 1s}
+.bsod .restart.show{opacity:.85;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.blackout{position:fixed;inset:0;background:#000;z-index:110;opacity:0;pointer-events:none;transition:opacity .25s}
+.blackout.on{opacity:1}
+
+/* ---------- responsive ---------- */
+@media (max-width:720px){
+  .topbar{padding:16px 16px}
+  .coords{display:none}
+  body.panel-open .dock{left:50%;opacity:0;pointer-events:none}
+  .panel{width:100vw;top:auto;height:70vh;border-left:0;border-top:1px solid var(--line);border-radius:22px 22px 0 0;transform:translateY(104%)}
+  .panel-body{padding:52px 22px 110px}
+  .install{grid-template-columns:1fr}
+  .cta.ghost{margin:10px 0 0}
+  .dock{bottom:14px}
+  .dock button{padding:9px 12px;font-size:12px}
+  .card{height:min(700px,94vh)}
+  .front{padding:36px 24px}
+  .back{padding:32px 22px}
+  .poem{font-size:15.5px}
+  .err-win{width:260px}
+  .bsod{padding:7vh 8vw}
+}
+@media (prefers-reduced-motion:reduce){.face::before{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="space" aria-label="Interactive galaxy simulation. Use the galaxy buttons at the bottom to navigate."></canvas>
+
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="16" rx="14" ry="5.5" stroke="currentColor" stroke-width="1.2" transform="rotate(-24 16 16)"/><circle cx="16" cy="16" r="4.2" fill="currentColor"/><circle cx="27" cy="9.5" r="1.4" fill="#f3c77a"/></svg>
+      <span class="brand-name">Open <em>Cosmos</em></span>
+    </div>
+    <button class="home-btn" id="homeBtn" aria-label="Return to the full universe view">&larr; Universe</button>
+    <div class="coords" id="coords">RA 00h 00m · DEC +00°<br>ZOOM 0.30×</div>
+  </header>
+
+  <section class="intro" id="intro">
+    <div class="eyebrow">Four galaxies · All of them free</div>
+    <h1>A universe of<br><em>free knowledge</em></h1>
+    <p>Every galaxy out here holds a free tool to learn, build or wonder with. One of them holds a secret. Click a galaxy to travel there.</p>
+    <div class="hint">Drag to drift · Scroll to zoom · Click to travel</div>
+  </section>
+
+  <div class="label" id="label"><div class="k" id="labelK"></div><div class="n" id="labelN"></div></div>
+
+  <nav class="dock" id="dock" aria-label="Galaxies"></nav>
+
+  <aside class="panel" id="panel" aria-hidden="true">
+    <button class="panel-close" id="panelClose" aria-label="Close panel"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    <div class="panel-body" id="panelBody"></div>
+  </aside>
+</div>
+
+<!-- VAULT -->
+<div class="vault" id="vault" role="dialog" aria-modal="true" aria-label="Encrypted vault login">
+  <button class="vault-x" id="vaultX">Esc · leave</button>
+  <div class="card" id="card">
+    <div class="face front" id="front">
+      <div class="lock"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg></div>
+      <div class="eyebrow">Sealed archive · Sector 814</div>
+      <h2>The <em>Vault</em></h2>
+      <p class="desc">Only the bearer of the key may pass. The vault does not wait for strangers.</p>
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="44" fill="none" stroke-width="4"/><circle class="bar" id="ringBar" cx="50" cy="50" r="44" fill="none" stroke-width="4" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
+        <div class="num" id="ringNum">11</div>
+      </div>
+      <form class="field" id="form" autocomplete="off">
+        <label for="pw" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Password</label>
+        <input id="pw" type="password" placeholder="Enter the key" spellcheck="false" autocomplete="off">
+        <button type="submit" aria-label="Unlock"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+      <div class="status" id="status">Awaiting key…</div>
+      <div class="cipher"><i></i>AES-256-GCM · PBKDF2-SHA256 · 250k rounds</div>
+    </div>
+    <div class="face back">
+      <div class="eyebrow">The prize</div>
+      <h2>Invictus</h2>
+      <div class="by">William Ernest Henley · 1875</div>
+      <div class="poem" id="poem"></div>
+      <button class="back-close" id="backClose">Return to the stars</button>
+    </div>
+  </div>
+</div>
+
+<div class="scan"></div>
+<div class="chaos-layer" id="chaos"></div>
+<div class="glitch" id="glitch"><h1 id="glitchText">ACCESS VIOLATION</h1></div>
+
+<div class="bsod" id="bsod" role="alert">
+  <div class="sad">:(</div>
+  <div class="msg">Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</div>
+  <div class="pct"><span id="pct">0</span>% complete</div>
+  <div class="row">
+    <canvas id="qr" width="29" height="29"></canvas>
+    <div class="small">
+      For more information about this issue and possible fixes, visit https://www.windows.com/stopcode<br><br>
+      If you call a support person, give them this info:<br>
+      <b>Stop code: CRITICAL_VAULT_TIMEOUT</b><br>
+      <b>What failed: invictus.sys</b>
+    </div>
+  </div>
+  <div class="restart" id="restart">Relax, it's not real. Press any key or tap to return to the cosmos.</div>
+</div>
+<div class="blackout" id="blackout"></div>
+
+<script>
+/* =========================================================
+   CONTENT
+========================================================= */
+const GALAXIES = [
+  { id:'notebook', name:'NotebookLM', kind:'Learning · Free', color:'#f3c77a', x:-1500, y:-560, r:430, arms:2, twist:3.2, tilt:-0.5, incl:0.55, n:4200,
+    palette:[[255,236,200],[255,206,130],[255,170,90],[250,140,110],[200,170,255]] },
+  { id:'omarchy', name:'Omarchy', kind:'Linux · Free & open source', color:'#5ee6c8', x:1450, y:-640, r:400, arms:4, twist:2.4, tilt:0.7, incl:0.42, n:4200, bar:true,
+    palette:[[220,255,245],[120,240,210],[60,200,190],[80,150,230],[170,120,255]] },
+  { id:'khan', name:'Khan Academy', kind:'Knowledge · Free', color:'#7fb6ff', x:-1150, y:880, r:390, arms:3, twist:2.8, tilt:1.9, incl:0.62, n:4000,
+    palette:[[225,240,255],[140,190,255],[90,140,250],[100,220,180],[255,210,150]] },
+  { id:'vault', name:'The Vault', kind:'Sealed · Unknown', color:'#ff6b8b', x:1300, y:860, r:360, arms:2, twist:4.4, tilt:-1.2, incl:0.35, n:3800,
+    palette:[[255,225,235],[255,120,150],[230,60,120],[160,60,200],[255,190,120]] },
+];
+const HOME = { name:'Origin', x:0, y:0, r:300, arms:2, twist:2, tilt:0.3, incl:0.3, n:2600, deco:true,
+  palette:[[255,255,255],[220,210,255],[170,160,240],[130,120,220],[255,220,190]] };
+
+const ytThumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const video = (id,title) => `<div class="video" style="background-image:url('${ytThumb(id)}')"><button class="play" data-yt="${id}" aria-label="Play video: ${title}"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button></div>`;
+
+const PANELS = {
+  notebook:`
+    <div class="p-kicker">Galaxy I · Learn for free</div>
+    <h2 class="p-title">Notebook<em>LM</em></h2>
+    <div class="p-sub">by Google · notebooklm.google.com</div>
+    <p class="p-lead">Your personal AI study partner that only answers from the sources you give it.</p>
+    <p class="p-text">Drop in PDFs, Google Docs, websites, YouTube links or your own notes, and NotebookLM becomes an expert on exactly that material — with citations back to the page it came from. It's <strong>free to use with a Google account</strong>.</p>
+    <ul class="features">
+      <li><b>01</b>Ask questions and get answers grounded in your own documents</li>
+      <li><b>02</b>Audio Overviews — turn any reading into a podcast-style conversation</li>
+      <li><b>03</b>Study guides, flashcards, quizzes and mind maps generated in seconds</li>
+      <li><b>04</b>Perfect for exams, research papers, courses and work manuals</li>
+    </ul>
+    <h3 class="p-h">Watch</h3>
+    ${video('8Jw5Wa_8K0Y','35+ INSANE Ways To Use NotebookLM (For FREE)')}
+    <div class="v-cap">Matt Wolfe — “35+ INSANE Ways To Use NotebookLM (For FREE)”</div>
+    <a class="cta" href="https://notebooklm.google.com" target="_blank" rel="noopener">Open NotebookLM <span>&rarr;</span></a>
+    <a class="cta ghost" href="https://www.youtube.com/watch?v=8Jw5Wa_8K0Y" target="_blank" rel="noopener">Watch on YouTube</a>`,
+  omarchy:`
+    <div class="p-kicker">Galaxy II · Free software</div>
+    <h2 class="p-title">Om<em>archy</em></h2>
+    <div class="p-sub">by DHH · omarchy.org</div>
+    <p class="p-lead">“Beautiful, fun & agentic Linux” — a free, open-source operating system packed with free software.</p>
+    <p class="p-text">Created by David Heinemeier Hansson (DHH), Omarchy gives you a gorgeous, keyboard-driven Linux desktop with fantastic defaults, a lightning-fast install and AI agents that help debug issues. Everything is free, and you're <strong>free to change everything</strong>.</p>
+    <h3 class="p-h">Install it your way</h3>
+    <div class="install">
+      <div><h4>Full PC install</h4><p>Write the ISO to a USB stick and answer five questions.</p></div>
+      <div><h4>Dual boot</h4><p>Run it beside Windows and choose at startup.</p></div>
+      <div><h4>Mac</h4><p>Give an old Intel Mac a second life, or try it in a VM on Apple Silicon.</p></div>
+      <div><h4>Try in a VM</h4><p>Taste it first inside Windows 10/11 without touching your disk.</p></div>
+    </div>
+    <h3 class="p-h">Watch</h3>
+    ${video('9SDkU5VDQEQ','NetworkChuck — You need to switch to Linux RIGHT NOW!!')}
+    <div class="v-cap">NetworkChuck — “You need to switch to Linux RIGHT NOW!!”</div>
+    <a class="cta" href="https://omarchy.org" target="_blank" rel="noopener">Visit omarchy.org <span>&rarr;</span></a>
+    <a class="cta ghost" href="https://www.youtube.com/watch?v=9SDkU5VDQEQ" target="_blank" rel="noopener">Watch on YouTube</a>`,
+  khan:`
+    <div class="p-kicker">Galaxy III · Free knowledge</div>
+    <h2 class="p-title">Khan <em>Academy</em></h2>
+    <div class="p-sub">Nonprofit · khanacademy.org</div>
+    <p class="p-lead">A free, world-class education for anyone, anywhere.</p>
+    <p class="p-text">Thousands of free lessons, videos and practice exercises in maths, science, computing, history, economics and more — from early school all the way to university level. No ads, no paywall on the courses, ever. Younger kids get the free <strong>Khan Academy Kids</strong> app.</p>
+    <ul class="features">
+      <li><b>AI</b><span><strong style="color:var(--ink)">Khanmigo</strong> is Khan Academy's AI tutor. Instead of handing out answers, it guides children with questions and hints so they reason their way to the solution themselves.</span></li>
+      <li><b>01</b>Personalised practice that adapts to each learner's level</li>
+      <li><b>02</b>Progress dashboards for parents and teachers</li>
+      <li><b>03</b>Available in dozens of languages</li>
+    </ul>
+    <a class="cta" href="https://www.khanacademy.org" target="_blank" rel="noopener">Start learning <span>&rarr;</span></a>
+    <a class="cta ghost" href="https://www.khanmigo.ai" target="_blank" rel="noopener">Meet Khanmigo</a>
+    <p class="note">The Khan Academy library is 100% free. Khanmigo is free for teachers; the learner/parent tutor plan costs $4/month and is currently US-only (<a href="https://www.khanmigo.ai/pricing" target="_blank" rel="noopener">pricing</a>).</p>`,
+  vault:`
+    <div class="p-kicker">Galaxy IV · Classified</div>
+    <h2 class="p-title">The <em>Vault</em></h2>
+    <div class="p-sub">Encrypted · access restricted</div>
+    <p class="p-lead">Deep inside this galaxy lies a prize, sealed with real encryption.</p>
+    <p class="p-text">The treasure is locked with AES-256 and can only be decrypted with the correct key — it isn't hidden anywhere in plain text. Those who know the key will find something worth reading on the other side.</p>
+    <p class="p-text" style="color:var(--rose)">A warning from previous travellers: the vault is impatient. Don't keep it waiting.</p>
+    <button class="cta" id="enterVault" style="margin-top:12px">Approach the Vault <span>&rarr;</span></button>`
+};
+
+const CIPHER = {"s":"qoiYXzJQsyiBirmotxhzPA==","i":"u+pdIwuU3Bn6Fqp7","c":"qDTixaglv0Gx7TYzGxOum92cC0jYQ2mbeG3vriu2v7rN+FG1BK+iititr39fNvODTwkuOD9dftfJHP8oXKUHtxyyGUTT27miMT6MsrWITdTR3/KPYpKYLI5nZN6sCqlmtOHT4qBshfJrr1gJEUKp1xfufsLe/0wE4YjIUvkqAjl1DQaSAJhjOrCuuOcvm6g1neanHhlVZJAQ8CyiicoDyF8zUQZvMj71LG+GBRguGjGzjz1aBXyDlFiLudM6Zz3drnzYVHBjeKuhraIzcXuxUT6+Ev5rXgw871CiV+Jit9vMw5MLx+PNr9MtYPHXXJaBN1ti1agFHdf9+nYVlZGGKkdutA5OREMM5F9bOLB3jUM8F7INP+7ktRzE6wwwiQ1evMxFbt7lD44Kej6edyMsFMxBgR9t+barFwZMJlcad6EAFN86m9x4Q+yWS7qM6JOM7JEb+vonE95FmYR3qRTdIsQIkaijPy+hve4XVy7aBXJ+/TdMeaI9CvQkp4GVNiDCm0jrnMU5wWDIUU4F/X6tGw6nwFm4gJ3a1BiA9ULpWJLCyuKPTMWbY6WraY0rmFsCxWf+mLakAUHJoDEMFoEqEKY5EQ0UkFiQTWxs9HOsKjuIJenVXNchLAk0Lj4JDgEYxezw9Q6vSy4IvDWgtsKzoVJJSpf/jRKBDHC9PfSHCqUhRod76fxBdXgR1eXcfVMwhELvoXtU4w4HYKo8JDtaKck9APNtoMs+"};
+
+/* =========================================================
+   GALAXY SIMULATION
+========================================================= */
+const cv = document.getElementById('space');
+const ctx = cv.getContext('2d');
+let W=0,H=0,DPR=1;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = W*DPR; cv.height = H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  buildNebula();
+}
+const rand=(a,b)=>a+Math.random()*(b-a);
+const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+
+function buildGalaxy(g){
+  const N=g.n, BUCKETS=g.palette.length;
+  const buckets=[...Array(BUCKETS)].map(()=>({r:[],a:[],s:[],z:[],o:[]}));
+  for(let i=0;i<N;i++){
+    let r,a,bi;
+    const t=Math.random();
+    if(t<0.18){ // core bulge
+      r=Math.abs(gauss())*g.r*0.13; a=Math.random()*Math.PI*2; bi=Math.random()<.7?0:1;
+    } else if(g.bar && t<0.27){ // bar
+      const along=gauss()*g.r*0.22; r=Math.abs(along); a=(along<0?Math.PI:0)+gauss()*0.12; bi=1;
+    } else { // arms
+      r=Math.pow(Math.random(),0.75)*g.r;
+      const arm=Math.floor(Math.random()*g.arms);
+      const spread=(0.32+0.25*(r/g.r))*gauss()*0.55;
+      a=arm*(Math.PI*2/g.arms)+Math.log(1+r/(g.r*0.12))*g.twist*0.45+spread;
+      const f=r/g.r; bi=Math.min(BUCKETS-1, Math.floor(f*(BUCKETS-1)+Math.random()*1.4));
+      if(Math.random()<0.05) bi=BUCKETS-1;
+    }
+    const b=buckets[bi];
+    b.r.push(r); b.a.push(a);
+    b.s.push(0.9/Math.sqrt(Math.max(r,g.r*0.05)/g.r)*0.07); // angular speed
+    b.z.push(Math.random()<0.04?2.2:(Math.random()<0.25?1.4:0.9));
+    b.o.push(gauss()*g.r*0.012); // vertical thickness
+  }
+  g.buckets=buckets.map((b,i)=>({col:g.palette[i],r:Float32Array.from(b.r),a:Float32Array.from(b.a),s:Float32Array.from(b.s),z:Float32Array.from(b.z),o:Float32Array.from(b.o)}));
+  g.cosT=Math.cos(g.tilt); g.sinT=Math.sin(g.tilt);
+  // core glow sprite
+  const c=document.createElement('canvas'); c.width=c.height=256; const x=c.getContext('2d');
+  const p=g.palette;
+  const grd=x.createRadialGradient(128,128,0,128,128,128);
+  grd.addColorStop(0,`rgba(255,255,255,1)`);
+  grd.addColorStop(.12,`rgba(${p[0]},.85)`);
+  grd.addColorStop(.35,`rgba(${p[1]},.25)`);
+  grd.addColorStop(.7,`rgba(${p[2]},.06)`);
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  x.fillStyle=grd; x.fillRect(0,0,256,256);
+  g.glow=c;
+  // halo sprite (wide, faint)
+  const h=document.createElement('canvas'); h.width=h.height=256; const hx=h.getContext('2d');
+  const hg=hx.createRadialGradient(128,128,0,128,128,128);
+  hg.addColorStop(0,`rgba(${p[2]},.22)`); hg.addColorStop(.5,`rgba(${p[3]},.07)`); hg.addColorStop(1,'rgba(0,0,0,0)');
+  hx.fillStyle=hg; hx.fillRect(0,0,256,256); g.halo=h;
+}
+const ALL=[HOME,...GALAXIES];
+ALL.forEach(buildGalaxy);
+
+// background star layers (parallax)
+const STARS=[];
+for(let L=0;L<3;L++){
+  const n=[900,500,160][L];
+  for(let i=0;i<n;i++) STARS.push({x:Math.random(),y:Math.random(),L,s:[.6,1,1.6][L]*rand(.6,1.2),tw:Math.random()*6.28,c:Math.random()<.15?'255,214,170':(Math.random()<.2?'170,200,255':'255,255,255')});
+}
+// distant mini galaxies for depth
+const FAR=[...Array(26)].map(()=>({x:rand(-4200,4200),y:rand(-3000,3000),r:rand(8,26),t:rand(0,3.14),c:['243,199,122','127,182,255','255,107,139','94,230,200','200,170,255'][Math.floor(rand(0,5))]}));
+
+let nebula=null;
+function buildNebula(){
+  nebula=document.createElement('canvas');
+  const w=Math.ceil(W*1.6), h=Math.ceil(H*1.6);
+  nebula.width=w/2; nebula.height=h/2; nebula._w=w; nebula._h=h;
+  const n=nebula.getContext('2d');
+  const blobs=[[.22,.3,'90,40,140',.5],[.78,.25,'20,90,120',.45],[.3,.78,'30,60,140',.4],[.75,.75,'130,30,70',.45],[.5,.5,'60,40,110',.3],[.1,.6,'120,70,40',.2],[.9,.5,'40,30,90',.3]];
+  blobs.forEach(([x,y,c,a])=>{
+    const R=Math.max(w,h)*rand(.22,.36)/2;
+    const g=n.createRadialGradient(x*w/2,y*h/2,0,x*w/2,y*h/2,R);
+    g.addColorStop(0,`rgba(${c},${a*.55})`); g.addColorStop(.5,`rgba(${c},${a*.18})`); g.addColorStop(1,'rgba(0,0,0,0)');
+    n.fillStyle=g; n.fillRect(0,0,w,h);
+  });
+}
+
+/* camera */
+const cam={x:0,y:150,z:0.05}, tgt={x:0,y:100,z:0.28};
+let focus=null, hovered=null;
+const homeZoom=()=>Math.min(W/4300,H/2900)*1.0;
+function goHome(){ focus=null; tgt.x=0; tgt.y=100; tgt.z=homeZoom(); }
+function flyTo(g){
+  focus=g;
+  const mobile=W<=720;
+  const z=Math.min((mobile?H*0.3:H*0.8)/(g.r*2.1), (mobile?W*0.9:(W-520)*0.85)/(g.r*2.1));
+  tgt.z=z;
+  // keep galaxy visible beside / above the panel
+  tgt.x=g.x+(mobile?0:(520/2)/z);
+  tgt.y=g.y+(mobile?(H*0.5-H*0.15)/z:0);
+}
+
+let speedMul=1, shakeAmt=0, T=0, last=performance.now();
+const toScreen=(wx,wy)=>[(wx-cam.x)*cam.z+W/2,(wy-cam.y)*cam.z+H/2];
+
+function drawGalaxy(g,dt){
+  const [sx,sy]=toScreen(g.x,g.y);
+  const R=g.r*cam.z;
+  if(sx<-R*1.6||sx>W+R*1.6||sy<-R*1.6||sy>H+R*1.6) return;
+  const isHover=hovered===g;
+  const pulse=g.id==='vault'?(0.85+0.15*Math.sin(T*2.2)):1;
+  // halo
+  const hs=R*3.2*(isHover?1.1:1);
+  ctx.globalAlpha=0.9*pulse;
+  ctx.drawImage(g.halo,sx-hs/2,sy-hs/2,hs,hs);
+  ctx.globalAlpha=1;
+  const cT=g.cosT,sT=g.sinT,inc=g.incl,z=cam.z;
+  const sizeBase=Math.max(0.55,Math.min(2.2,z*2.2));
+  const rot=T*speedMul;
+  for(const b of g.buckets){
+    ctx.fillStyle=`rgba(${b.col},${g.deco?0.55:0.8})`;
+    const n=b.r.length;
+    for(let i=0;i<n;i++){
+      const a=b.a[i]+rot*b.s[i];
+      const r=b.r[i];
+      const lx=Math.cos(a)*r, ly=Math.sin(a)*r*inc+b.o[i];
+      const px=sx+(lx*cT-ly*sT)*z, py=sy+(lx*sT+ly*cT)*z;
+      const s=sizeBase*b.z[i];
+      ctx.fillRect(px,py,s,s);
+    }
+  }
+  // core
+  const cs=R*(g.deco?0.9:1.15)*pulse*(isHover?1.12:1);
+  ctx.drawImage(g.glow,sx-cs/2,sy-cs/2,cs,cs);
+}
+
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now; T+=dt;
+  // camera easing
+  const k=1-Math.pow(0.0025,dt);
+  cam.x+=(tgt.x-cam.x)*k; cam.y+=(tgt.y-cam.y)*k;
+  cam.z*=Math.pow(tgt.z/cam.z,k);
+
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle='#03030a'; ctx.fillRect(0,0,W,H);
+  let ox=0,oy=0;
+  if(shakeAmt){ox=rand(-shakeAmt,shakeAmt);oy=rand(-shakeAmt,shakeAmt)}
+  ctx.save(); ctx.translate(ox,oy);
+
+  // nebula (slow parallax)
+  if(nebula){
+    const px=-cam.x*0.02, py=-cam.y*0.02;
+    ctx.globalAlpha=1;
+    ctx.drawImage(nebula,(W-nebula._w)/2+px%(W*.3),(H-nebula._h)/2+py%(H*.3),nebula._w,nebula._h);
+  }
+  ctx.globalCompositeOperation='lighter';
+  // stars
+  const par=[0.015,0.04,0.09];
+  for(const s of STARS){
+    let x=(s.x*W - cam.x*par[s.L]*cam.z*3)%W; if(x<0)x+=W;
+    let y=(s.y*H - cam.y*par[s.L]*cam.z*3)%H; if(y<0)y+=H;
+    const tw=0.55+0.45*Math.sin(T*1.5+s.tw);
+    ctx.fillStyle=`rgba(${s.c},${(0.35+s.L*0.25)*tw})`;
+    ctx.fillRect(x,y,s.s,s.s);
+  }
+  // far galaxies
+  for(const f of FAR){
+    const [x,y]=toScreen(f.x*1,f.y*1);
+    const r=Math.max(2,f.r*cam.z*3);
+    if(x<-r||x>W+r||y<-r||y>H+r) continue;
+    ctx.save(); ctx.translate(x,y); ctx.rotate(f.t); ctx.scale(1,.4);
+    const g=ctx.createRadialGradient(0,0,0,0,0,r);
+    g.addColorStop(0,`rgba(${f.c},.5)`); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,r,0,7); ctx.fill(); ctx.restore();
+  }
+  for(const g of ALL) drawGalaxy(g,dt);
+  ctx.restore();
+  ctx.globalCompositeOperation='source-over';
+
+  updateLabel();
+  if(Math.random()<0.1) coordsEl.innerHTML=`RA ${String(Math.floor(((cam.x+5000)/10000*24)%24)).padStart(2,'0')}h ${String(Math.floor(Math.abs(cam.x)%60)).padStart(2,'0')}m · DEC ${cam.y<0?'+':'−'}${String(Math.floor(Math.abs(cam.y)/40)).padStart(2,'0')}°<br>ZOOM ${cam.z.toFixed(2)}×`;
+  requestAnimationFrame(frame);
+}
+
+/* =========================================================
+   UI / INTERACTION
+========================================================= */
+const $=id=>document.getElementById(id);
+const coordsEl=$('coords'), intro=$('intro'), label=$('label'), panel=$('panel'), panelBody=$('panelBody'), dock=$('dock'), homeBtn=$('homeBtn');
+
+GALAXIES.forEach(g=>{
+  const b=document.createElement('button');
+  b.style.setProperty('--c',g.color);
+  b.innerHTML=`<span class="dot"></span>${g.name}`;
+  b.onclick=()=>select(g);
+  b.dataset.id=g.id;
+  dock.appendChild(b);
+});
+
+function select(g){
+  intro.classList.add('hide');
+  homeBtn.classList.add('show');
+  flyTo(g);
+  document.documentElement.style.setProperty('--accent',g.color);
+  [...dock.children].forEach(b=>b.classList.toggle('active',b.dataset.id===g.id));
+  panelBody.innerHTML=PANELS[g.id];
+  panelBody.scrollTop=0;
+  document.body.classList.add('panel-open');
+  setTimeout(()=>{panel.classList.add('open');panel.setAttribute('aria-hidden','false')},350);
+  panelBody.querySelectorAll('[data-yt]').forEach(btn=>btn.onclick=()=>{
+    const id=btn.dataset.yt;
+    btn.parentElement.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+  });
+  const ev=$('enterVault'); if(ev) ev.onclick=openVault;
+}
+function closePanel(){
+  panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); document.body.classList.remove('panel-open');
+  [...dock.children].forEach(b=>b.classList.remove('active'));
+}
+$('panelClose').onclick=()=>{closePanel();goHome();homeBtn.classList.remove('show');setTimeout(()=>intro.classList.remove('hide'),500)};
+homeBtn.onclick=$('panelClose').onclick;
+
+function updateLabel(){
+  const g=hovered;
+  if(!g||focus===g){label.classList.remove('show');return}
+  const [x,y]=toScreen(g.x,g.y);
+  label.style.left=x+'px'; label.style.top=(y-g.r*cam.z*0.55-8)+'px';
+  $('labelN').textContent=g.name; $('labelK').textContent=g.kind;
+  label.classList.add('show');
+}
+// galaxy labels when zoomed out (always visible names, subtle)
+function hitTest(mx,my){
+  for(const g of GALAXIES){
+    const [x,y]=toScreen(g.x,g.y);
+    if(Math.hypot(mx-x,my-y)<Math.max(40,g.r*cam.z*0.7)) return g;
+  }
+  return null;
+}
+let drag=null, moved=0;
+cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,cx:tgt.x,cy:tgt.y};moved=0;cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{
+  if(drag){
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y; moved=Math.max(moved,Math.hypot(dx,dy));
+    if(moved>4){cv.classList.add('dragging');tgt.x=drag.cx-dx/cam.z;tgt.y=drag.cy-dy/cam.z;cam.x=tgt.x;cam.y=tgt.y;}
+  } else {
+    hovered=hitTest(e.clientX,e.clientY);
+    cv.classList.toggle('hovering',!!hovered);
+  }
+});
+cv.addEventListener('pointerup',e=>{
+  cv.classList.remove('dragging');
+  if(drag&&moved<6){const g=hitTest(e.clientX,e.clientY); if(g) select(g);}
+  drag=null;
+});
+cv.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const f=Math.exp(-e.deltaY*0.0012);
+  const nz=Math.max(homeZoom()*0.6,Math.min(3,tgt.z*f));
+  // zoom toward cursor
+  const wx=(e.clientX-W/2)/cam.z+cam.x, wy=(e.clientY-H/2)/cam.z+cam.y;
+  tgt.x=wx-(e.clientX-W/2)/nz; tgt.y=wy-(e.clientY-H/2)/nz; tgt.z=nz;
+  intro.classList.add('hide');
+},{passive:false});
+addEventListener('keydown',e=>{
+  if(vaultOpen||inChaos) return;
+  const i=parseInt(e.key); if(i>=1&&i<=4) select(GALAXIES[i-1]);
+  if(e.key==='Escape'){closePanel();goHome();homeBtn.classList.remove('show');intro.classList.remove('hide')}
+});
+addEventListener('resize',()=>{resize(); if(focus) flyTo(focus); else tgt.z=homeZoom();});
+
+/* =========================================================
+   VAULT — real AES-GCM decryption via WebCrypto
+========================================================= */
+const vault=$('vault'), card=$('card'), pw=$('pw'), statusEl=$('status'), ringBar=$('ringBar'), ringNum=$('ringNum'), ring=$('ring'), poemEl=$('poem');
+const LIMIT=11, CIRC=276.46;
+let vaultOpen=false, timerRAF=0, startT=0, unlocked=false, inChaos=false, busy=false;
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+
+async function tryDecrypt(pass){
+  const enc=new TextEncoder();
+  const base=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(CIPHER.s),iterations:250000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(CIPHER.i)},key,b64(CIPHER.c));
+  return new TextDecoder().decode(pt);
+}
+
+function openVault(){
+  closePanel();
+  vaultOpen=true; unlocked=false; busy=false;
+  card.classList.remove('flipped');
+  pw.value=''; pw.disabled=false;
+  statusEl.className='status'; statusEl.textContent='Awaiting key…';
+  ring.classList.remove('warn'); ring.style.display='';
+  vault.classList.add('open');
+  setTimeout(()=>pw.focus(),400);
+  startT=performance.now();
+  cancelAnimationFrame(timerRAF);
+  const tick=()=>{
+    if(!vaultOpen||unlocked) return;
+    const left=Math.max(0,LIMIT-(performance.now()-startT)/1000);
+    ringBar.style.strokeDashoffset=CIRC*(1-left/LIMIT);
+    ringNum.textContent=Math.ceil(left);
+    ring.classList.toggle('warn',left<4);
+    if(left<=0){ if(!busy) return startChaos(); }
+    timerRAF=requestAnimationFrame(tick);
+  };
+  tick();
+}
+function closeVault(){
+  vaultOpen=false; cancelAnimationFrame(timerRAF);
+  vault.classList.remove('open');
+  goHome(); homeBtn.classList.remove('show'); intro.classList.remove('hide');
+}
+$('vaultX').onclick=()=>{ if(!unlocked && !inChaos){ startChaos(); } else closeVault(); }; // fleeing doesn't save you
+$('backClose').onclick=closeVault;
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&vaultOpen&&unlocked) closeVault(); });
+
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(busy||unlocked||inChaos) return;
+  const v=pw.value; if(!v) return;
+  busy=true; statusEl.className='status'; statusEl.textContent='Deriving key…';
+  try{
+    const poem=await tryDecrypt(v);
+    if(inChaos) return;
+    unlocked=true; cancelAnimationFrame(timerRAF);
+    statusEl.className='status ok'; statusEl.textContent='Signature verified · decrypting';
+    renderPoem(poem);
+    setTimeout(()=>card.classList.add('flipped'),500);
+  }catch(err){
+    busy=false;
+    statusEl.className='status err'; statusEl.textContent='Access denied · authentication tag mismatch';
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    pw.value=''; pw.focus();
+    if((performance.now()-startT)/1000>=LIMIT) startChaos();
+  }
+  busy=false;
+});
+
+function renderPoem(text){
+  poemEl.innerHTML=text.split('\n\n').map(st=>`<div class="st">${st.split('\n').map(l=>`<span>${l.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`).join('')}</div>`).join('');
+  const lines=[...poemEl.querySelectorAll('span')];
+  lines.forEach((l,i)=>setTimeout(()=>l.classList.add('in'),1500+i*260));
+}
+
+/* =========================================================
+   CHAOS → BSOD
+========================================================= */
+const chaos=$('chaos'), glitch=$('glitch'), glitchText=$('glitchText'), bsod=$('bsod');
+let audioCtx=null, chaosTimers=[];
+const later=(fn,ms)=>chaosTimers.push(setTimeout(fn,ms));
+function beep(f=880,d=.08,type='square',vol=.04){
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type=type; o.frequency.value=f; g.gain.value=vol;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+d); o.stop(audioCtx.currentTime+d+.02);
+  }catch(e){}
+}
+const ERRORS=[
+  ['vault.exe','vault.exe has stopped responding.'],
+  ['Security Alert','Unauthorized traveller detected in Sector 814.'],
+  ['Galaxy Kernel','Fatal exception 0E at 0x00000814:FFFF in module ORION.VXD'],
+  ['Warning','Gravity well overflow. Spacetime cannot be allocated.'],
+  ['System32','Deleting System32… 12% (just kidding?)'],
+  ['Error','The password field has been consumed by a black hole.'],
+  ['Windows','Critical process INVICTUS.SYS died.'],
+  ['Memory','The instruction at 0x7FF814 referenced memory at 0x00000000. The memory could not be "read".'],
+  ['Cosmos','Too many stars. Please close some galaxies and try again.'],
+];
+const TITLES=['⚠ INTRUDER','ACCESS DENIED','█▓▒░ ERROR ░▒▓█','SYSTEM FAILURE','Open Cosmos'];
+function spawnErr(){
+  const [t,m]=ERRORS[Math.floor(Math.random()*ERRORS.length)];
+  const w=document.createElement('div'); w.className='err-win';
+  const ww=W<=720?260:330;
+  w.style.left=rand(-40,W-ww+40)+'px'; w.style.top=rand(-30,H-140)+'px';
+  w.innerHTML=`<div class="tb"><span>${t}</span><span>×</span></div><div class="bd"><div class="ic">×</div><div>${m}</div></div><button class="ok">OK</button>`;
+  chaos.appendChild(w);
+  beep(rand(300,1400),.07);
+}
+function startChaos(){
+  if(inChaos||unlocked) return;
+  inChaos=true; cancelAnimationFrame(timerRAF);
+  pw.disabled=true;
+  statusEl.className='status err'; statusEl.textContent='TIME EXPIRED · COUNTERMEASURES ENGAGED';
+  ringNum.textContent='0';
+  document.body.classList.add('chaos-1');
+  vault.style.pointerEvents='none';
+  speedMul=12; shakeAmt=6;
+  let n=0;
+  const errLoop=setInterval(()=>{spawnErr(); if(n++%3===0) document.title=TITLES[Math.floor(Math.random()*TITLES.length)];},180);
+  chaosTimers.push(errLoop);
+  later(()=>{document.body.classList.remove('chaos-1');document.body.classList.add('chaos-2');speedMul=-40;shakeAmt=18;tgt.z=cam.z*3;},2600);
+  later(()=>{glitch.classList.add('on');beep(110,.6,'sawtooth',.06)},4200);
+  later(()=>{glitchText.textContent='invictus.sys NOT FOUND'},5200);
+  later(()=>{document.body.classList.remove('chaos-2');document.body.classList.add('chaos-3');speedMul=120;shakeAmt=40;tgt.z=homeZoom()*0.6;glitchText.textContent='FATAL ERROR';},6000);
+  later(()=>{for(let i=0;i<14;i++)spawnErr()},7000);
+  later(()=>{$('blackout').classList.add('on');beep(60,.5,'sawtooth',.08)},8200);
+  later(showBSOD,8700);
+}
+function drawQR(){
+  const q=$('qr').getContext('2d'); q.fillStyle='#fff'; q.fillRect(0,0,29,29); q.fillStyle='#0078d7';
+  for(let y=0;y<29;y++)for(let x=0;x<29;x++) if(Math.random()<.48) q.fillRect(x,y,1,1);
+  const finder=(x,y)=>{q.fillStyle='#0078d7';q.fillRect(x,y,7,7);q.fillStyle='#fff';q.fillRect(x+1,y+1,5,5);q.fillStyle='#0078d7';q.fillRect(x+2,y+2,3,3)};
+  q.fillStyle='#fff';[[0,0],[22,0],[0,22]].forEach(([x,y])=>q.fillRect(x-1<0?0:x-1,y-1<0?0:y-1,9,9));
+  finder(0,0);finder(22,0);finder(0,22);
+}
+let bsodReady=false;
+function showBSOD(){
+  chaosTimers.forEach(t=>{clearTimeout(t);clearInterval(t)}); chaosTimers=[];
+  document.body.classList.remove('chaos-1','chaos-2','chaos-3');
+  chaos.innerHTML=''; glitch.classList.remove('on');
+  document.title='Your PC ran into a problem';
+  speedMul=1; shakeAmt=0;
+  drawQR();
+  bsod.classList.add('on');
+  setTimeout(()=>$('blackout').classList.remove('on'),300);
+  let p=0; const pct=$('pct'); pct.textContent='0';
+  const step=()=>{
+    p=Math.min(100,p+Math.floor(rand(4,19)));
+    pct.textContent=p;
+    if(p<100) setTimeout(step,rand(200,700));
+    else setTimeout(()=>{$('restart').classList.add('show');bsodReady=true},700);
+  };
+  setTimeout(step,1200);
+}
+function reboot(){
+  if(!bsodReady) return;
+  bsodReady=false;
+  $('blackout').classList.add('on');
+  setTimeout(()=>{
+    bsod.classList.remove('on'); $('restart').classList.remove('show');
+    vault.classList.remove('open'); vault.style.pointerEvents='';
+    vaultOpen=false; inChaos=false; unlocked=false;
+    document.title='Open Cosmos — A Universe of Free Knowledge';
+    cam.z=0.02; goHome(); homeBtn.classList.remove('show'); intro.classList.remove('hide');
+    setTimeout(()=>$('blackout').classList.remove('on'),400);
+  },900);
+}
+addEventListener('keydown',reboot);
+bsod.addEventListener('pointerdown',reboot);
+
+/* boot */
+resize(); tgt.z=homeZoom(); cam.z=tgt.z*0.15;
+requestAnimationFrame(frame);
+</script>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://perplexity.localhost","http://localhost:1420","http://127.0.0.1:1420","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  const DEFAULT_LINE_HEIGHT = 16;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  const PICK_CAPABILITIES = ["pick"];
+  const PICK_CHAIN_LENGTH = 4;
+  const PICK_MAX_TEXT_CHARS = 120;
+  const PICK_MAX_HTML_CHARS = 300;
+
+  function truncate(value, maxChars) {
+    return value.length > maxChars ? value.slice(0, maxChars - 1) + "…" : value;
+  }
+
+  function isPickableElement(element) {
+    return (
+      element instanceof Element &&
+      element !== document.documentElement &&
+      element !== document.body
+    );
+  }
+
+  function resolvePickTarget(x, y) {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+    const element = document.elementFromPoint(x, y);
+    return isPickableElement(element) ? element.closest("svg") || element : null;
+  }
+
+  function pickLabel(element) {
+    if (element.id) return element.localName + "#" + element.id;
+    return [element.localName].concat(Array.from(element.classList).slice(0, 2)).join(".");
+  }
+
+  // Only attributes that help find the element in source. data-* values and URL
+  // query strings or fragments can carry tokens.
+  const PICK_ATTRIBUTES = new Set([
+    "id",
+    "class",
+    "name",
+    "type",
+    "role",
+    "alt",
+    "aria-label",
+    "href",
+    "src",
+  ]);
+
+  function pickAttributeValue(attribute) {
+    return attribute.name === "href" || attribute.name === "src"
+      ? attribute.value.split(/[?#]/)[0]
+      : attribute.value;
+  }
+
+  function describePickElement(element) {
+    const chain = [];
+    for (
+      let current = element;
+      isPickableElement(current) && chain.length < PICK_CHAIN_LENGTH;
+      current = current.parentElement
+    ) {
+      chain.unshift(current);
+    }
+    const attributes = Array.from(element.attributes)
+      .filter((attribute) => PICK_ATTRIBUTES.has(attribute.name))
+      .map((attribute) => ` ${attribute.name}="${pickAttributeValue(attribute).replace(/"/g, "&quot;")}"`)
+      .join("");
+    const text = (element.innerText || element.textContent || "").replace(/\s+/g, " ").trim();
+    return {
+      chain: chain.map(pickLabel),
+      html: truncate(`<${element.localName}${attributes}>`, PICK_MAX_HTML_CHARS),
+      text: text ? truncate(text, PICK_MAX_TEXT_CHARS) : undefined,
+    };
+  }
+
+  // Hover asks once per frame, and innerText on a large section forces layout,
+  // so only the rect is re-read while the pointer stays on the same element.
+  // Clicks ask for fresh details since the page may have changed the element.
+  let lastPick = null;
+
+  function describePickTarget(element, fresh) {
+    if (fresh || lastPick?.element !== element) {
+      lastPick = { element, details: describePickElement(element) };
+    }
+    const rect = element.getBoundingClientRect();
+    return {
+      rect: { x: rect.left, y: rect.top, width: rect.width, height: rect.height },
+      ...lastPick.details,
+    };
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+      capabilities: PICK_CAPABILITIES,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_PICK") {
+      const element = resolvePickTarget(event.data.x, event.data.y);
+      postToTrustedTop({
+        type: "INLINE_EDIT_PICK_RESULT",
+        seq: event.data.seq,
+        target: element ? describePickTarget(element, event.data.fresh === true) : null,
+      });
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_BY") {
+      const { deltaX, deltaY, deltaMode } = event.data;
+      if (!scrollForwarding || !Number.isFinite(deltaX) || !Number.isFinite(deltaY)) return;
+      if (deltaMode !== 0 && deltaMode !== 1 && deltaMode !== 2) return;
+      const lineHeight =
+        parseFloat(getComputedStyle(document.documentElement).lineHeight) || DEFAULT_LINE_HEIGHT;
+      const scaleX = deltaMode === 1 ? lineHeight : deltaMode === 2 ? window.innerWidth : 1;
+      const scaleY = deltaMode === 1 ? lineHeight : deltaMode === 2 ? window.innerHeight : 1;
+      // The selection overlay receives the wheel event instead of this iframe.
+      // Instant scrolling preserves trackpad deltas even on smooth-scroll sites.
+      window.scrollBy({ left: deltaX * scaleX, top: deltaY * scaleY, behavior: "instant" });
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+
+</script></body>
+</html>
